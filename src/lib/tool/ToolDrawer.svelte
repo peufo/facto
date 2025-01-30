@@ -6,7 +6,13 @@
 	let { toolModel }: { toolModel?: ToolModel } = $props()
 </script>
 
-<Drawer noOverlay key="tool_drawer" title="{toolModel ? 'Edit' : 'New'} tool" let:close>
+<Drawer
+	maxWidth="20em"
+	noOverlay
+	key="tool_drawer"
+	title="{toolModel ? 'Edit' : 'New'} tool"
+	let:close
+>
 	<Form
 		action="/model?/tool_model"
 		model={toolValidation}

@@ -6,15 +6,16 @@
 	const { data } = $props()
 </script>
 
-<div class="m-2 w-min rounded border p-2 pl-4">
-	<div class="flex items-center gap-4">
-		<h3 class="card-title">Tools</h3>
-		<a href={$urlParam.with({ tool_drawer: 'new' })} class="btn btn-square btn-sm">
-			<Icon path={mdiPlus} title="New tool" />
+<ul class="menu m-2 rounded border">
+	<h2 class="menu-title flex items-center gap-4">
+		<span class="grow">Tools</span>
+		<a href={$urlParam.with({ tool_drawer: 'new' })} class="btn btn-square btn-xs">
+			<Icon path={mdiPlus} title="New tool" size={16} />
 		</a>
-	</div>
-
-	<ToolTree tools={data.tools} />
-</div>
+	</h2>
+	<li>
+		<ToolTree tools={data.tools} />
+	</li>
+</ul>
 
 <ToolDrawer />

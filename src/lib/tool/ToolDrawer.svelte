@@ -12,6 +12,7 @@
 	key="tool_drawer"
 	title="{toolModel ? 'Edit' : 'New'} tool"
 	let:close
+	class="m-2 rounded-lg border"
 >
 	<Form
 		action="/model?/tool_model"

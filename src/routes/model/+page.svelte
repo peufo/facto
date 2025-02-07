@@ -2,11 +2,14 @@
 	import { mdiPlus } from '@mdi/js'
 	import { Icon, urlParam } from 'fuma'
 	import { ToolTree, ToolDrawer } from '$lib/tool'
+	import { Scene } from '$lib/render'
 
 	const { data } = $props()
 </script>
 
-<ul class="menu m-2 rounded border">
+<Scene tools={data.tools} />
+
+<ul class="menu bg-base-100 m-2 rounded border">
 	<h2 class="menu-title flex items-center gap-4">
 		<span class="grow">Tools</span>
 		<a href={$urlParam.with({ tool_drawer: 'new' })} class="btn btn-square btn-xs">

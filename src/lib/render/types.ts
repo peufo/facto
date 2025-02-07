@@ -5,6 +5,5 @@ export type View = {
 	}
 	width: number
 	height: number
-	pixelToMm: number
-	mmToPixel: number
+	meterToPixel: number
 }

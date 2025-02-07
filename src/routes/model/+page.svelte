@@ -9,7 +9,7 @@
 
 <Scene tools={data.tools} />
 
-<ul class="menu bg-base-100 m-2 rounded border">
+<ul class="menu bg-base-100 fixed m-2 rounded border">
 	<h2 class="menu-title flex items-center gap-4">
 		<span class="grow">Tools</span>
 		<a href={$urlParam.with({ tool_drawer: 'new' })} class="btn btn-square btn-xs">

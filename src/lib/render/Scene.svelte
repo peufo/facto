@@ -36,11 +36,26 @@
 			end(event: MouseEvent) {}
 		}
 	}
+
+	function onwheel(event: WheelEvent) {
+		event.preventDefault()
+		if (event.ctrlKey) {
+			const z = 1 - event.deltaY * 0.005
+			view.meterToPixel *= z
+			view.origin.x -= (event.clientX - view.origin.x) * (z - 1)
+			view.origin.y -= (event.clientY - view.origin.y) * (z - 1)
+			return
+		}
+		view.origin = {
+			x: (view.origin.x -= event.deltaX),
+			y: (view.origin.y -= event.deltaY)
+		}
+	}
 </script>
 
 <svelte:window bind:innerWidth={width} bind:innerHeight={height} />
 
-<div use:mouseDragTrigger={createDragHandler()}>
+<div {onwheel}>
 	<svg {width} {height} class="fixed top-0">
 		{#each tools as tool}
 			<Tool {tool} {view} />

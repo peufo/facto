@@ -8,15 +8,13 @@ datasource db {
 }
 
 model ToolModel {
-  id        Int         @id @default(autoincrement())
-  name      String      @default("")
-  parentId  Int?
-  parent    ToolModel?  @relation(name: "tool_tree", fields: [parentId], references: [id], onDelete: Cascade)
-  children  ToolModel[] @relation(name: "tool_tree")
-  sizeX     Int
-  sizeY     Int
-  relatifX  Int
-  relatifY  Int
-  absoluteX Int
-  absoluteY Int
+  id       Int         @id @default(autoincrement())
+  name     String      @default("")
+  parentId Int?
+  parent   ToolModel?  @relation(name: "tool_tree", fields: [parentId], references: [id], onDelete: Cascade)
+  children ToolModel[] @relation(name: "tool_tree")
+  width    Int
+  height   Int
+  x        Int
+  y        Int
 }

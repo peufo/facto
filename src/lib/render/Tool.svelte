@@ -8,7 +8,6 @@
 	let y = $derived(view.origin.y + tool.y * view.meterToPixel)
 	let width = $derived(tool.width * view.meterToPixel)
 	let height = $derived(tool.height * view.meterToPixel)
-	$inspect(x, y)
 
 	function createDragHandler() {
 		let origin: { x: number; y: number } = { x: 0, y: 0 }

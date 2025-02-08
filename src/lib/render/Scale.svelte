@@ -7,12 +7,13 @@
 		const unit = v.meterToPixel
 		let cursor = v.origin.x % unit
 		if (cursor < 0) cursor += unit
+		let counter = Math.round((cursor - v.origin.x) / unit) % 10
 		let path = `M 0,12 H ${cursor} `
 		while (cursor < view.width) {
-			const value = (cursor - v.origin.x) / unit
-			const size = value % 5 ? 8 : value % 10 ? 4 : 0
+			const size = counter % 5 ? 8 : counter % 10 ? 4 : 0
 			path += `V ${size} V 12 h ${unit}`
 			cursor += unit
+			counter++
 		}
 		return path
 	}
@@ -21,12 +22,13 @@
 		const unit = v.meterToPixel
 		let cursor = v.origin.y % unit
 		if (cursor < 0) cursor += unit
+		let counter = Math.round((cursor - v.origin.x) / unit) % 10
 		let path = `M 12,0 V ${cursor} `
 		while (cursor < view.height) {
-			const value = (cursor - v.origin.y) / unit
-			const size = value % 5 ? 8 : value % 10 ? 4 : 0
+			const size = counter % 5 ? 8 : counter % 10 ? 4 : 0
 			path += `H ${size} H 12 v ${unit}`
 			cursor += unit
+			counter++
 		}
 		return path
 	}

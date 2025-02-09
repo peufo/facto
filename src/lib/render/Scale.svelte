@@ -3,30 +3,30 @@
 
 	let { view }: { view: View } = $props()
 
-	function drawScaleX(v: View): string {
+	function scaleX(v: View): string {
 		const unit = v.meterToPixel
 		let cursor = v.origin.x % unit
 		if (cursor < 0) cursor += unit
 		let counter = Math.round((cursor - v.origin.x) / unit) % 10
-		let path = `M 0,12 H ${cursor} `
+		let path = `M 0,-1 H ${cursor} `
 		while (cursor < view.width) {
-			const size = counter % 5 ? 8 : counter % 10 ? 4 : 0
-			path += `V ${size} V 12 h ${unit}`
+			const size = counter % 5 ? 2 : counter % 10 ? 3 : 6
+			path += `V ${size} V -1 h ${unit}`
 			cursor += unit
 			counter++
 		}
 		return path
 	}
 
-	function drawScaleY(v: View): string {
+	function scaleY(v: View): string {
 		const unit = v.meterToPixel
 		let cursor = v.origin.y % unit
 		if (cursor < 0) cursor += unit
-		let counter = Math.round((cursor - v.origin.x) / unit) % 10
-		let path = `M 12,0 V ${cursor} `
+		let counter = Math.round((cursor - v.origin.y) / unit) % 10
+		let path = `M -1,0 V ${cursor} `
 		while (cursor < view.height) {
-			const size = counter % 5 ? 8 : counter % 10 ? 4 : 0
-			path += `H ${size} H 12 v ${unit}`
+			const size = counter % 5 ? 2 : counter % 10 ? 3 : 6
+			path += `H ${size} H -1 v ${unit}`
 			cursor += unit
 			counter++
 		}
@@ -34,10 +34,5 @@
 	}
 </script>
 
-<svg class="stroke-secondary fixed top-0 stroke-1" height={12} width={view.width}>
-	<path d={drawScaleX(view)}></path>
-</svg>
-
-<svg class="stroke-secondary fixed top-0 left-0 stroke-1" height={view.height} width={12}>
-	<path d={drawScaleY(view)}></path>
-</svg>
+<path class="stroke-secondary" d={scaleX(view)}></path>
+<path class="stroke-secondary" d={scaleY(view)}></path>

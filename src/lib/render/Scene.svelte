@@ -41,6 +41,5 @@
 	{#each tools as tool}
 		<Tool {tool} {view} />
 	{/each}
+	<Scale {view} />
 </svg>
-
-<Scale {view} />

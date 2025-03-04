@@ -1,27 +1,58 @@
 <script lang="ts">
-	import type { View } from './types'
+	import type { Pixel, Rect, View } from './types'
 	import type { ToolModelWithChildren } from '$lib/tool'
-	import { mouseDragTrigger, touchDragTrigger } from './action'
+	import { mouseDragTrigger, touchDragTrigger } from './drag'
 
-	let { tool, view }: { tool: ToolModelWithChildren; view: View } = $props()
+	let { tool, view, cursor }: { tool: ToolModelWithChildren; view: View; cursor: Pixel } = $props()
 	let x = $derived(view.origin.x + tool.x * view.meterToPixel)
 	let y = $derived(view.origin.y + tool.y * view.meterToPixel)
 	let width = $derived(tool.width * view.meterToPixel)
 	let height = $derived(tool.height * view.meterToPixel)
 
+	let isHover = $derived(
+		x <= cursor.x && cursor.x <= x + width && y <= cursor.y && cursor.y <= y + height
+	)
+
+	const RAYON = 6
+	const RESIZE_RANGE = 20
+	type SIDE_X = 'E' | 'W'
+	type SIDE_Y = 'N' | 'S'
+
 	const dragHandler = (() => {
-		let origin: { x: number; y: number } = { x: 0, y: 0 }
+		let rect: Rect = { x: 0, y: 0, width: 0, height: 0 }
+		let start: Pixel = { x: 0, y: 0 }
+		let sideX: SIDE_X | null = null
+		let sideY: SIDE_Y | null = null
 		return {
 			start({ clientX, clientY }: PointerEvent | Touch) {
-				origin.x = clientX - tool.x * view.meterToPixel
-				origin.y = clientY - tool.y * view.meterToPixel
+				rect.x = tool.x * view.meterToPixel
+				rect.y = tool.y * view.meterToPixel
+				rect.width = tool.width * view.meterToPixel
+				rect.height = tool.height * view.meterToPixel
+				start.x = clientX
+				start.y = clientY
+				const left = start.x - view.origin.x - rect.x
+				const top = start.y - view.origin.y - rect.y
+				const right = rect.width - left
+				const bottom = rect.height - top
+				sideX = null
+				sideY = null
+				if (right <= RESIZE_RANGE) sideX = 'E'
+				else if (left <= RESIZE_RANGE) sideX = 'W'
+				if (bottom <= RESIZE_RANGE) sideY = 'S'
+				else if (top <= RESIZE_RANGE) sideY = 'N'
 			},
 			move({ clientX, clientY }: PointerEvent | Touch) {
-				tool.x = (clientX - origin.x) / view.meterToPixel
-				tool.y = (clientY - origin.y) / view.meterToPixel
+				const x = clientX - start.x
+				const y = clientY - start.y
+				if (sideX == 'W') tool.width = (rect.width - x) / view.meterToPixel
+				if (sideX == 'E') tool.width = (rect.width + x) / view.meterToPixel
+				if (sideX != 'E') tool.x = (rect.x + x) / view.meterToPixel
+				if (sideY == 'N') tool.height = (rect.height - y) / view.meterToPixel
+				if (sideY == 'S') tool.height = (rect.height + y) / view.meterToPixel
+				if (sideY != 'S') tool.y = (rect.y + y) / view.meterToPixel
 				tool = { ...tool }
-			},
-			end() {}
+			}
 		}
 	})()
 </script>
@@ -33,11 +64,29 @@
 	{y}
 	{width}
 	{height}
-	rx={4}
-	ry={4}
-	class="fill-base-200 stroke-base-300 hover:fill-base-300"
+	rx={RAYON}
+	ry={RAYON}
+	class="fill-base-200 stroke-base-300"
+	class:fill-base-300={isHover}
 >
 </rect>
 <text x={x + 6} y={y + 20} class="fill-base-content">
 	{tool.name || tool.id}
 </text>
+
+{#if isHover && false}
+	<circle cx={x + RAYON} cy={y + RAYON} r={RAYON} class="drag-button"> </circle>
+	<circle cx={x + width - RAYON} cy={y + RAYON} r={RAYON} class="drag-button"></circle>
+	<circle cx={x + width - RAYON} cy={y + height - RAYON} r={RAYON} class="drag-button"> </circle>
+	<circle cx={x + RAYON} cy={y + height - RAYON} r={RAYON} class="drag-button"> </circle>
+{/if}
+
+<style>
+	.drag-button {
+		fill: var(--color-base-100);
+		stroke: color-mix(in oklab, var(--color-base-content) 20%, transparent);
+	}
+	.drag-button:hover {
+		fill: var(--color-base-secondary);
+	}
+</style>

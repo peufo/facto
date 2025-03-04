@@ -4,7 +4,7 @@ type Handler<T extends PointerEvent | Touch> = {
 	end?: (event: T) => unknown
 }
 
-export function mouseDragTrigger(element: SVGRectElement, handlers: Handler<PointerEvent>) {
+export function mouseDragTrigger(element: SVGElement, handlers: Handler<PointerEvent>) {
 	function startHandler(event: PointerEvent) {
 		if (handlers.start) handlers.start(event)
 		if (handlers.move) document.addEventListener('pointermove', handlers.move)
@@ -34,7 +34,7 @@ export function mouseDragTrigger(element: SVGRectElement, handlers: Handler<Poin
 }
 
 /** Gestion du cycle de vie des évènements de l'écran tactile */
-export function touchDragTrigger(element: SVGRectElement, handlers: Handler<Touch>) {
+export function touchDragTrigger(element: SVGElement, handlers: Handler<Touch>) {
 	let onDrag = false
 
 	function startHandler(event: TouchEvent) {

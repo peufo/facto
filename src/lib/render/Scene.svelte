@@ -2,7 +2,7 @@
 	import { type ToolModelWithChildren, clamp } from '$lib'
 	import Scale from './Scale.svelte'
 	import Tool from './Tool.svelte'
-	import type { View } from './types'
+	import type { Pixel, View } from './types'
 
 	let { tools }: { tools: ToolModelWithChildren[] } = $props()
 	let width = $state<number>(0)
@@ -13,6 +13,7 @@
 		height: 0,
 		meterToPixel: 10
 	})
+	let cursor = $state<Pixel>({ x: 0, y: 0 })
 
 	$effect(() => {
 		view.width = width
@@ -33,13 +34,20 @@
 			y: (view.origin.y -= event.deltaY)
 		}
 	}
+
+	function onmousemove(event: MouseEvent) {
+		cursor = {
+			x: event.clientX,
+			y: event.clientY
+		}
+	}
 </script>
 
 <svelte:window bind:innerWidth={width} bind:innerHeight={height} />
 
-<svg {width} {height} class="fixed top-0" {onwheel}>
+<svg {width} {height} class="fixed top-0" {onwheel} {onmousemove}>
 	{#each tools as tool}
-		<Tool {tool} {view} />
+		<Tool {tool} {view} {cursor} />
 	{/each}
 	<Scale {view} />
 </svg>

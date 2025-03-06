@@ -66,7 +66,7 @@
 	{height}
 	rx={RAYON}
 	ry={RAYON}
-	class="fill-base-200 stroke-base-300"
+	class="fill-base-200 stroke-base-300 shadow-2xl"
 	class:fill-base-300={isHover}
 >
 </rect>

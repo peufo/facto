@@ -2,14 +2,29 @@
 	import { mdiPlus } from '@mdi/js'
 	import { Icon, urlParam } from 'fuma'
 	import { ToolTree, ToolDrawer } from '$lib/tool'
-	import { Scene } from '$lib/render'
+	import { SceneSVG, SceneCanvas } from '$lib/render'
 
 	const { data } = $props()
+
+	let mode = $state<'svg' | 'canvas'>('canvas')
 </script>
 
-<Scene tools={data.tools} />
+{#if mode === 'svg'}
+	<SceneSVG tools={data.tools} />
+{:else}
+	<SceneCanvas tools={data.tools} />
+{/if}
 
 <ul class="menu bg-base-100 fixed m-2 rounded border">
+	<div role="tablist" class="tabs tabs-box tabs-sm">
+		<button class="tab" class:tab-active={mode === 'svg'} onclick={() => (mode = 'svg')}>
+			svg
+		</button>
+		<button class="tab" class:tab-active={mode === 'canvas'} onclick={() => (mode = 'canvas')}>
+			canvas
+		</button>
+	</div>
+
 	<h2 class="menu-title flex items-center gap-4">
 		<span class="grow">Tools</span>
 		<a href={$urlParam.with({ tool_drawer: 'new' })} class="btn btn-square btn-xs">

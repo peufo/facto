@@ -11,11 +11,11 @@
 	let height = $state<number>(0)
 	let view = $state<View>({
 		origin: { x: 0, y: 0 },
+		cursor: { x: 0, y: 0 },
 		width: 0,
 		height: 0,
 		meterToPixel: 10
 	})
-	let cursor = $state<Pixel>({ x: 0, y: 0 })
 
 	$effect(() => {
 		view.width = width
@@ -39,7 +39,7 @@
 	}
 
 	function onmousemove(event: MouseEvent) {
-		cursor = {
+		view.cursor = {
 			x: event.clientX,
 			y: event.clientY
 		}

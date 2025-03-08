@@ -3,15 +3,19 @@
 	import type { ToolModelWithChildren } from '$lib/tool'
 	import { mouseDragTrigger, touchDragTrigger } from './drag'
 
-	let { tool, view, cursor }: { tool: ToolModelWithChildren; view: View; cursor: Pixel } = $props()
+	let { tool, view }: { tool: ToolModelWithChildren; view: View } = $props()
 	let x = $derived(view.origin.x + tool.x * view.meterToPixel)
 	let y = $derived(view.origin.y + tool.y * view.meterToPixel)
 	let width = $derived(tool.width * view.meterToPixel)
 	let height = $derived(tool.height * view.meterToPixel)
 
-	let isHover = $derived(
-		x <= cursor.x && cursor.x <= x + width && y <= cursor.y && cursor.y <= y + height
-	)
+	let isHover = $derived.by(() => {
+		if (x > view.cursor.x) return false
+		if (view.cursor.x > x + width) return false
+		if (y > view.cursor.y) return false
+		if (view.cursor.y > y + height) return false
+		return true
+	})
 
 	const RAYON = 6
 	const RESIZE_RANGE = 20

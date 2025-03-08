@@ -5,6 +5,7 @@ export type Pixel = {
 
 export type View = {
 	origin: Pixel
+	cursor: Pixel
 	width: number
 	height: number
 	meterToPixel: number

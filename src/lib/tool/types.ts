@@ -1,5 +1,5 @@
-import type { ToolModel } from '@prisma/client'
+import type { ToolVersion } from '$lib/server/prisma/client'
 
-export type ToolModelWithChildren = ToolModel & {
-	children?: ToolModelWithChildren[]
+export type ToolVersionWithChildren = ToolVersion & {
+	children?: ToolVersionWithChildren[]
 }

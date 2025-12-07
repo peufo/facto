@@ -1,20 +1,37 @@
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "../src/lib/server/prisma"
 }
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
 }
 
-model ToolModel {
-  id       Int         @id @default(autoincrement())
-  name     String      @default("")
-  parentId Int?
-  parent   ToolModel?  @relation(name: "tool_tree", fields: [parentId], references: [id], onDelete: Cascade)
-  children ToolModel[] @relation(name: "tool_tree")
-  width    Int
-  height   Int
-  x        Int
-  y        Int
+model Tool {
+  id              String        @id @default(cuid())
+  versions        ToolVersion[] @relation(name: "tool_self")
+  childrenVersion ToolVersion[] @relation(name: "tool_parent")
+}
+
+model ToolVersion {
+  id        Int       @id @default(autoincrement())
+  nodeId    String
+  node      Tool      @relation(name: "tool_self", fields: [nodeId], references: [id])
+  parentId  String?
+  parent    Tool?     @relation(name: "tool_parent", fields: [parentId], references: [id], onDelete: Cascade)
+  path      String
+  validFrom DateTime
+  validTo   DateTime? // NULL = Version active courante
+
+  // Content
+  name   String
+  width  Int
+  height Int
+  x      Int
+  y      Int
+
+  createdAt DateTime @default(now())
+
+  @@index([path])
+  @@index([validTo, path])
 }

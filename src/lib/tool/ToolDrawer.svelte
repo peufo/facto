@@ -1,23 +1,23 @@
 <script lang="ts">
 	import { Drawer, Form } from 'fuma'
-	import { toolValidation } from '$lib'
-	import type { ToolModel } from '@prisma/client'
+	import { modelToolVersion } from '$lib/model'
+	import type { ToolVersion } from '$lib/server/prisma/client'
 
-	let { toolModel }: { toolModel?: ToolModel } = $props()
+	let { toolVersion }: { toolVersion?: ToolVersion } = $props()
 </script>
 
 <Drawer
 	maxWidth="20em"
 	noOverlay
 	key="tool_drawer"
-	title="{toolModel ? 'Edit' : 'New'} tool"
+	title="{toolVersion ? 'Edit' : 'New'} tool"
 	let:close
 	class="m-2 rounded-lg border"
 >
 	<Form
 		action="/model?/tool_model"
-		model={toolValidation}
-		data={toolModel}
+		model={modelToolVersion}
+		data={toolVersion}
 		on:success={() => close()}
 		fields={[
 			[

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { type ToolModelWithChildren, clamp } from '$lib'
+	import { type ToolVersionWithChildren, clamp } from '$lib'
 	import Scale from './Scale.svelte'
 	import Tool from './Tool.svelte'
-	import type { Pixel, View } from './types'
+	import type { View } from './types'
 
-	let { tools }: { tools: ToolModelWithChildren[] } = $props()
+	let { tools }: { tools: ToolVersionWithChildren[] } = $props()
 	let width = $state<number>(0)
 	let height = $state<number>(0)
 	let view = $state<View>({
@@ -45,6 +45,7 @@
 
 <svelte:window bind:innerWidth={width} bind:innerHeight={height} />
 
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <svg {width} {height} class="fixed top-0" {onwheel} {onmousemove}>
 	{#each tools as tool}
 		<Tool {tool} {view} />

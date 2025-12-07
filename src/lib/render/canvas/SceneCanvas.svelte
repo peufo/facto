@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { type ToolModelWithChildren, clamp } from '$lib'
+	import { type ToolVersionWithChildren, clamp } from '$lib'
 	import { onDestroy } from 'svelte'
 	import type { Pixel, View } from '../types'
 	import { renderScene } from './render'
 
-	let { tools }: { tools: ToolModelWithChildren[] } = $props()
+	let { tools }: { tools: ToolVersionWithChildren[] } = $props()
 	let canvas = $state<HTMLCanvasElement>()
 	let ctx = $derived(canvas?.getContext('2d'))
 	let width = $state<number>(0)
@@ -51,7 +51,9 @@
 <canvas bind:this={canvas} {width} {height} class="fixed top-0" {onwheel} {onmousemove}> </canvas>
 
 <style>
+	/*
 	canvas {
-		/*image-rendering: pixelated;*/
+		image-rendering: pixelated;
 	}
+	*/
 </style>

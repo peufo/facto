@@ -16,18 +16,17 @@
 		"test": "npm run test:unit -- --run",
 		"generate": "prisma generate",
 		"migrate": "prisma migrate dev",
+		"prisma": "prisma",
 		"studio": "prisma studio",
 		"postinstall": "prisma migrate deploy && prisma generate"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.5",
 		"@eslint/js": "^9.18.0",
-		"@sveltejs/adapter-auto": "^4.0.0",
-		"@sveltejs/kit": "^2.16.0",
-		"@sveltejs/vite-plugin-svelte": "^5.0.0",
 		"@tailwindcss/vite": "^4.0.1",
 		"@types/node": "^22.12.0",
 		"daisyui": "5.0.0-beta.3",
+		"dotenv": "^17.2.3",
 		"eslint": "^9.18.0",
 		"eslint-config-prettier": "^10.0.1",
 		"eslint-plugin-svelte": "^2.46.1",
@@ -35,19 +34,24 @@
 		"prettier": "^3.4.2",
 		"prettier-plugin-svelte": "^3.3.3",
 		"prettier-plugin-tailwindcss": "^0.6.10",
-		"svelte": "^5.0.0",
-		"svelte-check": "^4.0.0",
+		"prisma": "^7.1.0",
 		"tailwindcss": "^4.0.1",
-		"typescript": "^5.0.0",
-		"typescript-eslint": "^8.20.0",
+		"typescript": "^5.9.3",
+		"typescript-eslint": "^8.48.1",
 		"vite": "^6.0.0",
 		"vitest": "^3.0.0"
 	},
 	"dependencies": {
 		"@mdi/js": "^7.4.47",
-		"@prisma/client": "6.3.0",
-		"fuma": "^1.0.10",
-		"prisma": "^6.3.0",
-		"svelte-sonner": "^0.3.28"
+		"@prisma/adapter-mariadb": "^7.1.0",
+		"@prisma/client": "^7.1.0",
+		"@sveltejs/adapter-auto": "^7.0.0",
+		"@sveltejs/kit": "^2.49.1",
+		"@sveltejs/vite-plugin-svelte": "^6.2.1",
+		"fuma": "^2.0.50",
+		"svelte": "^5.45.6",
+		"svelte-check": "^4.3.4",
+		"svelte-sonner": "^0.3.28",
+		"zod": "^4.1.13"
 	}
 }

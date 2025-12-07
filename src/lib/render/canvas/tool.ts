@@ -1,8 +1,12 @@
-import type { ToolModelWithChildren } from '$lib/tool'
+import type { ToolVersionWithChildren } from '$lib/tool'
 import type { View } from '../types'
 import { COLORS } from './colors'
 
-export function renderTool(ctx: CanvasRenderingContext2D, view: View, tool: ToolModelWithChildren) {
+export function renderTool(
+	ctx: CanvasRenderingContext2D,
+	view: View,
+	tool: ToolVersionWithChildren
+) {
 	const x = view.origin.x + tool.x * view.meterToPixel
 	const y = view.origin.y + tool.y * view.meterToPixel
 	const width = tool.width * view.meterToPixel

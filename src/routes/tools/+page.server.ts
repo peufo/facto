@@ -13,7 +13,7 @@ export const load = async ({ url }) => {
 		}
 	})
 	const toolsByParentId = Object.groupBy(toolsFlat, ({ parentId }) => parentId || 'root')
-	const root = toolsByParentId['root']?.at(0)
+	const roots = toolsByParentId['root'] || []
 
 	function getToolVersionWithChildren(tool: ToolVersion): ToolVersionWithChildren {
 		return {
@@ -23,7 +23,7 @@ export const load = async ({ url }) => {
 	}
 
 	return {
-		tools: root ? [getToolVersionWithChildren(root)] : []
+		tools: roots.map((root) => getToolVersionWithChildren(root))
 	}
 }
 

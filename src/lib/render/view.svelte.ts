@@ -30,6 +30,30 @@ export class View {
 			y: event.clientY
 		}
 	}
+
+	private scale = (direction: keyof Pixel) => {
+		return <T>(
+			init: (inc: { cursor: number }) => T,
+			increment: (inc: { cursor: number; size: number; unit: number }, value: T) => T
+		) => {
+			const unit = this.meterToPixel
+			const origin = this.origin[direction]
+			let cursor = origin % unit
+			if (cursor < 0) cursor += unit
+			let counter = Math.round((cursor - origin) / unit) % 10
+			let value = init({ cursor })
+			while (cursor < view.width) {
+				const size = counter % 5 ? 2 : counter % 10 ? 3 : 6
+				value = increment({ cursor, size, unit }, value)
+				cursor += unit
+				counter++
+			}
+			return value
+		}
+	}
+
+	scaleX = this.scale('x')
+	scaleY = this.scale('y')
 }
 
 export const view = new View()

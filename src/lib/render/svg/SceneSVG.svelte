@@ -1,31 +1,22 @@
 <script lang="ts">
 	import { type ToolVersionWithChildren } from '$lib'
-	import { renderScene } from './render'
+	import Scale from './Scale.svelte'
+	import Tool from './Tool.svelte'
 	import { view } from '../view.svelte'
 
 	let { tools }: { tools: ToolVersionWithChildren[] } = $props()
-	let canvas = $state<HTMLCanvasElement>()
-	let ctx = $derived(canvas?.getContext('2d'))
-
-	$effect(() => {
-		if (ctx) renderScene(ctx, view, tools)
-	})
 </script>
 
-<canvas
-	bind:this={canvas}
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<svg
 	class="fixed top-0"
 	width={view.width}
 	height={view.height}
 	onwheel={view.onwheel}
 	onmousemove={view.onmousemove}
 >
-</canvas>
-
-<style>
-	/*
-	canvas {
-		image-rendering: pixelated;
-	}
-	*/
-</style>
+	{#each tools as tool}
+		<Tool {tool} />
+	{/each}
+	<Scale />
+</svg>

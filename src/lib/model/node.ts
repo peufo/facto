@@ -11,6 +11,6 @@ type NodeCreateInput = {
 export const modelNode = {
 	path: z.string(),
 	nodeId: z.string(),
-	validFrom: z.date(),
+	validFrom: z.date().default(new Date()),
 	validTo: z.date().nullish()
 } satisfies ShapeOf<NodeCreateInput>

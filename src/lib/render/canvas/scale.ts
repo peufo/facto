@@ -1,4 +1,4 @@
-import type { View } from '../types'
+import type { View } from '../view.svelte'
 import { COLORS } from './colors'
 
 export function renderScale(ctx: CanvasRenderingContext2D, view: View) {

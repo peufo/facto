@@ -9,13 +9,13 @@
 <Drawer
 	maxWidth="20em"
 	noOverlay
-	key="tool_drawer"
+	key="form_tool"
 	title="{toolVersion ? 'Edit' : 'New'} tool"
 	let:close
 	class="m-2 rounded-lg border"
 >
 	<Form
-		action="/model?/tool_model"
+		action="/tools?/tool"
 		model={modelToolVersion}
 		data={toolVersion}
 		on:success={() => close()}
@@ -32,5 +32,10 @@
 				{ key: 'y', number: { label: 'Pos. relative Y', value: 10 } }
 			]
 		]}
-	/>
+	>
+		<input type="hidden" name="path" value="" />
+		<input type="hidden" name="nodeId" value="" />
+		<!-- <input type="hidden" name="validFrom" value="">
+		<input type="hidden" name="validTo" value=""> -->
+	</Form>
 </Drawer>

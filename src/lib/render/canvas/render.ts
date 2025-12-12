@@ -1,5 +1,5 @@
 import { renderScale } from './scale'
-import type { View } from '../types'
+import type { View } from '../view.svelte'
 import type { ToolVersionWithChildren } from '$lib/tool'
 import { renderTool } from './tool'
 import { COLORS } from './colors'
@@ -10,9 +10,9 @@ export function renderScene(
 	tools: ToolVersionWithChildren[]
 ) {
 	renderBackground(ctx, view)
-	tools.forEach((tool) => {
+	for (const tool of tools) {
 		renderTool(ctx, view, tool)
-	})
+	}
 	renderScale(ctx, view)
 }
 

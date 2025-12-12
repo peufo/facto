@@ -1,9 +1,10 @@
 <script lang="ts">
-	import type { Pixel, Rect, View } from './types'
+	import type { Pixel, Rect } from '../types'
 	import type { ToolVersionWithChildren } from '$lib/tool'
-	import { mouseDragTrigger, touchDragTrigger } from './drag'
+	import { mouseDragTrigger, touchDragTrigger } from '../drag'
+	import { view } from '../view.svelte'
 
-	let { tool, view }: { tool: ToolVersionWithChildren; view: View } = $props()
+	let { tool }: { tool: ToolVersionWithChildren } = $props()
 	let x = $derived(view.origin.x + tool.x * view.meterToPixel)
 	let y = $derived(view.origin.y + tool.y * view.meterToPixel)
 	let width = $derived(tool.width * view.meterToPixel)

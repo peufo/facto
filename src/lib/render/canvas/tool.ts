@@ -1,5 +1,5 @@
 import type { ToolVersionWithChildren } from '$lib/tool'
-import type { View } from '../types'
+import type { View } from '../view.svelte'
 import { COLORS } from './colors'
 
 export function renderTool(

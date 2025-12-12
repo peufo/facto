@@ -1,7 +1,5 @@
 <script lang="ts">
-	import type { View } from './types'
-
-	let { view }: { view: View } = $props()
+	import { view, type View } from '../view.svelte'
 
 	function scaleX(v: View): string {
 		const unit = v.meterToPixel

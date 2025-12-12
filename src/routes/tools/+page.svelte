@@ -27,7 +27,7 @@
 
 	<h2 class="menu-title flex items-center gap-4">
 		<span class="grow">Tools</span>
-		<a href={$urlParam.with({ tool_drawer: 'new' })} class="btn btn-square btn-xs">
+		<a href={$urlParam.with({ form_tool: '{}' })} class="btn btn-square btn-xs">
 			<Icon path={mdiPlus} title="New tool" size={16} />
 		</a>
 	</h2>

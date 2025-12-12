@@ -1,1 +1,1 @@
-<a href="/model" class="btn">model</a>
+<a href="/tools" class="btn">tools</a>

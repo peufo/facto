@@ -1,18 +1,24 @@
 <script lang="ts">
 	import { mdiPlus } from '@mdi/js'
 	import { Icon, urlParam } from 'fuma'
-	import { ToolTree, ToolDrawer } from '$lib/tool'
+	import { ToolTree, ToolDrawer, type ToolVersionWithChildren } from '$lib/tool'
 	import { SceneSVG, SceneCanvas } from '$lib/render'
 
-	const { data } = $props()
+	let { data } = $props()
 
-	let mode = $state<'svg' | 'canvas'>('canvas')
+	let mode = $state<'svg' | 'canvas'>('svg')
+
+	// svelte-ignore state_referenced_locally
+	let tools = $state(data.tools)
+	$effect(() => {
+		tools = data.tools
+	})
 </script>
 
 {#if mode === 'svg'}
-	<SceneSVG tools={data.tools} />
+	<SceneSVG bind:tools />
 {:else}
-	<SceneCanvas tools={data.tools} />
+	<SceneCanvas {tools} />
 {/if}
 
 <ul class="menu bg-base-100 fixed m-2 rounded border">

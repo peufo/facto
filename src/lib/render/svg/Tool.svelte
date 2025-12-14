@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { Pixel, Rect } from '../types'
 	import type { ToolVersionWithChildren } from '$lib/tool'
-	import { mouseDragTrigger, touchDragTrigger } from '../drag'
+	import { dragTrigger } from '../drag'
 	import { view } from '../view.svelte'
 
-	let { tool }: { tool: ToolVersionWithChildren } = $props()
+	let { tool = $bindable() }: { tool: ToolVersionWithChildren} = $props()
+
 	let x = $derived(view.origin.x + tool.x * view.meterToPixel)
 	let y = $derived(view.origin.y + tool.y * view.meterToPixel)
 	let width = $derived(tool.width * view.meterToPixel)
@@ -18,53 +18,12 @@
 		return true
 	})
 
-	const RAYON = 6
-	const RESIZE_RANGE = 20
-	type SIDE_X = 'E' | 'W'
-	type SIDE_Y = 'N' | 'S'
 
-	const dragHandler = (() => {
-		let rect: Rect = { x: 0, y: 0, width: 0, height: 0 }
-		let start: Pixel = { x: 0, y: 0 }
-		let sideX: SIDE_X | null = null
-		let sideY: SIDE_Y | null = null
-		return {
-			start({ clientX, clientY }: PointerEvent | Touch) {
-				rect.x = tool.x * view.meterToPixel
-				rect.y = tool.y * view.meterToPixel
-				rect.width = tool.width * view.meterToPixel
-				rect.height = tool.height * view.meterToPixel
-				start.x = clientX
-				start.y = clientY
-				const left = start.x - view.origin.x - rect.x
-				const top = start.y - view.origin.y - rect.y
-				const right = rect.width - left
-				const bottom = rect.height - top
-				sideX = null
-				sideY = null
-				if (right <= RESIZE_RANGE) sideX = 'E'
-				else if (left <= RESIZE_RANGE) sideX = 'W'
-				if (bottom <= RESIZE_RANGE) sideY = 'S'
-				else if (top <= RESIZE_RANGE) sideY = 'N'
-			},
-			move({ clientX, clientY }: PointerEvent | Touch) {
-				const x = clientX - start.x
-				const y = clientY - start.y
-				if (sideX == 'W') tool.width = (rect.width - x) / view.meterToPixel
-				if (sideX == 'E') tool.width = (rect.width + x) / view.meterToPixel
-				if (sideX != 'E') tool.x = (rect.x + x) / view.meterToPixel
-				if (sideY == 'N') tool.height = (rect.height - y) / view.meterToPixel
-				if (sideY == 'S') tool.height = (rect.height + y) / view.meterToPixel
-				if (sideY != 'S') tool.y = (rect.y + y) / view.meterToPixel
-				tool = { ...tool }
-			}
-		}
-	})()
+	const RAYON = 6
 </script>
 
 <rect
-	use:mouseDragTrigger={dragHandler}
-	use:touchDragTrigger={dragHandler}
+	{@attach dragTrigger({tool, view})}
 	{x}
 	{y}
 	{width}
@@ -79,7 +38,7 @@
 	{tool.name || tool.id}
 </text>
 
-{#if isHover && false}
+{#if isHover}
 	<circle cx={x + RAYON} cy={y + RAYON} r={RAYON} class="drag-button"> </circle>
 	<circle cx={x + width - RAYON} cy={y + RAYON} r={RAYON} class="drag-button"></circle>
 	<circle cx={x + width - RAYON} cy={y + height - RAYON} r={RAYON} class="drag-button"> </circle>

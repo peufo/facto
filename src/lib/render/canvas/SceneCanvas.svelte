@@ -3,7 +3,7 @@
 	import { renderScene } from './render'
 	import { view } from '../view.svelte'
 
-	let { tools }: { tools: ToolVersionWithChildren[] } = $props()
+	let { tools = $bindable() }: { tools: ToolVersionWithChildren[] } = $props()
 	let canvas = $state<HTMLCanvasElement>()
 	let ctx = $derived(canvas?.getContext('2d'))
 

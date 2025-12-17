@@ -18,12 +18,22 @@ export { Prisma }
 export * as $Enums from './enums'
 export * from './enums';
 /**
- * Model Tool
+ * Model Process
  * 
  */
-export type Tool = Prisma.ToolModel
+export type Process = Prisma.ProcessModel
 /**
- * Model ToolVersion
+ * Model Commit
  * 
  */
-export type ToolVersion = Prisma.ToolVersionModel
+export type Commit = Prisma.CommitModel
+/**
+ * Model Field
+ * 
+ */
+export type Field = Prisma.FieldModel
+/**
+ * Model FieldValue
+ * 
+ */
+export type FieldValue = Prisma.FieldValueModel

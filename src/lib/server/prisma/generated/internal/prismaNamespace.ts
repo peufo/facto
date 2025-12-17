@@ -384,8 +384,10 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
-  Tool: 'Tool',
-  ToolVersion: 'ToolVersion'
+  Process: 'Process',
+  Commit: 'Commit',
+  Field: 'Field',
+  FieldValue: 'FieldValue'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -401,139 +403,271 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "tool" | "toolVersion"
+    modelProps: "process" | "commit" | "field" | "fieldValue"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
-    Tool: {
-      payload: Prisma.$ToolPayload<ExtArgs>
-      fields: Prisma.ToolFieldRefs
+    Process: {
+      payload: Prisma.$ProcessPayload<ExtArgs>
+      fields: Prisma.ProcessFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.ToolFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ToolPayload> | null
+          args: Prisma.ProcessFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.ToolFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ToolPayload>
+          args: Prisma.ProcessFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessPayload>
         }
         findFirst: {
-          args: Prisma.ToolFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ToolPayload> | null
+          args: Prisma.ProcessFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.ToolFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ToolPayload>
+          args: Prisma.ProcessFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessPayload>
         }
         findMany: {
-          args: Prisma.ToolFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ToolPayload>[]
+          args: Prisma.ProcessFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessPayload>[]
         }
         create: {
-          args: Prisma.ToolCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ToolPayload>
+          args: Prisma.ProcessCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessPayload>
         }
         createMany: {
-          args: Prisma.ToolCreateManyArgs<ExtArgs>
+          args: Prisma.ProcessCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         delete: {
-          args: Prisma.ToolDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ToolPayload>
+          args: Prisma.ProcessDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessPayload>
         }
         update: {
-          args: Prisma.ToolUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ToolPayload>
+          args: Prisma.ProcessUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessPayload>
         }
         deleteMany: {
-          args: Prisma.ToolDeleteManyArgs<ExtArgs>
+          args: Prisma.ProcessDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.ToolUpdateManyArgs<ExtArgs>
+          args: Prisma.ProcessUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         upsert: {
-          args: Prisma.ToolUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ToolPayload>
+          args: Prisma.ProcessUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessPayload>
         }
         aggregate: {
-          args: Prisma.ToolAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateTool>
+          args: Prisma.ProcessAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateProcess>
         }
         groupBy: {
-          args: Prisma.ToolGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ToolGroupByOutputType>[]
+          args: Prisma.ProcessGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProcessGroupByOutputType>[]
         }
         count: {
-          args: Prisma.ToolCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ToolCountAggregateOutputType> | number
+          args: Prisma.ProcessCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProcessCountAggregateOutputType> | number
         }
       }
     }
-    ToolVersion: {
-      payload: Prisma.$ToolVersionPayload<ExtArgs>
-      fields: Prisma.ToolVersionFieldRefs
+    Commit: {
+      payload: Prisma.$CommitPayload<ExtArgs>
+      fields: Prisma.CommitFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.ToolVersionFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ToolVersionPayload> | null
+          args: Prisma.CommitFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CommitPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.ToolVersionFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ToolVersionPayload>
+          args: Prisma.CommitFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CommitPayload>
         }
         findFirst: {
-          args: Prisma.ToolVersionFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ToolVersionPayload> | null
+          args: Prisma.CommitFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CommitPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.ToolVersionFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ToolVersionPayload>
+          args: Prisma.CommitFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CommitPayload>
         }
         findMany: {
-          args: Prisma.ToolVersionFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ToolVersionPayload>[]
+          args: Prisma.CommitFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CommitPayload>[]
         }
         create: {
-          args: Prisma.ToolVersionCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ToolVersionPayload>
+          args: Prisma.CommitCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CommitPayload>
         }
         createMany: {
-          args: Prisma.ToolVersionCreateManyArgs<ExtArgs>
+          args: Prisma.CommitCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         delete: {
-          args: Prisma.ToolVersionDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ToolVersionPayload>
+          args: Prisma.CommitDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CommitPayload>
         }
         update: {
-          args: Prisma.ToolVersionUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ToolVersionPayload>
+          args: Prisma.CommitUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CommitPayload>
         }
         deleteMany: {
-          args: Prisma.ToolVersionDeleteManyArgs<ExtArgs>
+          args: Prisma.CommitDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.ToolVersionUpdateManyArgs<ExtArgs>
+          args: Prisma.CommitUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         upsert: {
-          args: Prisma.ToolVersionUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ToolVersionPayload>
+          args: Prisma.CommitUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CommitPayload>
         }
         aggregate: {
-          args: Prisma.ToolVersionAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateToolVersion>
+          args: Prisma.CommitAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCommit>
         }
         groupBy: {
-          args: Prisma.ToolVersionGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ToolVersionGroupByOutputType>[]
+          args: Prisma.CommitGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CommitGroupByOutputType>[]
         }
         count: {
-          args: Prisma.ToolVersionCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ToolVersionCountAggregateOutputType> | number
+          args: Prisma.CommitCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CommitCountAggregateOutputType> | number
+        }
+      }
+    }
+    Field: {
+      payload: Prisma.$FieldPayload<ExtArgs>
+      fields: Prisma.FieldFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FieldFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FieldFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldPayload>
+        }
+        findFirst: {
+          args: Prisma.FieldFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FieldFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldPayload>
+        }
+        findMany: {
+          args: Prisma.FieldFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldPayload>[]
+        }
+        create: {
+          args: Prisma.FieldCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldPayload>
+        }
+        createMany: {
+          args: Prisma.FieldCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.FieldDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldPayload>
+        }
+        update: {
+          args: Prisma.FieldUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldPayload>
+        }
+        deleteMany: {
+          args: Prisma.FieldDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FieldUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.FieldUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldPayload>
+        }
+        aggregate: {
+          args: Prisma.FieldAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateField>
+        }
+        groupBy: {
+          args: Prisma.FieldGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FieldGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FieldCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FieldCountAggregateOutputType> | number
+        }
+      }
+    }
+    FieldValue: {
+      payload: Prisma.$FieldValuePayload<ExtArgs>
+      fields: Prisma.FieldValueFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FieldValueFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldValuePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FieldValueFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldValuePayload>
+        }
+        findFirst: {
+          args: Prisma.FieldValueFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldValuePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FieldValueFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldValuePayload>
+        }
+        findMany: {
+          args: Prisma.FieldValueFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldValuePayload>[]
+        }
+        create: {
+          args: Prisma.FieldValueCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldValuePayload>
+        }
+        createMany: {
+          args: Prisma.FieldValueCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.FieldValueDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldValuePayload>
+        }
+        update: {
+          args: Prisma.FieldValueUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldValuePayload>
+        }
+        deleteMany: {
+          args: Prisma.FieldValueDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FieldValueUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.FieldValueUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FieldValuePayload>
+        }
+        aggregate: {
+          args: Prisma.FieldValueAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFieldValue>
+        }
+        groupBy: {
+          args: Prisma.FieldValueGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FieldValueGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FieldValueCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FieldValueCountAggregateOutputType> | number
         }
       }
     }
@@ -576,29 +710,40 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-export const ToolScalarFieldEnum = {
+export const ProcessScalarFieldEnum = {
   id: 'id'
 } as const
 
-export type ToolScalarFieldEnum = (typeof ToolScalarFieldEnum)[keyof typeof ToolScalarFieldEnum]
+export type ProcessScalarFieldEnum = (typeof ProcessScalarFieldEnum)[keyof typeof ProcessScalarFieldEnum]
 
 
-export const ToolVersionScalarFieldEnum = {
+export const CommitScalarFieldEnum = {
   id: 'id',
-  nodeId: 'nodeId',
   parentId: 'parentId',
-  path: 'path',
-  validFrom: 'validFrom',
-  validTo: 'validTo',
-  name: 'name',
-  width: 'width',
-  height: 'height',
-  x: 'x',
-  y: 'y',
-  createdAt: 'createdAt'
+  processId: 'processId',
+  timestamp: 'timestamp'
 } as const
 
-export type ToolVersionScalarFieldEnum = (typeof ToolVersionScalarFieldEnum)[keyof typeof ToolVersionScalarFieldEnum]
+export type CommitScalarFieldEnum = (typeof CommitScalarFieldEnum)[keyof typeof CommitScalarFieldEnum]
+
+
+export const FieldScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  type: 'type'
+} as const
+
+export type FieldScalarFieldEnum = (typeof FieldScalarFieldEnum)[keyof typeof FieldScalarFieldEnum]
+
+
+export const FieldValueScalarFieldEnum = {
+  id: 'id',
+  value: 'value',
+  fieldId: 'fieldId',
+  commitId: 'commitId'
+} as const
+
+export type FieldValueScalarFieldEnum = (typeof FieldValueScalarFieldEnum)[keyof typeof FieldValueScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -609,11 +754,18 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-export const ToolOrderByRelevanceFieldEnum = {
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
+export const ProcessOrderByRelevanceFieldEnum = {
   id: 'id'
 } as const
 
-export type ToolOrderByRelevanceFieldEnum = (typeof ToolOrderByRelevanceFieldEnum)[keyof typeof ToolOrderByRelevanceFieldEnum]
+export type ProcessOrderByRelevanceFieldEnum = (typeof ProcessOrderByRelevanceFieldEnum)[keyof typeof ProcessOrderByRelevanceFieldEnum]
 
 
 export const NullsOrder = {
@@ -624,14 +776,47 @@ export const NullsOrder = {
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
-export const ToolVersionOrderByRelevanceFieldEnum = {
-  nodeId: 'nodeId',
+export const CommitOrderByRelevanceFieldEnum = {
+  id: 'id',
   parentId: 'parentId',
-  path: 'path',
+  processId: 'processId'
+} as const
+
+export type CommitOrderByRelevanceFieldEnum = (typeof CommitOrderByRelevanceFieldEnum)[keyof typeof CommitOrderByRelevanceFieldEnum]
+
+
+export const FieldOrderByRelevanceFieldEnum = {
+  id: 'id',
   name: 'name'
 } as const
 
-export type ToolVersionOrderByRelevanceFieldEnum = (typeof ToolVersionOrderByRelevanceFieldEnum)[keyof typeof ToolVersionOrderByRelevanceFieldEnum]
+export type FieldOrderByRelevanceFieldEnum = (typeof FieldOrderByRelevanceFieldEnum)[keyof typeof FieldOrderByRelevanceFieldEnum]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
+export const QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+} as const
+
+export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const FieldValueOrderByRelevanceFieldEnum = {
+  id: 'id',
+  fieldId: 'fieldId',
+  commitId: 'commitId'
+} as const
+
+export type FieldValueOrderByRelevanceFieldEnum = (typeof FieldValueOrderByRelevanceFieldEnum)[keyof typeof FieldValueOrderByRelevanceFieldEnum]
 
 
 
@@ -648,13 +833,6 @@ export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 
 
 
 /**
- * Reference to a field of type 'Int'
- */
-export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-/**
  * Reference to a field of type 'DateTime'
  */
 export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -662,9 +840,30 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
 
 
 /**
- * Reference to a field of type 'Float'
+ * Reference to a field of type 'FieldType'
  */
-export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+export type EnumFieldTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FieldType'>
+    
+
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+/**
+ * Reference to a field of type 'Int'
+ */
+export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
     
 
 /**
@@ -762,8 +961,10 @@ export type PrismaClientOptions = ({
   comments?: runtime.SqlCommenterPlugin[]
 }
 export type GlobalOmitConfig = {
-  tool?: Prisma.ToolOmit
-  toolVersion?: Prisma.ToolVersionOmit
+  process?: Prisma.ProcessOmit
+  commit?: Prisma.CommitOmit
+  field?: Prisma.FieldOmit
+  fieldValue?: Prisma.FieldValueOmit
 }
 
 /* Types for Logging */

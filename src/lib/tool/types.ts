@@ -1,5 +1,5 @@
-import type { ToolVersion } from '$lib/server/prisma/client'
+import type { Commit } from '$lib/server/prisma/client'
 
-export type ToolVersionWithChildren = ToolVersion & {
-	children?: ToolVersionWithChildren[]
+export type CommitWithChildren = Commit & {
+	children?: CommitWithChildren[]
 }

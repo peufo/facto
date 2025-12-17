@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.1.0",
   "engineVersion": "ab635e6b9d606fa5c8fb8b1a7f909c3c3c1c98ba",
   "activeProvider": "mysql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/lib/server/prisma\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n}\n\nmodel Tool {\n  id              String        @id @default(cuid())\n  versions        ToolVersion[] @relation(name: \"tool_self\")\n  childrenVersion ToolVersion[] @relation(name: \"tool_parent\")\n}\n\nmodel ToolVersion {\n  id        Int       @id @default(autoincrement())\n  nodeId    String\n  node      Tool      @relation(name: \"tool_self\", fields: [nodeId], references: [id])\n  parentId  String?\n  parent    Tool?     @relation(name: \"tool_parent\", fields: [parentId], references: [id], onDelete: Cascade)\n  path      String\n  validFrom DateTime\n  validTo   DateTime? // NULL = Version active courante\n\n  // Content\n  name   String\n  width  Int\n  height Int\n  x      Int\n  y      Int\n\n  createdAt DateTime @default(now())\n\n  @@index([path])\n  @@index([validTo, path])\n}\n",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/lib/server/prisma/generated\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n}\n\nmodel Process {\n  id      String   @id @default(cuid())\n  commits Commit[]\n}\n\nmodel Commit {\n  id String @id @default(cuid())\n\n  changes FieldValue[]\n\n  parentId String?\n  parent   Commit?  @relation(name: \"hierarchy\", fields: [parentId], references: [id], onDelete: Restrict)\n  children Commit[] @relation(name: \"hierarchy\")\n\n  processId String\n  process   Process  @relation(fields: [processId], references: [id])\n  inputs    Commit[] @relation(name: \"flow\")\n  ouputs    Commit[] @relation(name: \"flow\")\n\n  timestamp DateTime @default(now())\n\n  @@index([parentId])\n  @@index([processId])\n}\n\nmodel Field {\n  id     String       @id @default(cuid())\n  name   String\n  type   FieldType\n  values FieldValue[]\n\n  @@unique([name])\n}\n\nmodel FieldValue {\n  id String @id @default(cuid())\n\n  value Json\n\n  fieldId String\n  field   Field  @relation(fields: [fieldId], references: [id])\n\n  commitId String\n  commit   Commit @relation(fields: [commitId], references: [id])\n}\n\nenum FieldType {\n  text\n  number\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Tool\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"versions\",\"kind\":\"object\",\"type\":\"ToolVersion\",\"relationName\":\"tool_self\"},{\"name\":\"childrenVersion\",\"kind\":\"object\",\"type\":\"ToolVersion\",\"relationName\":\"tool_parent\"}],\"dbName\":null},\"ToolVersion\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"nodeId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"node\",\"kind\":\"object\",\"type\":\"Tool\",\"relationName\":\"tool_self\"},{\"name\":\"parentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"parent\",\"kind\":\"object\",\"type\":\"Tool\",\"relationName\":\"tool_parent\"},{\"name\":\"path\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"validFrom\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"validTo\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"width\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"height\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"x\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"y\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Process\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"commits\",\"kind\":\"object\",\"type\":\"Commit\",\"relationName\":\"CommitToProcess\"}],\"dbName\":null},\"Commit\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"changes\",\"kind\":\"object\",\"type\":\"FieldValue\",\"relationName\":\"CommitToFieldValue\"},{\"name\":\"parentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"parent\",\"kind\":\"object\",\"type\":\"Commit\",\"relationName\":\"hierarchy\"},{\"name\":\"children\",\"kind\":\"object\",\"type\":\"Commit\",\"relationName\":\"hierarchy\"},{\"name\":\"processId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"process\",\"kind\":\"object\",\"type\":\"Process\",\"relationName\":\"CommitToProcess\"},{\"name\":\"inputs\",\"kind\":\"object\",\"type\":\"Commit\",\"relationName\":\"flow\"},{\"name\":\"ouputs\",\"kind\":\"object\",\"type\":\"Commit\",\"relationName\":\"flow\"},{\"name\":\"timestamp\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Field\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"FieldType\"},{\"name\":\"values\",\"kind\":\"object\",\"type\":\"FieldValue\",\"relationName\":\"FieldToFieldValue\"}],\"dbName\":null},\"FieldValue\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"value\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"fieldId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"field\",\"kind\":\"object\",\"type\":\"Field\",\"relationName\":\"FieldToFieldValue\"},{\"name\":\"commitId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"commit\",\"kind\":\"object\",\"type\":\"Commit\",\"relationName\":\"CommitToFieldValue\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -58,8 +58,8 @@ export interface PrismaClientConstructor {
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Tools
-   * const tools = await prisma.tool.findMany()
+   * // Fetch zero or more Processes
+   * const processes = await prisma.process.findMany()
    * ```
    * 
    * Read more in our [docs](https://pris.ly/d/client).
@@ -80,8 +80,8 @@ export interface PrismaClientConstructor {
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Tools
- * const tools = await prisma.tool.findMany()
+ * // Fetch zero or more Processes
+ * const processes = await prisma.process.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -175,24 +175,44 @@ export interface PrismaClient<
   }>>
 
       /**
-   * `prisma.tool`: Exposes CRUD operations for the **Tool** model.
+   * `prisma.process`: Exposes CRUD operations for the **Process** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Tools
-    * const tools = await prisma.tool.findMany()
+    * // Fetch zero or more Processes
+    * const processes = await prisma.process.findMany()
     * ```
     */
-  get tool(): Prisma.ToolDelegate<ExtArgs, { omit: OmitOpts }>;
+  get process(): Prisma.ProcessDelegate<ExtArgs, { omit: OmitOpts }>;
 
   /**
-   * `prisma.toolVersion`: Exposes CRUD operations for the **ToolVersion** model.
+   * `prisma.commit`: Exposes CRUD operations for the **Commit** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more ToolVersions
-    * const toolVersions = await prisma.toolVersion.findMany()
+    * // Fetch zero or more Commits
+    * const commits = await prisma.commit.findMany()
     * ```
     */
-  get toolVersion(): Prisma.ToolVersionDelegate<ExtArgs, { omit: OmitOpts }>;
+  get commit(): Prisma.CommitDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.field`: Exposes CRUD operations for the **Field** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Fields
+    * const fields = await prisma.field.findMany()
+    * ```
+    */
+  get field(): Prisma.FieldDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.fieldValue`: Exposes CRUD operations for the **FieldValue** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more FieldValues
+    * const fieldValues = await prisma.fieldValue.findMany()
+    * ```
+    */
+  get fieldValue(): Prisma.FieldValueDelegate<ExtArgs, { omit: OmitOpts }>;
 }
 
 export function getPrismaClientClass(): PrismaClientConstructor {

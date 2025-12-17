@@ -51,8 +51,10 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  Tool: 'Tool',
-  ToolVersion: 'ToolVersion'
+  Process: 'Process',
+  Commit: 'Commit',
+  Field: 'Field',
+  FieldValue: 'FieldValue'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -71,29 +73,40 @@ export const TransactionIsolationLevel = {
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-export const ToolScalarFieldEnum = {
+export const ProcessScalarFieldEnum = {
   id: 'id'
 } as const
 
-export type ToolScalarFieldEnum = (typeof ToolScalarFieldEnum)[keyof typeof ToolScalarFieldEnum]
+export type ProcessScalarFieldEnum = (typeof ProcessScalarFieldEnum)[keyof typeof ProcessScalarFieldEnum]
 
 
-export const ToolVersionScalarFieldEnum = {
+export const CommitScalarFieldEnum = {
   id: 'id',
-  nodeId: 'nodeId',
   parentId: 'parentId',
-  path: 'path',
-  validFrom: 'validFrom',
-  validTo: 'validTo',
-  name: 'name',
-  width: 'width',
-  height: 'height',
-  x: 'x',
-  y: 'y',
-  createdAt: 'createdAt'
+  processId: 'processId',
+  timestamp: 'timestamp'
 } as const
 
-export type ToolVersionScalarFieldEnum = (typeof ToolVersionScalarFieldEnum)[keyof typeof ToolVersionScalarFieldEnum]
+export type CommitScalarFieldEnum = (typeof CommitScalarFieldEnum)[keyof typeof CommitScalarFieldEnum]
+
+
+export const FieldScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  type: 'type'
+} as const
+
+export type FieldScalarFieldEnum = (typeof FieldScalarFieldEnum)[keyof typeof FieldScalarFieldEnum]
+
+
+export const FieldValueScalarFieldEnum = {
+  id: 'id',
+  value: 'value',
+  fieldId: 'fieldId',
+  commitId: 'commitId'
+} as const
+
+export type FieldValueScalarFieldEnum = (typeof FieldValueScalarFieldEnum)[keyof typeof FieldValueScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -104,11 +117,18 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-export const ToolOrderByRelevanceFieldEnum = {
+export const JsonNullValueInput = {
+  JsonNull: 'JsonNull'
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
+export const ProcessOrderByRelevanceFieldEnum = {
   id: 'id'
 } as const
 
-export type ToolOrderByRelevanceFieldEnum = (typeof ToolOrderByRelevanceFieldEnum)[keyof typeof ToolOrderByRelevanceFieldEnum]
+export type ProcessOrderByRelevanceFieldEnum = (typeof ProcessOrderByRelevanceFieldEnum)[keyof typeof ProcessOrderByRelevanceFieldEnum]
 
 
 export const NullsOrder = {
@@ -119,12 +139,45 @@ export const NullsOrder = {
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
-export const ToolVersionOrderByRelevanceFieldEnum = {
-  nodeId: 'nodeId',
+export const CommitOrderByRelevanceFieldEnum = {
+  id: 'id',
   parentId: 'parentId',
-  path: 'path',
+  processId: 'processId'
+} as const
+
+export type CommitOrderByRelevanceFieldEnum = (typeof CommitOrderByRelevanceFieldEnum)[keyof typeof CommitOrderByRelevanceFieldEnum]
+
+
+export const FieldOrderByRelevanceFieldEnum = {
+  id: 'id',
   name: 'name'
 } as const
 
-export type ToolVersionOrderByRelevanceFieldEnum = (typeof ToolVersionOrderByRelevanceFieldEnum)[keyof typeof ToolVersionOrderByRelevanceFieldEnum]
+export type FieldOrderByRelevanceFieldEnum = (typeof FieldOrderByRelevanceFieldEnum)[keyof typeof FieldOrderByRelevanceFieldEnum]
+
+
+export const JsonNullValueFilter = {
+  DbNull: 'DbNull',
+  JsonNull: 'JsonNull',
+  AnyNull: 'AnyNull'
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
+export const QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+} as const
+
+export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const FieldValueOrderByRelevanceFieldEnum = {
+  id: 'id',
+  fieldId: 'fieldId',
+  commitId: 'commitId'
+} as const
+
+export type FieldValueOrderByRelevanceFieldEnum = (typeof FieldValueOrderByRelevanceFieldEnum)[keyof typeof FieldValueOrderByRelevanceFieldEnum]
 

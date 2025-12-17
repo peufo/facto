@@ -1,37 +1,59 @@
 generator client {
   provider = "prisma-client"
-  output   = "../src/lib/server/prisma"
+  output   = "../src/lib/server/prisma/generated"
 }
 
 datasource db {
   provider = "mysql"
 }
 
-model Tool {
-  id              String        @id @default(cuid())
-  versions        ToolVersion[] @relation(name: "tool_self")
-  childrenVersion ToolVersion[] @relation(name: "tool_parent")
+model Process {
+  id      String   @id @default(cuid())
+  commits Commit[]
 }
 
-model ToolVersion {
-  id        Int       @id @default(autoincrement())
-  nodeId    String
-  node      Tool      @relation(name: "tool_self", fields: [nodeId], references: [id])
-  parentId  String?
-  parent    Tool?     @relation(name: "tool_parent", fields: [parentId], references: [id], onDelete: Cascade)
-  path      String
-  validFrom DateTime
-  validTo   DateTime? // NULL = Version active courante
+model Commit {
+  id String @id @default(cuid())
 
-  // Content
+  changes FieldValue[]
+
+  parentId String?
+  parent   Commit?  @relation(name: "hierarchy", fields: [parentId], references: [id], onDelete: Restrict)
+  children Commit[] @relation(name: "hierarchy")
+
+  processId String
+  process   Process  @relation(fields: [processId], references: [id])
+  inputs    Commit[] @relation(name: "flow")
+  ouputs    Commit[] @relation(name: "flow")
+
+  timestamp DateTime @default(now())
+
+  @@index([parentId])
+  @@index([processId])
+}
+
+model Field {
+  id     String       @id @default(cuid())
   name   String
-  width  Int
-  height Int
-  x      Int
-  y      Int
+  type   FieldType
+  values FieldValue[]
 
-  createdAt DateTime @default(now())
+  @@unique([name])
+}
 
-  @@index([path])
-  @@index([validTo, path])
+model FieldValue {
+  id String @id @default(cuid())
+
+  value Json
+
+  fieldId String
+  field   Field  @relation(fields: [fieldId], references: [id])
+
+  commitId String
+  commit   Commit @relation(fields: [commitId], references: [id])
+}
+
+enum FieldType {
+  text
+  number
 }

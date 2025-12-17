@@ -29,8 +29,8 @@ export * from "./enums"
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Tools
- * const tools = await prisma.tool.findMany()
+ * // Fetch zero or more Processes
+ * const processes = await prisma.process.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -40,12 +40,22 @@ export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts exten
 export { Prisma }
 
 /**
- * Model Tool
+ * Model Process
  * 
  */
-export type Tool = Prisma.ToolModel
+export type Process = Prisma.ProcessModel
 /**
- * Model ToolVersion
+ * Model Commit
  * 
  */
-export type ToolVersion = Prisma.ToolVersionModel
+export type Commit = Prisma.CommitModel
+/**
+ * Model Field
+ * 
+ */
+export type Field = Prisma.FieldModel
+/**
+ * Model FieldValue
+ * 
+ */
+export type FieldValue = Prisma.FieldValueModel

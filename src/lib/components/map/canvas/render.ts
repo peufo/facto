@@ -1,16 +1,16 @@
 import type { View } from '../view.svelte'
-import type { ToolVersionWithChildren } from '$lib/tool'
-import { renderTool } from './tool'
+import type { CommitWithChildren } from '$lib'
+import { renderCommit as renderCommit } from './commit'
 import { COLORS } from './colors'
 
 export function renderScene(
 	ctx: CanvasRenderingContext2D,
 	view: View,
-	tools: ToolVersionWithChildren[]
+	commits: CommitWithChildren[]
 ) {
 	renderBackground(ctx, view)
-	for (const tool of tools) {
-		renderTool(ctx, view, tool)
+	for (const commit of commits) {
+		renderCommit(ctx, view, commit)
 	}
 	renderScale(ctx, view)
 }

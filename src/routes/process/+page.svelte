@@ -1,24 +1,24 @@
 <script lang="ts">
 	import { mdiPlus } from '@mdi/js'
 	import { Icon, urlParam } from 'fuma'
-	import { ToolTree, ToolDrawer, type ToolVersionWithChildren } from '$lib/tool'
-	import { SceneSVG, SceneCanvas } from '$lib/render'
+	import { DrawerCommit, Hierarchy } from '$lib/components'
+	import { SceneSVG, SceneCanvas } from '$lib/components/map/index.js'
 
 	let { data } = $props()
 
 	let mode = $state<'svg' | 'canvas'>('svg')
 
 	// svelte-ignore state_referenced_locally
-	let tools = $state(data.tools)
+	let commits = $state(data.commits)
 	$effect(() => {
-		tools = data.tools
+		commits = data.commits
 	})
 </script>
 
 {#if mode === 'svg'}
-	<SceneSVG bind:tools />
+	<SceneSVG bind:commits />
 {:else}
-	<SceneCanvas {tools} />
+	<SceneCanvas {commits} />
 {/if}
 
 <ul class="menu bg-base-100 fixed m-2 rounded border">
@@ -32,14 +32,14 @@
 	</div>
 
 	<h2 class="menu-title flex items-center gap-4">
-		<span class="grow">Tools</span>
-		<a href={$urlParam.with({ form_tool: '{}' })} class="btn btn-square btn-xs">
-			<Icon path={mdiPlus} title="New tool" size={16} />
+		<span class="grow">Commits</span>
+		<a href={$urlParam.with({ form_commit: '{}' })} class="btn btn-square btn-xs">
+			<Icon path={mdiPlus} title="New commit" size={16} />
 		</a>
 	</h2>
 	<li>
-		<ToolTree tools={data.tools} />
+		<Hierarchy {commits} />
 	</li>
 </ul>
 
-<ToolDrawer />
+<DrawerCommit />

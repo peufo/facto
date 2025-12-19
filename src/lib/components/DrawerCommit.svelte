@@ -1,23 +1,23 @@
 <script lang="ts">
 	import { Drawer, Form } from 'fuma'
-	import { modelToolVersion } from '$lib/model'
-	import type { ToolVersion } from '$lib/server/prisma/client'
+	import { modelCommit } from '$lib/model'
+	import type { Commit } from '$lib/server/prisma'
 
-	let { toolVersion }: { toolVersion?: ToolVersion } = $props()
+	let { commit }: { commit?: Commit } = $props()
 </script>
 
 <Drawer
 	maxWidth="20em"
 	noOverlay
-	key="form_tool"
-	title="{toolVersion ? 'Edit' : 'New'} tool"
+	key="form_commit"
+	title="{commit ? 'Edit' : 'New'} commit"
 	let:close
 	class="m-2 rounded-lg border"
 >
 	<Form
-		action="/tools?/tool"
-		model={modelToolVersion}
-		data={toolVersion}
+		action="/process?/commit"
+		model={modelCommit}
+		data={commit}
 		on:success={() => close()}
 		fields={[
 			[

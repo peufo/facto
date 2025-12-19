@@ -1,14 +1,14 @@
 <script lang="ts">
-	import type { ToolVersionWithChildren } from '$lib/tool'
+	import type { CommitWithChildren } from '$lib'
 	import { dragTrigger } from '../drag'
 	import { view } from '../view.svelte'
 
-	let { tool = $bindable() }: { tool: ToolVersionWithChildren} = $props()
+	let { commit = $bindable() }: { commit: CommitWithChildren} = $props()
 
-	let x = $derived(view.origin.x + tool.x * view.meterToPixel)
-	let y = $derived(view.origin.y + tool.y * view.meterToPixel)
-	let width = $derived(tool.width * view.meterToPixel)
-	let height = $derived(tool.height * view.meterToPixel)
+	let x = $derived(view.origin.x + commit.x * view.meterToPixel)
+	let y = $derived(view.origin.y + commit.y * view.meterToPixel)
+	let width = $derived(commit.width * view.meterToPixel)
+	let height = $derived(commit.height * view.meterToPixel)
 
 	let isHover = $derived.by(() => {
 		if (x > view.cursor.x) return false
@@ -23,7 +23,7 @@
 </script>
 
 <rect
-	{@attach dragTrigger({tool, view})}
+	{@attach dragTrigger({commit: commit, view})}
 	{x}
 	{y}
 	{width}
@@ -35,7 +35,7 @@
 >
 </rect>
 <text x={x + 6} y={y + 20} class="fill-base-content">
-	{tool.name || tool.id}
+	{commit.name || commit.id}
 </text>
 
 {#if isHover}

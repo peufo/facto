@@ -1,14 +1,14 @@
 <script lang="ts">
-	import { type ToolVersionWithChildren } from '$lib'
+	import { type CommitWithChildren } from '$lib'
 	import { renderScene } from './render'
 	import { view } from '../view.svelte'
 
-	let { tools = $bindable() }: { tools: ToolVersionWithChildren[] } = $props()
+	let { commits = $bindable() }: { commits: CommitWithChildren[] } = $props()
 	let canvas = $state<HTMLCanvasElement>()
 	let ctx = $derived(canvas?.getContext('2d'))
 
 	$effect(() => {
-		if (ctx) renderScene(ctx, view, tools)
+		if (ctx) renderScene(ctx, view, commits)
 	})
 </script>
 

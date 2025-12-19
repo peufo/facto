@@ -1,11 +1,7 @@
-import type { Prisma } from '$lib/server/prisma/client'
+import type { Prisma } from '$lib/server/prisma'
 import { z } from 'fuma'
-import type { ShapeOf } from './utils'
+import { type ShapeOf } from './utils'
 
 export const modelCommit = {
-	name: z.string(),
-	width: z.number(),
-	height: z.number(),
-	x: z.number(),
-	y: z.number()
+	processId: z.string()
 } satisfies ShapeOf<Prisma.CommitUncheckedCreateInput>

@@ -1,16 +1,16 @@
-import type { ToolVersionWithChildren } from '$lib/tool'
+import type { CommitWithChildren } from '$lib'
 import type { View } from '../view.svelte'
 import { COLORS } from './colors'
 
-export function renderTool(
+export function renderCommit(
 	ctx: CanvasRenderingContext2D,
 	view: View,
-	tool: ToolVersionWithChildren
+	commit: CommitWithChildren
 ) {
-	const x = view.origin.x + tool.x * view.meterToPixel
-	const y = view.origin.y + tool.y * view.meterToPixel
-	const width = tool.width * view.meterToPixel
-	const height = tool.height * view.meterToPixel
+	const x = view.origin.x + commit.x * view.meterToPixel
+	const y = view.origin.y + commit.y * view.meterToPixel
+	const width = commit.width * view.meterToPixel
+	const height = commit.height * view.meterToPixel
 
 	function isHover() {
 		if (x > view.cursor.x) return false

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { type ToolVersionWithChildren } from '$lib'
+	import { type CommitWithChildren } from '$lib'
 	import Scale from './Scale.svelte'
-	import Tool from './Tool.svelte'
+	import Commit from './Commit.svelte'
 	import { view } from '../view.svelte'
 
-	let { tools = $bindable() }: { tools: ToolVersionWithChildren[] } = $props()
+	let { commits = $bindable() }: { commits: CommitWithChildren[] } = $props()
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -15,8 +15,8 @@
 	onwheel={view.onwheel}
 	onmousemove={view.onmousemove}
 >
-	{#each tools as tool, i}
-		<Tool bind:tool={tools[i]} />
+	{#each commits as commit, i}
+		<Commit bind:commit={commits[i]} />
 	{/each}
 	<Scale />
 </svg>

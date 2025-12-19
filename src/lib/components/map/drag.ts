@@ -1,8 +1,7 @@
 import type { Pixel, Rect } from './types'
-import type { ToolVersion } from '$lib/server/prisma/client'
 import type { View } from './view.svelte'
 import type { Attachment } from 'svelte/attachments'
-import type { ToolVersionWithChildren } from '$lib/tool'
+import type { CommitWithChildren } from '$lib'
 
 type Handler<T = PointerEvent | Touch> = {
 	start?: (event: T) => unknown
@@ -80,10 +79,10 @@ type SIDE_Y = 'N' | 'S'
 const RESIZE_RANGE = 20
 
 export function dragTrigger({
-	tool,
+	commit,
 	view
 }: {
-	tool: ToolVersionWithChildren
+	commit: CommitWithChildren
 	view: View
 }): Attachment<HTMLElement> {
 	return (element: HTMLElement) => {
@@ -94,10 +93,10 @@ export function dragTrigger({
 
 		const dragHandler = {
 			start({ clientX, clientY }: PointerEvent | Touch) {
-				rect.x = tool.x * view.meterToPixel
-				rect.y = tool.y * view.meterToPixel
-				rect.width = tool.width * view.meterToPixel
-				rect.height = tool.height * view.meterToPixel
+				rect.x = commit.x * view.meterToPixel
+				rect.y = commit.y * view.meterToPixel
+				rect.width = commit.width * view.meterToPixel
+				rect.height = commit.height * view.meterToPixel
 				start.x = clientX
 				start.y = clientY
 				const left = start.x - view.origin.x - rect.x
@@ -114,12 +113,12 @@ export function dragTrigger({
 			move({ clientX, clientY }: PointerEvent | Touch) {
 				const x = clientX - start.x
 				const y = clientY - start.y
-				if (sideX == 'W') tool.width = (rect.width - x) / view.meterToPixel
-				if (sideX == 'E') tool.width = (rect.width + x) / view.meterToPixel
-				if (sideX != 'E') tool.x = (rect.x + x) / view.meterToPixel
-				if (sideY == 'N') tool.height = (rect.height - y) / view.meterToPixel
-				if (sideY == 'S') tool.height = (rect.height + y) / view.meterToPixel
-				if (sideY != 'S') tool.y = (rect.y + y) / view.meterToPixel
+				if (sideX == 'W') commit.width = (rect.width - x) / view.meterToPixel
+				if (sideX == 'E') commit.width = (rect.width + x) / view.meterToPixel
+				if (sideX != 'E') commit.x = (rect.x + x) / view.meterToPixel
+				if (sideY == 'N') commit.height = (rect.height - y) / view.meterToPixel
+				if (sideY == 'S') commit.height = (rect.height + y) / view.meterToPixel
+				if (sideY != 'S') commit.y = (rect.y + y) / view.meterToPixel
 			}
 		}
 

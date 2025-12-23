@@ -8,8 +8,11 @@ datasource db {
 }
 
 model Process {
-  id      String   @id @default(cuid())
+  id   String @id @default(cuid())
+  name String
+
   commits Commit[]
+  states  State[]
 }
 
 model Commit {
@@ -22,13 +25,28 @@ model Commit {
   children Commit[] @relation(name: "hierarchy")
 
   processId String
-  process   Process  @relation(fields: [processId], references: [id])
-  inputs    Commit[] @relation(name: "flow")
-  ouputs    Commit[] @relation(name: "flow")
+  process   Process @relation(fields: [processId], references: [id])
+  inputs    State[] @relation("InputStates")
+  output    State?  @relation("OutputState")
 
   timestamp DateTime @default(now())
 
   @@index([parentId])
+  @@index([processId])
+}
+
+model State {
+  id String @id @default(cuid())
+
+  processId String?
+  process   Process? @relation(fields: [processId], references: [id])
+
+  createdById String   @unique
+  createdBy   Commit   @relation("OutputState", fields: [createdById], references: [id])
+  usedBy      Commit[] @relation("InputStates")
+
+  values FieldValue[]
+
   @@index([processId])
 }
 
@@ -50,7 +68,8 @@ model FieldValue {
   field   Field  @relation(fields: [fieldId], references: [id])
 
   commitId String
-  commit   Commit @relation(fields: [commitId], references: [id])
+  commit   Commit  @relation(fields: [commitId], references: [id])
+  states   State[]
 }
 
 enum FieldType {

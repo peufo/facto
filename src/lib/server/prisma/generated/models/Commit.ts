@@ -178,8 +178,8 @@ export type CommitWhereInput = {
   parent?: Prisma.XOR<Prisma.CommitNullableScalarRelationFilter, Prisma.CommitWhereInput> | null
   children?: Prisma.CommitListRelationFilter
   process?: Prisma.XOR<Prisma.ProcessScalarRelationFilter, Prisma.ProcessWhereInput>
-  inputs?: Prisma.CommitListRelationFilter
-  ouputs?: Prisma.CommitListRelationFilter
+  inputs?: Prisma.StateListRelationFilter
+  output?: Prisma.XOR<Prisma.StateNullableScalarRelationFilter, Prisma.StateWhereInput> | null
 }
 
 export type CommitOrderByWithRelationInput = {
@@ -191,8 +191,8 @@ export type CommitOrderByWithRelationInput = {
   parent?: Prisma.CommitOrderByWithRelationInput
   children?: Prisma.CommitOrderByRelationAggregateInput
   process?: Prisma.ProcessOrderByWithRelationInput
-  inputs?: Prisma.CommitOrderByRelationAggregateInput
-  ouputs?: Prisma.CommitOrderByRelationAggregateInput
+  inputs?: Prisma.StateOrderByRelationAggregateInput
+  output?: Prisma.StateOrderByWithRelationInput
   _relevance?: Prisma.CommitOrderByRelevanceInput
 }
 
@@ -208,8 +208,8 @@ export type CommitWhereUniqueInput = Prisma.AtLeast<{
   parent?: Prisma.XOR<Prisma.CommitNullableScalarRelationFilter, Prisma.CommitWhereInput> | null
   children?: Prisma.CommitListRelationFilter
   process?: Prisma.XOR<Prisma.ProcessScalarRelationFilter, Prisma.ProcessWhereInput>
-  inputs?: Prisma.CommitListRelationFilter
-  ouputs?: Prisma.CommitListRelationFilter
+  inputs?: Prisma.StateListRelationFilter
+  output?: Prisma.XOR<Prisma.StateNullableScalarRelationFilter, Prisma.StateWhereInput> | null
 }, "id">
 
 export type CommitOrderByWithAggregationInput = {
@@ -239,8 +239,8 @@ export type CommitCreateInput = {
   parent?: Prisma.CommitCreateNestedOneWithoutChildrenInput
   children?: Prisma.CommitCreateNestedManyWithoutParentInput
   process: Prisma.ProcessCreateNestedOneWithoutCommitsInput
-  inputs?: Prisma.CommitCreateNestedManyWithoutOuputsInput
-  ouputs?: Prisma.CommitCreateNestedManyWithoutInputsInput
+  inputs?: Prisma.StateCreateNestedManyWithoutUsedByInput
+  output?: Prisma.StateCreateNestedOneWithoutCreatedByInput
 }
 
 export type CommitUncheckedCreateInput = {
@@ -250,8 +250,8 @@ export type CommitUncheckedCreateInput = {
   timestamp?: Date | string
   changes?: Prisma.FieldValueUncheckedCreateNestedManyWithoutCommitInput
   children?: Prisma.CommitUncheckedCreateNestedManyWithoutParentInput
-  inputs?: Prisma.CommitUncheckedCreateNestedManyWithoutOuputsInput
-  ouputs?: Prisma.CommitUncheckedCreateNestedManyWithoutInputsInput
+  inputs?: Prisma.StateUncheckedCreateNestedManyWithoutUsedByInput
+  output?: Prisma.StateUncheckedCreateNestedOneWithoutCreatedByInput
 }
 
 export type CommitUpdateInput = {
@@ -261,8 +261,8 @@ export type CommitUpdateInput = {
   parent?: Prisma.CommitUpdateOneWithoutChildrenNestedInput
   children?: Prisma.CommitUpdateManyWithoutParentNestedInput
   process?: Prisma.ProcessUpdateOneRequiredWithoutCommitsNestedInput
-  inputs?: Prisma.CommitUpdateManyWithoutOuputsNestedInput
-  ouputs?: Prisma.CommitUpdateManyWithoutInputsNestedInput
+  inputs?: Prisma.StateUpdateManyWithoutUsedByNestedInput
+  output?: Prisma.StateUpdateOneWithoutCreatedByNestedInput
 }
 
 export type CommitUncheckedUpdateInput = {
@@ -272,8 +272,8 @@ export type CommitUncheckedUpdateInput = {
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   changes?: Prisma.FieldValueUncheckedUpdateManyWithoutCommitNestedInput
   children?: Prisma.CommitUncheckedUpdateManyWithoutParentNestedInput
-  inputs?: Prisma.CommitUncheckedUpdateManyWithoutOuputsNestedInput
-  ouputs?: Prisma.CommitUncheckedUpdateManyWithoutInputsNestedInput
+  inputs?: Prisma.StateUncheckedUpdateManyWithoutUsedByNestedInput
+  output?: Prisma.StateUncheckedUpdateOneWithoutCreatedByNestedInput
 }
 
 export type CommitCreateManyInput = {
@@ -397,34 +397,10 @@ export type CommitCreateNestedManyWithoutParentInput = {
   connect?: Prisma.CommitWhereUniqueInput | Prisma.CommitWhereUniqueInput[]
 }
 
-export type CommitCreateNestedManyWithoutOuputsInput = {
-  create?: Prisma.XOR<Prisma.CommitCreateWithoutOuputsInput, Prisma.CommitUncheckedCreateWithoutOuputsInput> | Prisma.CommitCreateWithoutOuputsInput[] | Prisma.CommitUncheckedCreateWithoutOuputsInput[]
-  connectOrCreate?: Prisma.CommitCreateOrConnectWithoutOuputsInput | Prisma.CommitCreateOrConnectWithoutOuputsInput[]
-  connect?: Prisma.CommitWhereUniqueInput | Prisma.CommitWhereUniqueInput[]
-}
-
-export type CommitCreateNestedManyWithoutInputsInput = {
-  create?: Prisma.XOR<Prisma.CommitCreateWithoutInputsInput, Prisma.CommitUncheckedCreateWithoutInputsInput> | Prisma.CommitCreateWithoutInputsInput[] | Prisma.CommitUncheckedCreateWithoutInputsInput[]
-  connectOrCreate?: Prisma.CommitCreateOrConnectWithoutInputsInput | Prisma.CommitCreateOrConnectWithoutInputsInput[]
-  connect?: Prisma.CommitWhereUniqueInput | Prisma.CommitWhereUniqueInput[]
-}
-
 export type CommitUncheckedCreateNestedManyWithoutParentInput = {
   create?: Prisma.XOR<Prisma.CommitCreateWithoutParentInput, Prisma.CommitUncheckedCreateWithoutParentInput> | Prisma.CommitCreateWithoutParentInput[] | Prisma.CommitUncheckedCreateWithoutParentInput[]
   connectOrCreate?: Prisma.CommitCreateOrConnectWithoutParentInput | Prisma.CommitCreateOrConnectWithoutParentInput[]
   createMany?: Prisma.CommitCreateManyParentInputEnvelope
-  connect?: Prisma.CommitWhereUniqueInput | Prisma.CommitWhereUniqueInput[]
-}
-
-export type CommitUncheckedCreateNestedManyWithoutOuputsInput = {
-  create?: Prisma.XOR<Prisma.CommitCreateWithoutOuputsInput, Prisma.CommitUncheckedCreateWithoutOuputsInput> | Prisma.CommitCreateWithoutOuputsInput[] | Prisma.CommitUncheckedCreateWithoutOuputsInput[]
-  connectOrCreate?: Prisma.CommitCreateOrConnectWithoutOuputsInput | Prisma.CommitCreateOrConnectWithoutOuputsInput[]
-  connect?: Prisma.CommitWhereUniqueInput | Prisma.CommitWhereUniqueInput[]
-}
-
-export type CommitUncheckedCreateNestedManyWithoutInputsInput = {
-  create?: Prisma.XOR<Prisma.CommitCreateWithoutInputsInput, Prisma.CommitUncheckedCreateWithoutInputsInput> | Prisma.CommitCreateWithoutInputsInput[] | Prisma.CommitUncheckedCreateWithoutInputsInput[]
-  connectOrCreate?: Prisma.CommitCreateOrConnectWithoutInputsInput | Prisma.CommitCreateOrConnectWithoutInputsInput[]
   connect?: Prisma.CommitWhereUniqueInput | Prisma.CommitWhereUniqueInput[]
 }
 
@@ -456,32 +432,6 @@ export type CommitUpdateManyWithoutParentNestedInput = {
   deleteMany?: Prisma.CommitScalarWhereInput | Prisma.CommitScalarWhereInput[]
 }
 
-export type CommitUpdateManyWithoutOuputsNestedInput = {
-  create?: Prisma.XOR<Prisma.CommitCreateWithoutOuputsInput, Prisma.CommitUncheckedCreateWithoutOuputsInput> | Prisma.CommitCreateWithoutOuputsInput[] | Prisma.CommitUncheckedCreateWithoutOuputsInput[]
-  connectOrCreate?: Prisma.CommitCreateOrConnectWithoutOuputsInput | Prisma.CommitCreateOrConnectWithoutOuputsInput[]
-  upsert?: Prisma.CommitUpsertWithWhereUniqueWithoutOuputsInput | Prisma.CommitUpsertWithWhereUniqueWithoutOuputsInput[]
-  set?: Prisma.CommitWhereUniqueInput | Prisma.CommitWhereUniqueInput[]
-  disconnect?: Prisma.CommitWhereUniqueInput | Prisma.CommitWhereUniqueInput[]
-  delete?: Prisma.CommitWhereUniqueInput | Prisma.CommitWhereUniqueInput[]
-  connect?: Prisma.CommitWhereUniqueInput | Prisma.CommitWhereUniqueInput[]
-  update?: Prisma.CommitUpdateWithWhereUniqueWithoutOuputsInput | Prisma.CommitUpdateWithWhereUniqueWithoutOuputsInput[]
-  updateMany?: Prisma.CommitUpdateManyWithWhereWithoutOuputsInput | Prisma.CommitUpdateManyWithWhereWithoutOuputsInput[]
-  deleteMany?: Prisma.CommitScalarWhereInput | Prisma.CommitScalarWhereInput[]
-}
-
-export type CommitUpdateManyWithoutInputsNestedInput = {
-  create?: Prisma.XOR<Prisma.CommitCreateWithoutInputsInput, Prisma.CommitUncheckedCreateWithoutInputsInput> | Prisma.CommitCreateWithoutInputsInput[] | Prisma.CommitUncheckedCreateWithoutInputsInput[]
-  connectOrCreate?: Prisma.CommitCreateOrConnectWithoutInputsInput | Prisma.CommitCreateOrConnectWithoutInputsInput[]
-  upsert?: Prisma.CommitUpsertWithWhereUniqueWithoutInputsInput | Prisma.CommitUpsertWithWhereUniqueWithoutInputsInput[]
-  set?: Prisma.CommitWhereUniqueInput | Prisma.CommitWhereUniqueInput[]
-  disconnect?: Prisma.CommitWhereUniqueInput | Prisma.CommitWhereUniqueInput[]
-  delete?: Prisma.CommitWhereUniqueInput | Prisma.CommitWhereUniqueInput[]
-  connect?: Prisma.CommitWhereUniqueInput | Prisma.CommitWhereUniqueInput[]
-  update?: Prisma.CommitUpdateWithWhereUniqueWithoutInputsInput | Prisma.CommitUpdateWithWhereUniqueWithoutInputsInput[]
-  updateMany?: Prisma.CommitUpdateManyWithWhereWithoutInputsInput | Prisma.CommitUpdateManyWithWhereWithoutInputsInput[]
-  deleteMany?: Prisma.CommitScalarWhereInput | Prisma.CommitScalarWhereInput[]
-}
-
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
 }
@@ -500,16 +450,42 @@ export type CommitUncheckedUpdateManyWithoutParentNestedInput = {
   deleteMany?: Prisma.CommitScalarWhereInput | Prisma.CommitScalarWhereInput[]
 }
 
-export type CommitUncheckedUpdateManyWithoutOuputsNestedInput = {
-  create?: Prisma.XOR<Prisma.CommitCreateWithoutOuputsInput, Prisma.CommitUncheckedCreateWithoutOuputsInput> | Prisma.CommitCreateWithoutOuputsInput[] | Prisma.CommitUncheckedCreateWithoutOuputsInput[]
-  connectOrCreate?: Prisma.CommitCreateOrConnectWithoutOuputsInput | Prisma.CommitCreateOrConnectWithoutOuputsInput[]
-  upsert?: Prisma.CommitUpsertWithWhereUniqueWithoutOuputsInput | Prisma.CommitUpsertWithWhereUniqueWithoutOuputsInput[]
+export type CommitCreateNestedOneWithoutOutputInput = {
+  create?: Prisma.XOR<Prisma.CommitCreateWithoutOutputInput, Prisma.CommitUncheckedCreateWithoutOutputInput>
+  connectOrCreate?: Prisma.CommitCreateOrConnectWithoutOutputInput
+  connect?: Prisma.CommitWhereUniqueInput
+}
+
+export type CommitCreateNestedManyWithoutInputsInput = {
+  create?: Prisma.XOR<Prisma.CommitCreateWithoutInputsInput, Prisma.CommitUncheckedCreateWithoutInputsInput> | Prisma.CommitCreateWithoutInputsInput[] | Prisma.CommitUncheckedCreateWithoutInputsInput[]
+  connectOrCreate?: Prisma.CommitCreateOrConnectWithoutInputsInput | Prisma.CommitCreateOrConnectWithoutInputsInput[]
+  connect?: Prisma.CommitWhereUniqueInput | Prisma.CommitWhereUniqueInput[]
+}
+
+export type CommitUncheckedCreateNestedManyWithoutInputsInput = {
+  create?: Prisma.XOR<Prisma.CommitCreateWithoutInputsInput, Prisma.CommitUncheckedCreateWithoutInputsInput> | Prisma.CommitCreateWithoutInputsInput[] | Prisma.CommitUncheckedCreateWithoutInputsInput[]
+  connectOrCreate?: Prisma.CommitCreateOrConnectWithoutInputsInput | Prisma.CommitCreateOrConnectWithoutInputsInput[]
+  connect?: Prisma.CommitWhereUniqueInput | Prisma.CommitWhereUniqueInput[]
+}
+
+export type CommitUpdateOneRequiredWithoutOutputNestedInput = {
+  create?: Prisma.XOR<Prisma.CommitCreateWithoutOutputInput, Prisma.CommitUncheckedCreateWithoutOutputInput>
+  connectOrCreate?: Prisma.CommitCreateOrConnectWithoutOutputInput
+  upsert?: Prisma.CommitUpsertWithoutOutputInput
+  connect?: Prisma.CommitWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CommitUpdateToOneWithWhereWithoutOutputInput, Prisma.CommitUpdateWithoutOutputInput>, Prisma.CommitUncheckedUpdateWithoutOutputInput>
+}
+
+export type CommitUpdateManyWithoutInputsNestedInput = {
+  create?: Prisma.XOR<Prisma.CommitCreateWithoutInputsInput, Prisma.CommitUncheckedCreateWithoutInputsInput> | Prisma.CommitCreateWithoutInputsInput[] | Prisma.CommitUncheckedCreateWithoutInputsInput[]
+  connectOrCreate?: Prisma.CommitCreateOrConnectWithoutInputsInput | Prisma.CommitCreateOrConnectWithoutInputsInput[]
+  upsert?: Prisma.CommitUpsertWithWhereUniqueWithoutInputsInput | Prisma.CommitUpsertWithWhereUniqueWithoutInputsInput[]
   set?: Prisma.CommitWhereUniqueInput | Prisma.CommitWhereUniqueInput[]
   disconnect?: Prisma.CommitWhereUniqueInput | Prisma.CommitWhereUniqueInput[]
   delete?: Prisma.CommitWhereUniqueInput | Prisma.CommitWhereUniqueInput[]
   connect?: Prisma.CommitWhereUniqueInput | Prisma.CommitWhereUniqueInput[]
-  update?: Prisma.CommitUpdateWithWhereUniqueWithoutOuputsInput | Prisma.CommitUpdateWithWhereUniqueWithoutOuputsInput[]
-  updateMany?: Prisma.CommitUpdateManyWithWhereWithoutOuputsInput | Prisma.CommitUpdateManyWithWhereWithoutOuputsInput[]
+  update?: Prisma.CommitUpdateWithWhereUniqueWithoutInputsInput | Prisma.CommitUpdateWithWhereUniqueWithoutInputsInput[]
+  updateMany?: Prisma.CommitUpdateManyWithWhereWithoutInputsInput | Prisma.CommitUpdateManyWithWhereWithoutInputsInput[]
   deleteMany?: Prisma.CommitScalarWhereInput | Prisma.CommitScalarWhereInput[]
 }
 
@@ -546,8 +522,8 @@ export type CommitCreateWithoutProcessInput = {
   changes?: Prisma.FieldValueCreateNestedManyWithoutCommitInput
   parent?: Prisma.CommitCreateNestedOneWithoutChildrenInput
   children?: Prisma.CommitCreateNestedManyWithoutParentInput
-  inputs?: Prisma.CommitCreateNestedManyWithoutOuputsInput
-  ouputs?: Prisma.CommitCreateNestedManyWithoutInputsInput
+  inputs?: Prisma.StateCreateNestedManyWithoutUsedByInput
+  output?: Prisma.StateCreateNestedOneWithoutCreatedByInput
 }
 
 export type CommitUncheckedCreateWithoutProcessInput = {
@@ -556,8 +532,8 @@ export type CommitUncheckedCreateWithoutProcessInput = {
   timestamp?: Date | string
   changes?: Prisma.FieldValueUncheckedCreateNestedManyWithoutCommitInput
   children?: Prisma.CommitUncheckedCreateNestedManyWithoutParentInput
-  inputs?: Prisma.CommitUncheckedCreateNestedManyWithoutOuputsInput
-  ouputs?: Prisma.CommitUncheckedCreateNestedManyWithoutInputsInput
+  inputs?: Prisma.StateUncheckedCreateNestedManyWithoutUsedByInput
+  output?: Prisma.StateUncheckedCreateNestedOneWithoutCreatedByInput
 }
 
 export type CommitCreateOrConnectWithoutProcessInput = {
@@ -602,8 +578,8 @@ export type CommitCreateWithoutChildrenInput = {
   changes?: Prisma.FieldValueCreateNestedManyWithoutCommitInput
   parent?: Prisma.CommitCreateNestedOneWithoutChildrenInput
   process: Prisma.ProcessCreateNestedOneWithoutCommitsInput
-  inputs?: Prisma.CommitCreateNestedManyWithoutOuputsInput
-  ouputs?: Prisma.CommitCreateNestedManyWithoutInputsInput
+  inputs?: Prisma.StateCreateNestedManyWithoutUsedByInput
+  output?: Prisma.StateCreateNestedOneWithoutCreatedByInput
 }
 
 export type CommitUncheckedCreateWithoutChildrenInput = {
@@ -612,8 +588,8 @@ export type CommitUncheckedCreateWithoutChildrenInput = {
   processId: string
   timestamp?: Date | string
   changes?: Prisma.FieldValueUncheckedCreateNestedManyWithoutCommitInput
-  inputs?: Prisma.CommitUncheckedCreateNestedManyWithoutOuputsInput
-  ouputs?: Prisma.CommitUncheckedCreateNestedManyWithoutInputsInput
+  inputs?: Prisma.StateUncheckedCreateNestedManyWithoutUsedByInput
+  output?: Prisma.StateUncheckedCreateNestedOneWithoutCreatedByInput
 }
 
 export type CommitCreateOrConnectWithoutChildrenInput = {
@@ -627,8 +603,8 @@ export type CommitCreateWithoutParentInput = {
   changes?: Prisma.FieldValueCreateNestedManyWithoutCommitInput
   children?: Prisma.CommitCreateNestedManyWithoutParentInput
   process: Prisma.ProcessCreateNestedOneWithoutCommitsInput
-  inputs?: Prisma.CommitCreateNestedManyWithoutOuputsInput
-  ouputs?: Prisma.CommitCreateNestedManyWithoutInputsInput
+  inputs?: Prisma.StateCreateNestedManyWithoutUsedByInput
+  output?: Prisma.StateCreateNestedOneWithoutCreatedByInput
 }
 
 export type CommitUncheckedCreateWithoutParentInput = {
@@ -637,8 +613,8 @@ export type CommitUncheckedCreateWithoutParentInput = {
   timestamp?: Date | string
   changes?: Prisma.FieldValueUncheckedCreateNestedManyWithoutCommitInput
   children?: Prisma.CommitUncheckedCreateNestedManyWithoutParentInput
-  inputs?: Prisma.CommitUncheckedCreateNestedManyWithoutOuputsInput
-  ouputs?: Prisma.CommitUncheckedCreateNestedManyWithoutInputsInput
+  inputs?: Prisma.StateUncheckedCreateNestedManyWithoutUsedByInput
+  output?: Prisma.StateUncheckedCreateNestedOneWithoutCreatedByInput
 }
 
 export type CommitCreateOrConnectWithoutParentInput = {
@@ -649,56 +625,6 @@ export type CommitCreateOrConnectWithoutParentInput = {
 export type CommitCreateManyParentInputEnvelope = {
   data: Prisma.CommitCreateManyParentInput | Prisma.CommitCreateManyParentInput[]
   skipDuplicates?: boolean
-}
-
-export type CommitCreateWithoutOuputsInput = {
-  id?: string
-  timestamp?: Date | string
-  changes?: Prisma.FieldValueCreateNestedManyWithoutCommitInput
-  parent?: Prisma.CommitCreateNestedOneWithoutChildrenInput
-  children?: Prisma.CommitCreateNestedManyWithoutParentInput
-  process: Prisma.ProcessCreateNestedOneWithoutCommitsInput
-  inputs?: Prisma.CommitCreateNestedManyWithoutOuputsInput
-}
-
-export type CommitUncheckedCreateWithoutOuputsInput = {
-  id?: string
-  parentId?: string | null
-  processId: string
-  timestamp?: Date | string
-  changes?: Prisma.FieldValueUncheckedCreateNestedManyWithoutCommitInput
-  children?: Prisma.CommitUncheckedCreateNestedManyWithoutParentInput
-  inputs?: Prisma.CommitUncheckedCreateNestedManyWithoutOuputsInput
-}
-
-export type CommitCreateOrConnectWithoutOuputsInput = {
-  where: Prisma.CommitWhereUniqueInput
-  create: Prisma.XOR<Prisma.CommitCreateWithoutOuputsInput, Prisma.CommitUncheckedCreateWithoutOuputsInput>
-}
-
-export type CommitCreateWithoutInputsInput = {
-  id?: string
-  timestamp?: Date | string
-  changes?: Prisma.FieldValueCreateNestedManyWithoutCommitInput
-  parent?: Prisma.CommitCreateNestedOneWithoutChildrenInput
-  children?: Prisma.CommitCreateNestedManyWithoutParentInput
-  process: Prisma.ProcessCreateNestedOneWithoutCommitsInput
-  ouputs?: Prisma.CommitCreateNestedManyWithoutInputsInput
-}
-
-export type CommitUncheckedCreateWithoutInputsInput = {
-  id?: string
-  parentId?: string | null
-  processId: string
-  timestamp?: Date | string
-  changes?: Prisma.FieldValueUncheckedCreateNestedManyWithoutCommitInput
-  children?: Prisma.CommitUncheckedCreateNestedManyWithoutParentInput
-  ouputs?: Prisma.CommitUncheckedCreateNestedManyWithoutInputsInput
-}
-
-export type CommitCreateOrConnectWithoutInputsInput = {
-  where: Prisma.CommitWhereUniqueInput
-  create: Prisma.XOR<Prisma.CommitCreateWithoutInputsInput, Prisma.CommitUncheckedCreateWithoutInputsInput>
 }
 
 export type CommitUpsertWithoutChildrenInput = {
@@ -718,8 +644,8 @@ export type CommitUpdateWithoutChildrenInput = {
   changes?: Prisma.FieldValueUpdateManyWithoutCommitNestedInput
   parent?: Prisma.CommitUpdateOneWithoutChildrenNestedInput
   process?: Prisma.ProcessUpdateOneRequiredWithoutCommitsNestedInput
-  inputs?: Prisma.CommitUpdateManyWithoutOuputsNestedInput
-  ouputs?: Prisma.CommitUpdateManyWithoutInputsNestedInput
+  inputs?: Prisma.StateUpdateManyWithoutUsedByNestedInput
+  output?: Prisma.StateUpdateOneWithoutCreatedByNestedInput
 }
 
 export type CommitUncheckedUpdateWithoutChildrenInput = {
@@ -728,8 +654,8 @@ export type CommitUncheckedUpdateWithoutChildrenInput = {
   processId?: Prisma.StringFieldUpdateOperationsInput | string
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   changes?: Prisma.FieldValueUncheckedUpdateManyWithoutCommitNestedInput
-  inputs?: Prisma.CommitUncheckedUpdateManyWithoutOuputsNestedInput
-  ouputs?: Prisma.CommitUncheckedUpdateManyWithoutInputsNestedInput
+  inputs?: Prisma.StateUncheckedUpdateManyWithoutUsedByNestedInput
+  output?: Prisma.StateUncheckedUpdateOneWithoutCreatedByNestedInput
 }
 
 export type CommitUpsertWithWhereUniqueWithoutParentInput = {
@@ -748,20 +674,85 @@ export type CommitUpdateManyWithWhereWithoutParentInput = {
   data: Prisma.XOR<Prisma.CommitUpdateManyMutationInput, Prisma.CommitUncheckedUpdateManyWithoutParentInput>
 }
 
-export type CommitUpsertWithWhereUniqueWithoutOuputsInput = {
-  where: Prisma.CommitWhereUniqueInput
-  update: Prisma.XOR<Prisma.CommitUpdateWithoutOuputsInput, Prisma.CommitUncheckedUpdateWithoutOuputsInput>
-  create: Prisma.XOR<Prisma.CommitCreateWithoutOuputsInput, Prisma.CommitUncheckedCreateWithoutOuputsInput>
+export type CommitCreateWithoutOutputInput = {
+  id?: string
+  timestamp?: Date | string
+  changes?: Prisma.FieldValueCreateNestedManyWithoutCommitInput
+  parent?: Prisma.CommitCreateNestedOneWithoutChildrenInput
+  children?: Prisma.CommitCreateNestedManyWithoutParentInput
+  process: Prisma.ProcessCreateNestedOneWithoutCommitsInput
+  inputs?: Prisma.StateCreateNestedManyWithoutUsedByInput
 }
 
-export type CommitUpdateWithWhereUniqueWithoutOuputsInput = {
-  where: Prisma.CommitWhereUniqueInput
-  data: Prisma.XOR<Prisma.CommitUpdateWithoutOuputsInput, Prisma.CommitUncheckedUpdateWithoutOuputsInput>
+export type CommitUncheckedCreateWithoutOutputInput = {
+  id?: string
+  parentId?: string | null
+  processId: string
+  timestamp?: Date | string
+  changes?: Prisma.FieldValueUncheckedCreateNestedManyWithoutCommitInput
+  children?: Prisma.CommitUncheckedCreateNestedManyWithoutParentInput
+  inputs?: Prisma.StateUncheckedCreateNestedManyWithoutUsedByInput
 }
 
-export type CommitUpdateManyWithWhereWithoutOuputsInput = {
-  where: Prisma.CommitScalarWhereInput
-  data: Prisma.XOR<Prisma.CommitUpdateManyMutationInput, Prisma.CommitUncheckedUpdateManyWithoutOuputsInput>
+export type CommitCreateOrConnectWithoutOutputInput = {
+  where: Prisma.CommitWhereUniqueInput
+  create: Prisma.XOR<Prisma.CommitCreateWithoutOutputInput, Prisma.CommitUncheckedCreateWithoutOutputInput>
+}
+
+export type CommitCreateWithoutInputsInput = {
+  id?: string
+  timestamp?: Date | string
+  changes?: Prisma.FieldValueCreateNestedManyWithoutCommitInput
+  parent?: Prisma.CommitCreateNestedOneWithoutChildrenInput
+  children?: Prisma.CommitCreateNestedManyWithoutParentInput
+  process: Prisma.ProcessCreateNestedOneWithoutCommitsInput
+  output?: Prisma.StateCreateNestedOneWithoutCreatedByInput
+}
+
+export type CommitUncheckedCreateWithoutInputsInput = {
+  id?: string
+  parentId?: string | null
+  processId: string
+  timestamp?: Date | string
+  changes?: Prisma.FieldValueUncheckedCreateNestedManyWithoutCommitInput
+  children?: Prisma.CommitUncheckedCreateNestedManyWithoutParentInput
+  output?: Prisma.StateUncheckedCreateNestedOneWithoutCreatedByInput
+}
+
+export type CommitCreateOrConnectWithoutInputsInput = {
+  where: Prisma.CommitWhereUniqueInput
+  create: Prisma.XOR<Prisma.CommitCreateWithoutInputsInput, Prisma.CommitUncheckedCreateWithoutInputsInput>
+}
+
+export type CommitUpsertWithoutOutputInput = {
+  update: Prisma.XOR<Prisma.CommitUpdateWithoutOutputInput, Prisma.CommitUncheckedUpdateWithoutOutputInput>
+  create: Prisma.XOR<Prisma.CommitCreateWithoutOutputInput, Prisma.CommitUncheckedCreateWithoutOutputInput>
+  where?: Prisma.CommitWhereInput
+}
+
+export type CommitUpdateToOneWithWhereWithoutOutputInput = {
+  where?: Prisma.CommitWhereInput
+  data: Prisma.XOR<Prisma.CommitUpdateWithoutOutputInput, Prisma.CommitUncheckedUpdateWithoutOutputInput>
+}
+
+export type CommitUpdateWithoutOutputInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  changes?: Prisma.FieldValueUpdateManyWithoutCommitNestedInput
+  parent?: Prisma.CommitUpdateOneWithoutChildrenNestedInput
+  children?: Prisma.CommitUpdateManyWithoutParentNestedInput
+  process?: Prisma.ProcessUpdateOneRequiredWithoutCommitsNestedInput
+  inputs?: Prisma.StateUpdateManyWithoutUsedByNestedInput
+}
+
+export type CommitUncheckedUpdateWithoutOutputInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processId?: Prisma.StringFieldUpdateOperationsInput | string
+  timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  changes?: Prisma.FieldValueUncheckedUpdateManyWithoutCommitNestedInput
+  children?: Prisma.CommitUncheckedUpdateManyWithoutParentNestedInput
+  inputs?: Prisma.StateUncheckedUpdateManyWithoutUsedByNestedInput
 }
 
 export type CommitUpsertWithWhereUniqueWithoutInputsInput = {
@@ -786,8 +777,8 @@ export type CommitCreateWithoutChangesInput = {
   parent?: Prisma.CommitCreateNestedOneWithoutChildrenInput
   children?: Prisma.CommitCreateNestedManyWithoutParentInput
   process: Prisma.ProcessCreateNestedOneWithoutCommitsInput
-  inputs?: Prisma.CommitCreateNestedManyWithoutOuputsInput
-  ouputs?: Prisma.CommitCreateNestedManyWithoutInputsInput
+  inputs?: Prisma.StateCreateNestedManyWithoutUsedByInput
+  output?: Prisma.StateCreateNestedOneWithoutCreatedByInput
 }
 
 export type CommitUncheckedCreateWithoutChangesInput = {
@@ -796,8 +787,8 @@ export type CommitUncheckedCreateWithoutChangesInput = {
   processId: string
   timestamp?: Date | string
   children?: Prisma.CommitUncheckedCreateNestedManyWithoutParentInput
-  inputs?: Prisma.CommitUncheckedCreateNestedManyWithoutOuputsInput
-  ouputs?: Prisma.CommitUncheckedCreateNestedManyWithoutInputsInput
+  inputs?: Prisma.StateUncheckedCreateNestedManyWithoutUsedByInput
+  output?: Prisma.StateUncheckedCreateNestedOneWithoutCreatedByInput
 }
 
 export type CommitCreateOrConnectWithoutChangesInput = {
@@ -822,8 +813,8 @@ export type CommitUpdateWithoutChangesInput = {
   parent?: Prisma.CommitUpdateOneWithoutChildrenNestedInput
   children?: Prisma.CommitUpdateManyWithoutParentNestedInput
   process?: Prisma.ProcessUpdateOneRequiredWithoutCommitsNestedInput
-  inputs?: Prisma.CommitUpdateManyWithoutOuputsNestedInput
-  ouputs?: Prisma.CommitUpdateManyWithoutInputsNestedInput
+  inputs?: Prisma.StateUpdateManyWithoutUsedByNestedInput
+  output?: Prisma.StateUpdateOneWithoutCreatedByNestedInput
 }
 
 export type CommitUncheckedUpdateWithoutChangesInput = {
@@ -832,8 +823,8 @@ export type CommitUncheckedUpdateWithoutChangesInput = {
   processId?: Prisma.StringFieldUpdateOperationsInput | string
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   children?: Prisma.CommitUncheckedUpdateManyWithoutParentNestedInput
-  inputs?: Prisma.CommitUncheckedUpdateManyWithoutOuputsNestedInput
-  ouputs?: Prisma.CommitUncheckedUpdateManyWithoutInputsNestedInput
+  inputs?: Prisma.StateUncheckedUpdateManyWithoutUsedByNestedInput
+  output?: Prisma.StateUncheckedUpdateOneWithoutCreatedByNestedInput
 }
 
 export type CommitCreateManyProcessInput = {
@@ -848,8 +839,8 @@ export type CommitUpdateWithoutProcessInput = {
   changes?: Prisma.FieldValueUpdateManyWithoutCommitNestedInput
   parent?: Prisma.CommitUpdateOneWithoutChildrenNestedInput
   children?: Prisma.CommitUpdateManyWithoutParentNestedInput
-  inputs?: Prisma.CommitUpdateManyWithoutOuputsNestedInput
-  ouputs?: Prisma.CommitUpdateManyWithoutInputsNestedInput
+  inputs?: Prisma.StateUpdateManyWithoutUsedByNestedInput
+  output?: Prisma.StateUpdateOneWithoutCreatedByNestedInput
 }
 
 export type CommitUncheckedUpdateWithoutProcessInput = {
@@ -858,8 +849,8 @@ export type CommitUncheckedUpdateWithoutProcessInput = {
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   changes?: Prisma.FieldValueUncheckedUpdateManyWithoutCommitNestedInput
   children?: Prisma.CommitUncheckedUpdateManyWithoutParentNestedInput
-  inputs?: Prisma.CommitUncheckedUpdateManyWithoutOuputsNestedInput
-  ouputs?: Prisma.CommitUncheckedUpdateManyWithoutInputsNestedInput
+  inputs?: Prisma.StateUncheckedUpdateManyWithoutUsedByNestedInput
+  output?: Prisma.StateUncheckedUpdateOneWithoutCreatedByNestedInput
 }
 
 export type CommitUncheckedUpdateManyWithoutProcessInput = {
@@ -880,8 +871,8 @@ export type CommitUpdateWithoutParentInput = {
   changes?: Prisma.FieldValueUpdateManyWithoutCommitNestedInput
   children?: Prisma.CommitUpdateManyWithoutParentNestedInput
   process?: Prisma.ProcessUpdateOneRequiredWithoutCommitsNestedInput
-  inputs?: Prisma.CommitUpdateManyWithoutOuputsNestedInput
-  ouputs?: Prisma.CommitUpdateManyWithoutInputsNestedInput
+  inputs?: Prisma.StateUpdateManyWithoutUsedByNestedInput
+  output?: Prisma.StateUpdateOneWithoutCreatedByNestedInput
 }
 
 export type CommitUncheckedUpdateWithoutParentInput = {
@@ -890,39 +881,12 @@ export type CommitUncheckedUpdateWithoutParentInput = {
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   changes?: Prisma.FieldValueUncheckedUpdateManyWithoutCommitNestedInput
   children?: Prisma.CommitUncheckedUpdateManyWithoutParentNestedInput
-  inputs?: Prisma.CommitUncheckedUpdateManyWithoutOuputsNestedInput
-  ouputs?: Prisma.CommitUncheckedUpdateManyWithoutInputsNestedInput
+  inputs?: Prisma.StateUncheckedUpdateManyWithoutUsedByNestedInput
+  output?: Prisma.StateUncheckedUpdateOneWithoutCreatedByNestedInput
 }
 
 export type CommitUncheckedUpdateManyWithoutParentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  processId?: Prisma.StringFieldUpdateOperationsInput | string
-  timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type CommitUpdateWithoutOuputsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  changes?: Prisma.FieldValueUpdateManyWithoutCommitNestedInput
-  parent?: Prisma.CommitUpdateOneWithoutChildrenNestedInput
-  children?: Prisma.CommitUpdateManyWithoutParentNestedInput
-  process?: Prisma.ProcessUpdateOneRequiredWithoutCommitsNestedInput
-  inputs?: Prisma.CommitUpdateManyWithoutOuputsNestedInput
-}
-
-export type CommitUncheckedUpdateWithoutOuputsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  processId?: Prisma.StringFieldUpdateOperationsInput | string
-  timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  changes?: Prisma.FieldValueUncheckedUpdateManyWithoutCommitNestedInput
-  children?: Prisma.CommitUncheckedUpdateManyWithoutParentNestedInput
-  inputs?: Prisma.CommitUncheckedUpdateManyWithoutOuputsNestedInput
-}
-
-export type CommitUncheckedUpdateManyWithoutOuputsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processId?: Prisma.StringFieldUpdateOperationsInput | string
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -934,7 +898,7 @@ export type CommitUpdateWithoutInputsInput = {
   parent?: Prisma.CommitUpdateOneWithoutChildrenNestedInput
   children?: Prisma.CommitUpdateManyWithoutParentNestedInput
   process?: Prisma.ProcessUpdateOneRequiredWithoutCommitsNestedInput
-  ouputs?: Prisma.CommitUpdateManyWithoutInputsNestedInput
+  output?: Prisma.StateUpdateOneWithoutCreatedByNestedInput
 }
 
 export type CommitUncheckedUpdateWithoutInputsInput = {
@@ -944,7 +908,7 @@ export type CommitUncheckedUpdateWithoutInputsInput = {
   timestamp?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   changes?: Prisma.FieldValueUncheckedUpdateManyWithoutCommitNestedInput
   children?: Prisma.CommitUncheckedUpdateManyWithoutParentNestedInput
-  ouputs?: Prisma.CommitUncheckedUpdateManyWithoutInputsNestedInput
+  output?: Prisma.StateUncheckedUpdateOneWithoutCreatedByNestedInput
 }
 
 export type CommitUncheckedUpdateManyWithoutInputsInput = {
@@ -963,14 +927,12 @@ export type CommitCountOutputType = {
   changes: number
   children: number
   inputs: number
-  ouputs: number
 }
 
 export type CommitCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   changes?: boolean | CommitCountOutputTypeCountChangesArgs
   children?: boolean | CommitCountOutputTypeCountChildrenArgs
   inputs?: boolean | CommitCountOutputTypeCountInputsArgs
-  ouputs?: boolean | CommitCountOutputTypeCountOuputsArgs
 }
 
 /**
@@ -1001,14 +963,7 @@ export type CommitCountOutputTypeCountChildrenArgs<ExtArgs extends runtime.Types
  * CommitCountOutputType without action
  */
 export type CommitCountOutputTypeCountInputsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.CommitWhereInput
-}
-
-/**
- * CommitCountOutputType without action
- */
-export type CommitCountOutputTypeCountOuputsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.CommitWhereInput
+  where?: Prisma.StateWhereInput
 }
 
 
@@ -1022,7 +977,7 @@ export type CommitSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   children?: boolean | Prisma.Commit$childrenArgs<ExtArgs>
   process?: boolean | Prisma.ProcessDefaultArgs<ExtArgs>
   inputs?: boolean | Prisma.Commit$inputsArgs<ExtArgs>
-  ouputs?: boolean | Prisma.Commit$ouputsArgs<ExtArgs>
+  output?: boolean | Prisma.Commit$outputArgs<ExtArgs>
   _count?: boolean | Prisma.CommitCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["commit"]>
 
@@ -1042,7 +997,7 @@ export type CommitInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   children?: boolean | Prisma.Commit$childrenArgs<ExtArgs>
   process?: boolean | Prisma.ProcessDefaultArgs<ExtArgs>
   inputs?: boolean | Prisma.Commit$inputsArgs<ExtArgs>
-  ouputs?: boolean | Prisma.Commit$ouputsArgs<ExtArgs>
+  output?: boolean | Prisma.Commit$outputArgs<ExtArgs>
   _count?: boolean | Prisma.CommitCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -1053,8 +1008,8 @@ export type $CommitPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     parent: Prisma.$CommitPayload<ExtArgs> | null
     children: Prisma.$CommitPayload<ExtArgs>[]
     process: Prisma.$ProcessPayload<ExtArgs>
-    inputs: Prisma.$CommitPayload<ExtArgs>[]
-    ouputs: Prisma.$CommitPayload<ExtArgs>[]
+    inputs: Prisma.$StatePayload<ExtArgs>[]
+    output: Prisma.$StatePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1405,8 +1360,8 @@ export interface Prisma__CommitClient<T, Null = never, ExtArgs extends runtime.T
   parent<T extends Prisma.Commit$parentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Commit$parentArgs<ExtArgs>>): Prisma.Prisma__CommitClient<runtime.Types.Result.GetResult<Prisma.$CommitPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   children<T extends Prisma.Commit$childrenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Commit$childrenArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   process<T extends Prisma.ProcessDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProcessDefaultArgs<ExtArgs>>): Prisma.Prisma__ProcessClient<runtime.Types.Result.GetResult<Prisma.$ProcessPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  inputs<T extends Prisma.Commit$inputsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Commit$inputsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  ouputs<T extends Prisma.Commit$ouputsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Commit$ouputsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  inputs<T extends Prisma.Commit$inputsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Commit$inputsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  output<T extends Prisma.Commit$outputArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Commit$outputArgs<ExtArgs>>): Prisma.Prisma__StateClient<runtime.Types.Result.GetResult<Prisma.$StatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1854,47 +1809,42 @@ export type Commit$childrenArgs<ExtArgs extends runtime.Types.Extensions.Interna
  */
 export type Commit$inputsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Commit
+   * Select specific fields to fetch from the State
    */
-  select?: Prisma.CommitSelect<ExtArgs> | null
+  select?: Prisma.StateSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Commit
+   * Omit specific fields from the State
    */
-  omit?: Prisma.CommitOmit<ExtArgs> | null
+  omit?: Prisma.StateOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.CommitInclude<ExtArgs> | null
-  where?: Prisma.CommitWhereInput
-  orderBy?: Prisma.CommitOrderByWithRelationInput | Prisma.CommitOrderByWithRelationInput[]
-  cursor?: Prisma.CommitWhereUniqueInput
+  include?: Prisma.StateInclude<ExtArgs> | null
+  where?: Prisma.StateWhereInput
+  orderBy?: Prisma.StateOrderByWithRelationInput | Prisma.StateOrderByWithRelationInput[]
+  cursor?: Prisma.StateWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.CommitScalarFieldEnum | Prisma.CommitScalarFieldEnum[]
+  distinct?: Prisma.StateScalarFieldEnum | Prisma.StateScalarFieldEnum[]
 }
 
 /**
- * Commit.ouputs
+ * Commit.output
  */
-export type Commit$ouputsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Commit$outputArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Commit
+   * Select specific fields to fetch from the State
    */
-  select?: Prisma.CommitSelect<ExtArgs> | null
+  select?: Prisma.StateSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Commit
+   * Omit specific fields from the State
    */
-  omit?: Prisma.CommitOmit<ExtArgs> | null
+  omit?: Prisma.StateOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.CommitInclude<ExtArgs> | null
-  where?: Prisma.CommitWhereInput
-  orderBy?: Prisma.CommitOrderByWithRelationInput | Prisma.CommitOrderByWithRelationInput[]
-  cursor?: Prisma.CommitWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.CommitScalarFieldEnum | Prisma.CommitScalarFieldEnum[]
+  include?: Prisma.StateInclude<ExtArgs> | null
+  where?: Prisma.StateWhereInput
 }
 
 /**

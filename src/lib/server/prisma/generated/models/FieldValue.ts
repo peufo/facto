@@ -172,6 +172,7 @@ export type FieldValueWhereInput = {
   commitId?: Prisma.StringFilter<"FieldValue"> | string
   field?: Prisma.XOR<Prisma.FieldScalarRelationFilter, Prisma.FieldWhereInput>
   commit?: Prisma.XOR<Prisma.CommitScalarRelationFilter, Prisma.CommitWhereInput>
+  states?: Prisma.StateListRelationFilter
 }
 
 export type FieldValueOrderByWithRelationInput = {
@@ -181,6 +182,7 @@ export type FieldValueOrderByWithRelationInput = {
   commitId?: Prisma.SortOrder
   field?: Prisma.FieldOrderByWithRelationInput
   commit?: Prisma.CommitOrderByWithRelationInput
+  states?: Prisma.StateOrderByRelationAggregateInput
   _relevance?: Prisma.FieldValueOrderByRelevanceInput
 }
 
@@ -194,6 +196,7 @@ export type FieldValueWhereUniqueInput = Prisma.AtLeast<{
   commitId?: Prisma.StringFilter<"FieldValue"> | string
   field?: Prisma.XOR<Prisma.FieldScalarRelationFilter, Prisma.FieldWhereInput>
   commit?: Prisma.XOR<Prisma.CommitScalarRelationFilter, Prisma.CommitWhereInput>
+  states?: Prisma.StateListRelationFilter
 }, "id">
 
 export type FieldValueOrderByWithAggregationInput = {
@@ -221,6 +224,7 @@ export type FieldValueCreateInput = {
   value: Prisma.JsonNullValueInput | runtime.InputJsonValue
   field: Prisma.FieldCreateNestedOneWithoutValuesInput
   commit: Prisma.CommitCreateNestedOneWithoutChangesInput
+  states?: Prisma.StateCreateNestedManyWithoutValuesInput
 }
 
 export type FieldValueUncheckedCreateInput = {
@@ -228,6 +232,7 @@ export type FieldValueUncheckedCreateInput = {
   value: Prisma.JsonNullValueInput | runtime.InputJsonValue
   fieldId: string
   commitId: string
+  states?: Prisma.StateUncheckedCreateNestedManyWithoutValuesInput
 }
 
 export type FieldValueUpdateInput = {
@@ -235,6 +240,7 @@ export type FieldValueUpdateInput = {
   value?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   field?: Prisma.FieldUpdateOneRequiredWithoutValuesNestedInput
   commit?: Prisma.CommitUpdateOneRequiredWithoutChangesNestedInput
+  states?: Prisma.StateUpdateManyWithoutValuesNestedInput
 }
 
 export type FieldValueUncheckedUpdateInput = {
@@ -242,6 +248,7 @@ export type FieldValueUncheckedUpdateInput = {
   value?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   fieldId?: Prisma.StringFieldUpdateOperationsInput | string
   commitId?: Prisma.StringFieldUpdateOperationsInput | string
+  states?: Prisma.StateUncheckedUpdateManyWithoutValuesNestedInput
 }
 
 export type FieldValueCreateManyInput = {
@@ -340,6 +347,44 @@ export type FieldValueUncheckedUpdateManyWithoutCommitNestedInput = {
   deleteMany?: Prisma.FieldValueScalarWhereInput | Prisma.FieldValueScalarWhereInput[]
 }
 
+export type FieldValueCreateNestedManyWithoutStatesInput = {
+  create?: Prisma.XOR<Prisma.FieldValueCreateWithoutStatesInput, Prisma.FieldValueUncheckedCreateWithoutStatesInput> | Prisma.FieldValueCreateWithoutStatesInput[] | Prisma.FieldValueUncheckedCreateWithoutStatesInput[]
+  connectOrCreate?: Prisma.FieldValueCreateOrConnectWithoutStatesInput | Prisma.FieldValueCreateOrConnectWithoutStatesInput[]
+  connect?: Prisma.FieldValueWhereUniqueInput | Prisma.FieldValueWhereUniqueInput[]
+}
+
+export type FieldValueUncheckedCreateNestedManyWithoutStatesInput = {
+  create?: Prisma.XOR<Prisma.FieldValueCreateWithoutStatesInput, Prisma.FieldValueUncheckedCreateWithoutStatesInput> | Prisma.FieldValueCreateWithoutStatesInput[] | Prisma.FieldValueUncheckedCreateWithoutStatesInput[]
+  connectOrCreate?: Prisma.FieldValueCreateOrConnectWithoutStatesInput | Prisma.FieldValueCreateOrConnectWithoutStatesInput[]
+  connect?: Prisma.FieldValueWhereUniqueInput | Prisma.FieldValueWhereUniqueInput[]
+}
+
+export type FieldValueUpdateManyWithoutStatesNestedInput = {
+  create?: Prisma.XOR<Prisma.FieldValueCreateWithoutStatesInput, Prisma.FieldValueUncheckedCreateWithoutStatesInput> | Prisma.FieldValueCreateWithoutStatesInput[] | Prisma.FieldValueUncheckedCreateWithoutStatesInput[]
+  connectOrCreate?: Prisma.FieldValueCreateOrConnectWithoutStatesInput | Prisma.FieldValueCreateOrConnectWithoutStatesInput[]
+  upsert?: Prisma.FieldValueUpsertWithWhereUniqueWithoutStatesInput | Prisma.FieldValueUpsertWithWhereUniqueWithoutStatesInput[]
+  set?: Prisma.FieldValueWhereUniqueInput | Prisma.FieldValueWhereUniqueInput[]
+  disconnect?: Prisma.FieldValueWhereUniqueInput | Prisma.FieldValueWhereUniqueInput[]
+  delete?: Prisma.FieldValueWhereUniqueInput | Prisma.FieldValueWhereUniqueInput[]
+  connect?: Prisma.FieldValueWhereUniqueInput | Prisma.FieldValueWhereUniqueInput[]
+  update?: Prisma.FieldValueUpdateWithWhereUniqueWithoutStatesInput | Prisma.FieldValueUpdateWithWhereUniqueWithoutStatesInput[]
+  updateMany?: Prisma.FieldValueUpdateManyWithWhereWithoutStatesInput | Prisma.FieldValueUpdateManyWithWhereWithoutStatesInput[]
+  deleteMany?: Prisma.FieldValueScalarWhereInput | Prisma.FieldValueScalarWhereInput[]
+}
+
+export type FieldValueUncheckedUpdateManyWithoutStatesNestedInput = {
+  create?: Prisma.XOR<Prisma.FieldValueCreateWithoutStatesInput, Prisma.FieldValueUncheckedCreateWithoutStatesInput> | Prisma.FieldValueCreateWithoutStatesInput[] | Prisma.FieldValueUncheckedCreateWithoutStatesInput[]
+  connectOrCreate?: Prisma.FieldValueCreateOrConnectWithoutStatesInput | Prisma.FieldValueCreateOrConnectWithoutStatesInput[]
+  upsert?: Prisma.FieldValueUpsertWithWhereUniqueWithoutStatesInput | Prisma.FieldValueUpsertWithWhereUniqueWithoutStatesInput[]
+  set?: Prisma.FieldValueWhereUniqueInput | Prisma.FieldValueWhereUniqueInput[]
+  disconnect?: Prisma.FieldValueWhereUniqueInput | Prisma.FieldValueWhereUniqueInput[]
+  delete?: Prisma.FieldValueWhereUniqueInput | Prisma.FieldValueWhereUniqueInput[]
+  connect?: Prisma.FieldValueWhereUniqueInput | Prisma.FieldValueWhereUniqueInput[]
+  update?: Prisma.FieldValueUpdateWithWhereUniqueWithoutStatesInput | Prisma.FieldValueUpdateWithWhereUniqueWithoutStatesInput[]
+  updateMany?: Prisma.FieldValueUpdateManyWithWhereWithoutStatesInput | Prisma.FieldValueUpdateManyWithWhereWithoutStatesInput[]
+  deleteMany?: Prisma.FieldValueScalarWhereInput | Prisma.FieldValueScalarWhereInput[]
+}
+
 export type FieldValueCreateNestedManyWithoutFieldInput = {
   create?: Prisma.XOR<Prisma.FieldValueCreateWithoutFieldInput, Prisma.FieldValueUncheckedCreateWithoutFieldInput> | Prisma.FieldValueCreateWithoutFieldInput[] | Prisma.FieldValueUncheckedCreateWithoutFieldInput[]
   connectOrCreate?: Prisma.FieldValueCreateOrConnectWithoutFieldInput | Prisma.FieldValueCreateOrConnectWithoutFieldInput[]
@@ -386,12 +431,14 @@ export type FieldValueCreateWithoutCommitInput = {
   id?: string
   value: Prisma.JsonNullValueInput | runtime.InputJsonValue
   field: Prisma.FieldCreateNestedOneWithoutValuesInput
+  states?: Prisma.StateCreateNestedManyWithoutValuesInput
 }
 
 export type FieldValueUncheckedCreateWithoutCommitInput = {
   id?: string
   value: Prisma.JsonNullValueInput | runtime.InputJsonValue
   fieldId: string
+  states?: Prisma.StateUncheckedCreateNestedManyWithoutValuesInput
 }
 
 export type FieldValueCreateOrConnectWithoutCommitInput = {
@@ -430,16 +477,53 @@ export type FieldValueScalarWhereInput = {
   commitId?: Prisma.StringFilter<"FieldValue"> | string
 }
 
+export type FieldValueCreateWithoutStatesInput = {
+  id?: string
+  value: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  field: Prisma.FieldCreateNestedOneWithoutValuesInput
+  commit: Prisma.CommitCreateNestedOneWithoutChangesInput
+}
+
+export type FieldValueUncheckedCreateWithoutStatesInput = {
+  id?: string
+  value: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  fieldId: string
+  commitId: string
+}
+
+export type FieldValueCreateOrConnectWithoutStatesInput = {
+  where: Prisma.FieldValueWhereUniqueInput
+  create: Prisma.XOR<Prisma.FieldValueCreateWithoutStatesInput, Prisma.FieldValueUncheckedCreateWithoutStatesInput>
+}
+
+export type FieldValueUpsertWithWhereUniqueWithoutStatesInput = {
+  where: Prisma.FieldValueWhereUniqueInput
+  update: Prisma.XOR<Prisma.FieldValueUpdateWithoutStatesInput, Prisma.FieldValueUncheckedUpdateWithoutStatesInput>
+  create: Prisma.XOR<Prisma.FieldValueCreateWithoutStatesInput, Prisma.FieldValueUncheckedCreateWithoutStatesInput>
+}
+
+export type FieldValueUpdateWithWhereUniqueWithoutStatesInput = {
+  where: Prisma.FieldValueWhereUniqueInput
+  data: Prisma.XOR<Prisma.FieldValueUpdateWithoutStatesInput, Prisma.FieldValueUncheckedUpdateWithoutStatesInput>
+}
+
+export type FieldValueUpdateManyWithWhereWithoutStatesInput = {
+  where: Prisma.FieldValueScalarWhereInput
+  data: Prisma.XOR<Prisma.FieldValueUpdateManyMutationInput, Prisma.FieldValueUncheckedUpdateManyWithoutStatesInput>
+}
+
 export type FieldValueCreateWithoutFieldInput = {
   id?: string
   value: Prisma.JsonNullValueInput | runtime.InputJsonValue
   commit: Prisma.CommitCreateNestedOneWithoutChangesInput
+  states?: Prisma.StateCreateNestedManyWithoutValuesInput
 }
 
 export type FieldValueUncheckedCreateWithoutFieldInput = {
   id?: string
   value: Prisma.JsonNullValueInput | runtime.InputJsonValue
   commitId: string
+  states?: Prisma.StateUncheckedCreateNestedManyWithoutValuesInput
 }
 
 export type FieldValueCreateOrConnectWithoutFieldInput = {
@@ -478,18 +562,41 @@ export type FieldValueUpdateWithoutCommitInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   value?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   field?: Prisma.FieldUpdateOneRequiredWithoutValuesNestedInput
+  states?: Prisma.StateUpdateManyWithoutValuesNestedInput
 }
 
 export type FieldValueUncheckedUpdateWithoutCommitInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   value?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   fieldId?: Prisma.StringFieldUpdateOperationsInput | string
+  states?: Prisma.StateUncheckedUpdateManyWithoutValuesNestedInput
 }
 
 export type FieldValueUncheckedUpdateManyWithoutCommitInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   value?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   fieldId?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
+export type FieldValueUpdateWithoutStatesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  value?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  field?: Prisma.FieldUpdateOneRequiredWithoutValuesNestedInput
+  commit?: Prisma.CommitUpdateOneRequiredWithoutChangesNestedInput
+}
+
+export type FieldValueUncheckedUpdateWithoutStatesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  value?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  fieldId?: Prisma.StringFieldUpdateOperationsInput | string
+  commitId?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
+export type FieldValueUncheckedUpdateManyWithoutStatesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  value?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  fieldId?: Prisma.StringFieldUpdateOperationsInput | string
+  commitId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type FieldValueCreateManyFieldInput = {
@@ -502,12 +609,14 @@ export type FieldValueUpdateWithoutFieldInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   value?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   commit?: Prisma.CommitUpdateOneRequiredWithoutChangesNestedInput
+  states?: Prisma.StateUpdateManyWithoutValuesNestedInput
 }
 
 export type FieldValueUncheckedUpdateWithoutFieldInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   value?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   commitId?: Prisma.StringFieldUpdateOperationsInput | string
+  states?: Prisma.StateUncheckedUpdateManyWithoutValuesNestedInput
 }
 
 export type FieldValueUncheckedUpdateManyWithoutFieldInput = {
@@ -517,6 +626,35 @@ export type FieldValueUncheckedUpdateManyWithoutFieldInput = {
 }
 
 
+/**
+ * Count Type FieldValueCountOutputType
+ */
+
+export type FieldValueCountOutputType = {
+  states: number
+}
+
+export type FieldValueCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  states?: boolean | FieldValueCountOutputTypeCountStatesArgs
+}
+
+/**
+ * FieldValueCountOutputType without action
+ */
+export type FieldValueCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FieldValueCountOutputType
+   */
+  select?: Prisma.FieldValueCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * FieldValueCountOutputType without action
+ */
+export type FieldValueCountOutputTypeCountStatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StateWhereInput
+}
+
 
 export type FieldValueSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -525,6 +663,8 @@ export type FieldValueSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   commitId?: boolean
   field?: boolean | Prisma.FieldDefaultArgs<ExtArgs>
   commit?: boolean | Prisma.CommitDefaultArgs<ExtArgs>
+  states?: boolean | Prisma.FieldValue$statesArgs<ExtArgs>
+  _count?: boolean | Prisma.FieldValueCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["fieldValue"]>
 
 
@@ -540,6 +680,8 @@ export type FieldValueOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs
 export type FieldValueInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   field?: boolean | Prisma.FieldDefaultArgs<ExtArgs>
   commit?: boolean | Prisma.CommitDefaultArgs<ExtArgs>
+  states?: boolean | Prisma.FieldValue$statesArgs<ExtArgs>
+  _count?: boolean | Prisma.FieldValueCountOutputTypeDefaultArgs<ExtArgs>
 }
 
 export type $FieldValuePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -547,6 +689,7 @@ export type $FieldValuePayload<ExtArgs extends runtime.Types.Extensions.Internal
   objects: {
     field: Prisma.$FieldPayload<ExtArgs>
     commit: Prisma.$CommitPayload<ExtArgs>
+    states: Prisma.$StatePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -895,6 +1038,7 @@ export interface Prisma__FieldValueClient<T, Null = never, ExtArgs extends runti
   readonly [Symbol.toStringTag]: "PrismaPromise"
   field<T extends Prisma.FieldDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FieldDefaultArgs<ExtArgs>>): Prisma.Prisma__FieldClient<runtime.Types.Result.GetResult<Prisma.$FieldPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   commit<T extends Prisma.CommitDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CommitDefaultArgs<ExtArgs>>): Prisma.Prisma__CommitClient<runtime.Types.Result.GetResult<Prisma.$CommitPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  states<T extends Prisma.FieldValue$statesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FieldValue$statesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1268,6 +1412,30 @@ export type FieldValueDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many FieldValues to delete.
    */
   limit?: number
+}
+
+/**
+ * FieldValue.states
+ */
+export type FieldValue$statesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the State
+   */
+  select?: Prisma.StateSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the State
+   */
+  omit?: Prisma.StateOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StateInclude<ExtArgs> | null
+  where?: Prisma.StateWhereInput
+  orderBy?: Prisma.StateOrderByWithRelationInput | Prisma.StateOrderByWithRelationInput[]
+  cursor?: Prisma.StateWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StateScalarFieldEnum | Prisma.StateScalarFieldEnum[]
 }
 
 /**

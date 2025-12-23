@@ -80,12 +80,12 @@ export type PrismaVersion = {
 }
 
 /**
- * Prisma Client JS version: 7.1.0
- * Query Engine version: ab635e6b9d606fa5c8fb8b1a7f909c3c3c1c98ba
+ * Prisma Client JS version: 7.2.0
+ * Query Engine version: 0c8ef2ce45c83248ab3df073180d5eda9e8be7a3
  */
 export const prismaVersion: PrismaVersion = {
-  client: "7.1.0",
-  engine: "ab635e6b9d606fa5c8fb8b1a7f909c3c3c1c98ba"
+  client: "7.2.0",
+  engine: "0c8ef2ce45c83248ab3df073180d5eda9e8be7a3"
 }
 
 /**
@@ -386,6 +386,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   Process: 'Process',
   Commit: 'Commit',
+  State: 'State',
   Field: 'Field',
   FieldValue: 'FieldValue'
 } as const
@@ -403,7 +404,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "process" | "commit" | "field" | "fieldValue"
+    modelProps: "process" | "commit" | "state" | "field" | "fieldValue"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -536,6 +537,72 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.CommitCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.CommitCountAggregateOutputType> | number
+        }
+      }
+    }
+    State: {
+      payload: Prisma.$StatePayload<ExtArgs>
+      fields: Prisma.StateFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.StateFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.StateFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatePayload>
+        }
+        findFirst: {
+          args: Prisma.StateFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.StateFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatePayload>
+        }
+        findMany: {
+          args: Prisma.StateFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatePayload>[]
+        }
+        create: {
+          args: Prisma.StateCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatePayload>
+        }
+        createMany: {
+          args: Prisma.StateCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.StateDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatePayload>
+        }
+        update: {
+          args: Prisma.StateUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatePayload>
+        }
+        deleteMany: {
+          args: Prisma.StateDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.StateUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.StateUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StatePayload>
+        }
+        aggregate: {
+          args: Prisma.StateAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateState>
+        }
+        groupBy: {
+          args: Prisma.StateGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StateGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.StateCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StateCountAggregateOutputType> | number
         }
       }
     }
@@ -711,7 +778,8 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 
 export const ProcessScalarFieldEnum = {
-  id: 'id'
+  id: 'id',
+  name: 'name'
 } as const
 
 export type ProcessScalarFieldEnum = (typeof ProcessScalarFieldEnum)[keyof typeof ProcessScalarFieldEnum]
@@ -725,6 +793,15 @@ export const CommitScalarFieldEnum = {
 } as const
 
 export type CommitScalarFieldEnum = (typeof CommitScalarFieldEnum)[keyof typeof CommitScalarFieldEnum]
+
+
+export const StateScalarFieldEnum = {
+  id: 'id',
+  processId: 'processId',
+  createdById: 'createdById'
+} as const
+
+export type StateScalarFieldEnum = (typeof StateScalarFieldEnum)[keyof typeof StateScalarFieldEnum]
 
 
 export const FieldScalarFieldEnum = {
@@ -762,7 +839,8 @@ export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNu
 
 
 export const ProcessOrderByRelevanceFieldEnum = {
-  id: 'id'
+  id: 'id',
+  name: 'name'
 } as const
 
 export type ProcessOrderByRelevanceFieldEnum = (typeof ProcessOrderByRelevanceFieldEnum)[keyof typeof ProcessOrderByRelevanceFieldEnum]
@@ -783,6 +861,15 @@ export const CommitOrderByRelevanceFieldEnum = {
 } as const
 
 export type CommitOrderByRelevanceFieldEnum = (typeof CommitOrderByRelevanceFieldEnum)[keyof typeof CommitOrderByRelevanceFieldEnum]
+
+
+export const StateOrderByRelevanceFieldEnum = {
+  id: 'id',
+  processId: 'processId',
+  createdById: 'createdById'
+} as const
+
+export type StateOrderByRelevanceFieldEnum = (typeof StateOrderByRelevanceFieldEnum)[keyof typeof StateOrderByRelevanceFieldEnum]
 
 
 export const FieldOrderByRelevanceFieldEnum = {
@@ -963,6 +1050,7 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   process?: Prisma.ProcessOmit
   commit?: Prisma.CommitOmit
+  state?: Prisma.StateOmit
   field?: Prisma.FieldOmit
   fieldValue?: Prisma.FieldValueOmit
 }

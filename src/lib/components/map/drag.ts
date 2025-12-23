@@ -1,4 +1,4 @@
-import type { Pixel, Rect } from './types'
+import type { Coord, Rect } from './types'
 import type { View } from './view.svelte'
 import type { Attachment } from 'svelte/attachments'
 import type { CommitWithChildren } from '$lib'
@@ -87,7 +87,7 @@ export function dragTrigger({
 }): Attachment<HTMLElement> {
 	return (element: HTMLElement) => {
 		let rect: Rect = { x: 0, y: 0, width: 0, height: 0 }
-		let start: Pixel = { x: 0, y: 0 }
+		let start: Coord = { x: 0, y: 0 }
 		let sideX: SIDE_X | null = null
 		let sideY: SIDE_Y | null = null
 

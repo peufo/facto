@@ -53,6 +53,7 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   Process: 'Process',
   Commit: 'Commit',
+  State: 'State',
   Field: 'Field',
   FieldValue: 'FieldValue'
 } as const
@@ -74,7 +75,8 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 
 export const ProcessScalarFieldEnum = {
-  id: 'id'
+  id: 'id',
+  name: 'name'
 } as const
 
 export type ProcessScalarFieldEnum = (typeof ProcessScalarFieldEnum)[keyof typeof ProcessScalarFieldEnum]
@@ -88,6 +90,15 @@ export const CommitScalarFieldEnum = {
 } as const
 
 export type CommitScalarFieldEnum = (typeof CommitScalarFieldEnum)[keyof typeof CommitScalarFieldEnum]
+
+
+export const StateScalarFieldEnum = {
+  id: 'id',
+  processId: 'processId',
+  createdById: 'createdById'
+} as const
+
+export type StateScalarFieldEnum = (typeof StateScalarFieldEnum)[keyof typeof StateScalarFieldEnum]
 
 
 export const FieldScalarFieldEnum = {
@@ -125,7 +136,8 @@ export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNu
 
 
 export const ProcessOrderByRelevanceFieldEnum = {
-  id: 'id'
+  id: 'id',
+  name: 'name'
 } as const
 
 export type ProcessOrderByRelevanceFieldEnum = (typeof ProcessOrderByRelevanceFieldEnum)[keyof typeof ProcessOrderByRelevanceFieldEnum]
@@ -146,6 +158,15 @@ export const CommitOrderByRelevanceFieldEnum = {
 } as const
 
 export type CommitOrderByRelevanceFieldEnum = (typeof CommitOrderByRelevanceFieldEnum)[keyof typeof CommitOrderByRelevanceFieldEnum]
+
+
+export const StateOrderByRelevanceFieldEnum = {
+  id: 'id',
+  processId: 'processId',
+  createdById: 'createdById'
+} as const
+
+export type StateOrderByRelevanceFieldEnum = (typeof StateOrderByRelevanceFieldEnum)[keyof typeof StateOrderByRelevanceFieldEnum]
 
 
 export const FieldOrderByRelevanceFieldEnum = {

@@ -1,10 +1,10 @@
 import { innerHeight, innerWidth } from 'svelte/reactivity/window'
 import { clamp } from '$lib/math'
-import type { Pixel } from './types'
+import type { Coord } from './types'
 
 export class View {
-	origin = $state<Pixel>({ x: 0, y: 0 })
-	cursor = $state<Pixel>({ x: 0, y: 0 })
+	origin = $state<Coord>({ x: 0, y: 0 })
+	cursor = $state<Coord>({ x: 0, y: 0 })
 	width = $derived(innerWidth.current || 0)
 	height = $derived(innerHeight.current || 0)
 	meterToPixel = $state(10)
@@ -31,7 +31,7 @@ export class View {
 		}
 	}
 
-	private scale = (direction: keyof Pixel) => {
+	private scale = (direction: keyof Coord) => {
 		return <T>(
 			init: (inc: { cursor: number }) => T,
 			increment: (inc: { cursor: number; size: number; unit: number }, value: T) => T

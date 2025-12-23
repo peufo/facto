@@ -1,9 +1,9 @@
-export type Pixel = {
+export type Coord = {
 	x: number
 	y: number
 }
 
-export type Rect = Pixel & {
+export type Rect = Coord & {
 	width: number
 	height: number
 }

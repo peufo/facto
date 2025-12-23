@@ -50,6 +50,11 @@ export type Process = Prisma.ProcessModel
  */
 export type Commit = Prisma.CommitModel
 /**
+ * Model State
+ * 
+ */
+export type State = Prisma.StateModel
+/**
  * Model Field
  * 
  */

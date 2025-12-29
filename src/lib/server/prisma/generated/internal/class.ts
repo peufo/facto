@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.2.0",
   "engineVersion": "0c8ef2ce45c83248ab3df073180d5eda9e8be7a3",
   "activeProvider": "mysql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/lib/server/prisma/generated\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n}\n\nmodel Process {\n  id   String @id @default(cuid())\n  name String\n\n  commits Commit[]\n  states  State[]\n}\n\nmodel Commit {\n  id String @id @default(cuid())\n\n  changes FieldValue[]\n\n  parentId String?\n  parent   Commit?  @relation(name: \"hierarchy\", fields: [parentId], references: [id], onDelete: Restrict)\n  children Commit[] @relation(name: \"hierarchy\")\n\n  processId String\n  process   Process @relation(fields: [processId], references: [id])\n  inputs    State[] @relation(\"InputStates\")\n  output    State?  @relation(\"OutputState\")\n\n  timestamp DateTime @default(now())\n\n  @@index([parentId])\n  @@index([processId])\n}\n\nmodel State {\n  id String @id @default(cuid())\n\n  processId String?\n  process   Process? @relation(fields: [processId], references: [id])\n\n  createdById String   @unique\n  createdBy   Commit   @relation(\"OutputState\", fields: [createdById], references: [id])\n  usedBy      Commit[] @relation(\"InputStates\")\n\n  values FieldValue[]\n\n  @@index([processId])\n}\n\nmodel Field {\n  id     String       @id @default(cuid())\n  name   String\n  type   FieldType\n  values FieldValue[]\n\n  @@unique([name])\n}\n\nmodel FieldValue {\n  id String @id @default(cuid())\n\n  value Json\n\n  fieldId String\n  field   Field  @relation(fields: [fieldId], references: [id])\n\n  commitId String\n  commit   Commit  @relation(fields: [commitId], references: [id])\n  states   State[]\n}\n\nenum FieldType {\n  text\n  number\n}\n",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/lib/server/prisma/generated\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n}\n\nmodel Process {\n  id   String @id @default(cuid())\n  name String\n\n  definitions AttributeDefinition[]\n\n  commits Commit[]\n  states  State[]\n}\n\nmodel AttributeDefinition {\n  id  String @id @default(cuid())\n  key String // La clé utilisée dans le JSON (ex: \"rotation_speed\")\n\n  // Métadonnées\n  label     String? // \"Vitesse de rotation\"\n  unit      String? // \"rpm\"\n  desc      String? // \"Vitesse de la tête de coupe\"\n  type      AttributeType // NUMBER, TEXT, ENUM...\n  uiMapping String? // \"gauge\", \"slider\", \"hidden\"\n\n  processes Process[]\n}\n\nenum AttributeType {\n  MEASURE\n  PARAMETER\n  STATUS\n  INFO\n}\n\nmodel Commit {\n  id String @id @default(cuid())\n\n  changes Json\n\n  parentId String?\n  parent   Commit?  @relation(name: \"Hierarchy\", fields: [parentId], references: [id], onDelete: Restrict)\n  children Commit[] @relation(name: \"Hierarchy\")\n\n  processId String\n  process   Process @relation(fields: [processId], references: [id])\n\n  inputs State[] @relation(\"StatesToCommit\")\n  output State?  @relation(\"CommitToState\")\n\n  timestamp DateTime @default(now())\n\n  @@index([parentId])\n  @@index([processId])\n}\n\nmodel State {\n  id String @id @default(cuid())\n\n  processId String?\n  process   Process? @relation(fields: [processId], references: [id])\n\n  inputId String   @unique\n  input   Commit   @relation(\"CommitToState\", fields: [inputId], references: [id])\n  outputs Commit[] @relation(\"StatesToCommit\")\n\n  snapshot Json?\n\n  @@index([processId])\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -28,7 +28,7 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Process\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"commits\",\"kind\":\"object\",\"type\":\"Commit\",\"relationName\":\"CommitToProcess\"},{\"name\":\"states\",\"kind\":\"object\",\"type\":\"State\",\"relationName\":\"ProcessToState\"}],\"dbName\":null},\"Commit\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"changes\",\"kind\":\"object\",\"type\":\"FieldValue\",\"relationName\":\"CommitToFieldValue\"},{\"name\":\"parentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"parent\",\"kind\":\"object\",\"type\":\"Commit\",\"relationName\":\"hierarchy\"},{\"name\":\"children\",\"kind\":\"object\",\"type\":\"Commit\",\"relationName\":\"hierarchy\"},{\"name\":\"processId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"process\",\"kind\":\"object\",\"type\":\"Process\",\"relationName\":\"CommitToProcess\"},{\"name\":\"inputs\",\"kind\":\"object\",\"type\":\"State\",\"relationName\":\"InputStates\"},{\"name\":\"output\",\"kind\":\"object\",\"type\":\"State\",\"relationName\":\"OutputState\"},{\"name\":\"timestamp\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"State\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"processId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"process\",\"kind\":\"object\",\"type\":\"Process\",\"relationName\":\"ProcessToState\"},{\"name\":\"createdById\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdBy\",\"kind\":\"object\",\"type\":\"Commit\",\"relationName\":\"OutputState\"},{\"name\":\"usedBy\",\"kind\":\"object\",\"type\":\"Commit\",\"relationName\":\"InputStates\"},{\"name\":\"values\",\"kind\":\"object\",\"type\":\"FieldValue\",\"relationName\":\"FieldValueToState\"}],\"dbName\":null},\"Field\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"FieldType\"},{\"name\":\"values\",\"kind\":\"object\",\"type\":\"FieldValue\",\"relationName\":\"FieldToFieldValue\"}],\"dbName\":null},\"FieldValue\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"value\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"fieldId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"field\",\"kind\":\"object\",\"type\":\"Field\",\"relationName\":\"FieldToFieldValue\"},{\"name\":\"commitId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"commit\",\"kind\":\"object\",\"type\":\"Commit\",\"relationName\":\"CommitToFieldValue\"},{\"name\":\"states\",\"kind\":\"object\",\"type\":\"State\",\"relationName\":\"FieldValueToState\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Process\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"definitions\",\"kind\":\"object\",\"type\":\"AttributeDefinition\",\"relationName\":\"AttributeDefinitionToProcess\"},{\"name\":\"commits\",\"kind\":\"object\",\"type\":\"Commit\",\"relationName\":\"CommitToProcess\"},{\"name\":\"states\",\"kind\":\"object\",\"type\":\"State\",\"relationName\":\"ProcessToState\"}],\"dbName\":null},\"AttributeDefinition\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"key\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"label\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"unit\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"desc\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"type\",\"kind\":\"enum\",\"type\":\"AttributeType\"},{\"name\":\"uiMapping\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"processes\",\"kind\":\"object\",\"type\":\"Process\",\"relationName\":\"AttributeDefinitionToProcess\"}],\"dbName\":null},\"Commit\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"changes\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"parentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"parent\",\"kind\":\"object\",\"type\":\"Commit\",\"relationName\":\"Hierarchy\"},{\"name\":\"children\",\"kind\":\"object\",\"type\":\"Commit\",\"relationName\":\"Hierarchy\"},{\"name\":\"processId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"process\",\"kind\":\"object\",\"type\":\"Process\",\"relationName\":\"CommitToProcess\"},{\"name\":\"inputs\",\"kind\":\"object\",\"type\":\"State\",\"relationName\":\"StatesToCommit\"},{\"name\":\"output\",\"kind\":\"object\",\"type\":\"State\",\"relationName\":\"CommitToState\"},{\"name\":\"timestamp\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"State\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"processId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"process\",\"kind\":\"object\",\"type\":\"Process\",\"relationName\":\"ProcessToState\"},{\"name\":\"inputId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"input\",\"kind\":\"object\",\"type\":\"Commit\",\"relationName\":\"CommitToState\"},{\"name\":\"outputs\",\"kind\":\"object\",\"type\":\"Commit\",\"relationName\":\"StatesToCommit\"},{\"name\":\"snapshot\",\"kind\":\"scalar\",\"type\":\"Json\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
   const { Buffer } = await import('node:buffer')
@@ -185,6 +185,16 @@ export interface PrismaClient<
   get process(): Prisma.ProcessDelegate<ExtArgs, { omit: OmitOpts }>;
 
   /**
+   * `prisma.attributeDefinition`: Exposes CRUD operations for the **AttributeDefinition** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AttributeDefinitions
+    * const attributeDefinitions = await prisma.attributeDefinition.findMany()
+    * ```
+    */
+  get attributeDefinition(): Prisma.AttributeDefinitionDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
    * `prisma.commit`: Exposes CRUD operations for the **Commit** model.
     * Example usage:
     * ```ts
@@ -203,26 +213,6 @@ export interface PrismaClient<
     * ```
     */
   get state(): Prisma.StateDelegate<ExtArgs, { omit: OmitOpts }>;
-
-  /**
-   * `prisma.field`: Exposes CRUD operations for the **Field** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Fields
-    * const fields = await prisma.field.findMany()
-    * ```
-    */
-  get field(): Prisma.FieldDelegate<ExtArgs, { omit: OmitOpts }>;
-
-  /**
-   * `prisma.fieldValue`: Exposes CRUD operations for the **FieldValue** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more FieldValues
-    * const fieldValues = await prisma.fieldValue.findMany()
-    * ```
-    */
-  get fieldValue(): Prisma.FieldValueDelegate<ExtArgs, { omit: OmitOpts }>;
 }
 
 export function getPrismaClientClass(): PrismaClientConstructor {

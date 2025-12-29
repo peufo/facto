@@ -158,6 +158,7 @@ export type ProcessWhereInput = {
   NOT?: Prisma.ProcessWhereInput | Prisma.ProcessWhereInput[]
   id?: Prisma.StringFilter<"Process"> | string
   name?: Prisma.StringFilter<"Process"> | string
+  definitions?: Prisma.AttributeDefinitionListRelationFilter
   commits?: Prisma.CommitListRelationFilter
   states?: Prisma.StateListRelationFilter
 }
@@ -165,6 +166,7 @@ export type ProcessWhereInput = {
 export type ProcessOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  definitions?: Prisma.AttributeDefinitionOrderByRelationAggregateInput
   commits?: Prisma.CommitOrderByRelationAggregateInput
   states?: Prisma.StateOrderByRelationAggregateInput
   _relevance?: Prisma.ProcessOrderByRelevanceInput
@@ -176,6 +178,7 @@ export type ProcessWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ProcessWhereInput[]
   NOT?: Prisma.ProcessWhereInput | Prisma.ProcessWhereInput[]
   name?: Prisma.StringFilter<"Process"> | string
+  definitions?: Prisma.AttributeDefinitionListRelationFilter
   commits?: Prisma.CommitListRelationFilter
   states?: Prisma.StateListRelationFilter
 }, "id">
@@ -199,6 +202,7 @@ export type ProcessScalarWhereWithAggregatesInput = {
 export type ProcessCreateInput = {
   id?: string
   name: string
+  definitions?: Prisma.AttributeDefinitionCreateNestedManyWithoutProcessesInput
   commits?: Prisma.CommitCreateNestedManyWithoutProcessInput
   states?: Prisma.StateCreateNestedManyWithoutProcessInput
 }
@@ -206,6 +210,7 @@ export type ProcessCreateInput = {
 export type ProcessUncheckedCreateInput = {
   id?: string
   name: string
+  definitions?: Prisma.AttributeDefinitionUncheckedCreateNestedManyWithoutProcessesInput
   commits?: Prisma.CommitUncheckedCreateNestedManyWithoutProcessInput
   states?: Prisma.StateUncheckedCreateNestedManyWithoutProcessInput
 }
@@ -213,6 +218,7 @@ export type ProcessUncheckedCreateInput = {
 export type ProcessUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  definitions?: Prisma.AttributeDefinitionUpdateManyWithoutProcessesNestedInput
   commits?: Prisma.CommitUpdateManyWithoutProcessNestedInput
   states?: Prisma.StateUpdateManyWithoutProcessNestedInput
 }
@@ -220,6 +226,7 @@ export type ProcessUpdateInput = {
 export type ProcessUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  definitions?: Prisma.AttributeDefinitionUncheckedUpdateManyWithoutProcessesNestedInput
   commits?: Prisma.CommitUncheckedUpdateManyWithoutProcessNestedInput
   states?: Prisma.StateUncheckedUpdateManyWithoutProcessNestedInput
 }
@@ -260,6 +267,16 @@ export type ProcessMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
 }
 
+export type ProcessListRelationFilter = {
+  every?: Prisma.ProcessWhereInput
+  some?: Prisma.ProcessWhereInput
+  none?: Prisma.ProcessWhereInput
+}
+
+export type ProcessOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type ProcessScalarRelationFilter = {
   is?: Prisma.ProcessWhereInput
   isNot?: Prisma.ProcessWhereInput
@@ -272,6 +289,44 @@ export type ProcessNullableScalarRelationFilter = {
 
 export type StringFieldUpdateOperationsInput = {
   set?: string
+}
+
+export type ProcessCreateNestedManyWithoutDefinitionsInput = {
+  create?: Prisma.XOR<Prisma.ProcessCreateWithoutDefinitionsInput, Prisma.ProcessUncheckedCreateWithoutDefinitionsInput> | Prisma.ProcessCreateWithoutDefinitionsInput[] | Prisma.ProcessUncheckedCreateWithoutDefinitionsInput[]
+  connectOrCreate?: Prisma.ProcessCreateOrConnectWithoutDefinitionsInput | Prisma.ProcessCreateOrConnectWithoutDefinitionsInput[]
+  connect?: Prisma.ProcessWhereUniqueInput | Prisma.ProcessWhereUniqueInput[]
+}
+
+export type ProcessUncheckedCreateNestedManyWithoutDefinitionsInput = {
+  create?: Prisma.XOR<Prisma.ProcessCreateWithoutDefinitionsInput, Prisma.ProcessUncheckedCreateWithoutDefinitionsInput> | Prisma.ProcessCreateWithoutDefinitionsInput[] | Prisma.ProcessUncheckedCreateWithoutDefinitionsInput[]
+  connectOrCreate?: Prisma.ProcessCreateOrConnectWithoutDefinitionsInput | Prisma.ProcessCreateOrConnectWithoutDefinitionsInput[]
+  connect?: Prisma.ProcessWhereUniqueInput | Prisma.ProcessWhereUniqueInput[]
+}
+
+export type ProcessUpdateManyWithoutDefinitionsNestedInput = {
+  create?: Prisma.XOR<Prisma.ProcessCreateWithoutDefinitionsInput, Prisma.ProcessUncheckedCreateWithoutDefinitionsInput> | Prisma.ProcessCreateWithoutDefinitionsInput[] | Prisma.ProcessUncheckedCreateWithoutDefinitionsInput[]
+  connectOrCreate?: Prisma.ProcessCreateOrConnectWithoutDefinitionsInput | Prisma.ProcessCreateOrConnectWithoutDefinitionsInput[]
+  upsert?: Prisma.ProcessUpsertWithWhereUniqueWithoutDefinitionsInput | Prisma.ProcessUpsertWithWhereUniqueWithoutDefinitionsInput[]
+  set?: Prisma.ProcessWhereUniqueInput | Prisma.ProcessWhereUniqueInput[]
+  disconnect?: Prisma.ProcessWhereUniqueInput | Prisma.ProcessWhereUniqueInput[]
+  delete?: Prisma.ProcessWhereUniqueInput | Prisma.ProcessWhereUniqueInput[]
+  connect?: Prisma.ProcessWhereUniqueInput | Prisma.ProcessWhereUniqueInput[]
+  update?: Prisma.ProcessUpdateWithWhereUniqueWithoutDefinitionsInput | Prisma.ProcessUpdateWithWhereUniqueWithoutDefinitionsInput[]
+  updateMany?: Prisma.ProcessUpdateManyWithWhereWithoutDefinitionsInput | Prisma.ProcessUpdateManyWithWhereWithoutDefinitionsInput[]
+  deleteMany?: Prisma.ProcessScalarWhereInput | Prisma.ProcessScalarWhereInput[]
+}
+
+export type ProcessUncheckedUpdateManyWithoutDefinitionsNestedInput = {
+  create?: Prisma.XOR<Prisma.ProcessCreateWithoutDefinitionsInput, Prisma.ProcessUncheckedCreateWithoutDefinitionsInput> | Prisma.ProcessCreateWithoutDefinitionsInput[] | Prisma.ProcessUncheckedCreateWithoutDefinitionsInput[]
+  connectOrCreate?: Prisma.ProcessCreateOrConnectWithoutDefinitionsInput | Prisma.ProcessCreateOrConnectWithoutDefinitionsInput[]
+  upsert?: Prisma.ProcessUpsertWithWhereUniqueWithoutDefinitionsInput | Prisma.ProcessUpsertWithWhereUniqueWithoutDefinitionsInput[]
+  set?: Prisma.ProcessWhereUniqueInput | Prisma.ProcessWhereUniqueInput[]
+  disconnect?: Prisma.ProcessWhereUniqueInput | Prisma.ProcessWhereUniqueInput[]
+  delete?: Prisma.ProcessWhereUniqueInput | Prisma.ProcessWhereUniqueInput[]
+  connect?: Prisma.ProcessWhereUniqueInput | Prisma.ProcessWhereUniqueInput[]
+  update?: Prisma.ProcessUpdateWithWhereUniqueWithoutDefinitionsInput | Prisma.ProcessUpdateWithWhereUniqueWithoutDefinitionsInput[]
+  updateMany?: Prisma.ProcessUpdateManyWithWhereWithoutDefinitionsInput | Prisma.ProcessUpdateManyWithWhereWithoutDefinitionsInput[]
+  deleteMany?: Prisma.ProcessScalarWhereInput | Prisma.ProcessScalarWhereInput[]
 }
 
 export type ProcessCreateNestedOneWithoutCommitsInput = {
@@ -304,15 +359,60 @@ export type ProcessUpdateOneWithoutStatesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ProcessUpdateToOneWithWhereWithoutStatesInput, Prisma.ProcessUpdateWithoutStatesInput>, Prisma.ProcessUncheckedUpdateWithoutStatesInput>
 }
 
+export type ProcessCreateWithoutDefinitionsInput = {
+  id?: string
+  name: string
+  commits?: Prisma.CommitCreateNestedManyWithoutProcessInput
+  states?: Prisma.StateCreateNestedManyWithoutProcessInput
+}
+
+export type ProcessUncheckedCreateWithoutDefinitionsInput = {
+  id?: string
+  name: string
+  commits?: Prisma.CommitUncheckedCreateNestedManyWithoutProcessInput
+  states?: Prisma.StateUncheckedCreateNestedManyWithoutProcessInput
+}
+
+export type ProcessCreateOrConnectWithoutDefinitionsInput = {
+  where: Prisma.ProcessWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProcessCreateWithoutDefinitionsInput, Prisma.ProcessUncheckedCreateWithoutDefinitionsInput>
+}
+
+export type ProcessUpsertWithWhereUniqueWithoutDefinitionsInput = {
+  where: Prisma.ProcessWhereUniqueInput
+  update: Prisma.XOR<Prisma.ProcessUpdateWithoutDefinitionsInput, Prisma.ProcessUncheckedUpdateWithoutDefinitionsInput>
+  create: Prisma.XOR<Prisma.ProcessCreateWithoutDefinitionsInput, Prisma.ProcessUncheckedCreateWithoutDefinitionsInput>
+}
+
+export type ProcessUpdateWithWhereUniqueWithoutDefinitionsInput = {
+  where: Prisma.ProcessWhereUniqueInput
+  data: Prisma.XOR<Prisma.ProcessUpdateWithoutDefinitionsInput, Prisma.ProcessUncheckedUpdateWithoutDefinitionsInput>
+}
+
+export type ProcessUpdateManyWithWhereWithoutDefinitionsInput = {
+  where: Prisma.ProcessScalarWhereInput
+  data: Prisma.XOR<Prisma.ProcessUpdateManyMutationInput, Prisma.ProcessUncheckedUpdateManyWithoutDefinitionsInput>
+}
+
+export type ProcessScalarWhereInput = {
+  AND?: Prisma.ProcessScalarWhereInput | Prisma.ProcessScalarWhereInput[]
+  OR?: Prisma.ProcessScalarWhereInput[]
+  NOT?: Prisma.ProcessScalarWhereInput | Prisma.ProcessScalarWhereInput[]
+  id?: Prisma.StringFilter<"Process"> | string
+  name?: Prisma.StringFilter<"Process"> | string
+}
+
 export type ProcessCreateWithoutCommitsInput = {
   id?: string
   name: string
+  definitions?: Prisma.AttributeDefinitionCreateNestedManyWithoutProcessesInput
   states?: Prisma.StateCreateNestedManyWithoutProcessInput
 }
 
 export type ProcessUncheckedCreateWithoutCommitsInput = {
   id?: string
   name: string
+  definitions?: Prisma.AttributeDefinitionUncheckedCreateNestedManyWithoutProcessesInput
   states?: Prisma.StateUncheckedCreateNestedManyWithoutProcessInput
 }
 
@@ -335,24 +435,28 @@ export type ProcessUpdateToOneWithWhereWithoutCommitsInput = {
 export type ProcessUpdateWithoutCommitsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  definitions?: Prisma.AttributeDefinitionUpdateManyWithoutProcessesNestedInput
   states?: Prisma.StateUpdateManyWithoutProcessNestedInput
 }
 
 export type ProcessUncheckedUpdateWithoutCommitsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  definitions?: Prisma.AttributeDefinitionUncheckedUpdateManyWithoutProcessesNestedInput
   states?: Prisma.StateUncheckedUpdateManyWithoutProcessNestedInput
 }
 
 export type ProcessCreateWithoutStatesInput = {
   id?: string
   name: string
+  definitions?: Prisma.AttributeDefinitionCreateNestedManyWithoutProcessesInput
   commits?: Prisma.CommitCreateNestedManyWithoutProcessInput
 }
 
 export type ProcessUncheckedCreateWithoutStatesInput = {
   id?: string
   name: string
+  definitions?: Prisma.AttributeDefinitionUncheckedCreateNestedManyWithoutProcessesInput
   commits?: Prisma.CommitUncheckedCreateNestedManyWithoutProcessInput
 }
 
@@ -375,13 +479,34 @@ export type ProcessUpdateToOneWithWhereWithoutStatesInput = {
 export type ProcessUpdateWithoutStatesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  definitions?: Prisma.AttributeDefinitionUpdateManyWithoutProcessesNestedInput
   commits?: Prisma.CommitUpdateManyWithoutProcessNestedInput
 }
 
 export type ProcessUncheckedUpdateWithoutStatesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  definitions?: Prisma.AttributeDefinitionUncheckedUpdateManyWithoutProcessesNestedInput
   commits?: Prisma.CommitUncheckedUpdateManyWithoutProcessNestedInput
+}
+
+export type ProcessUpdateWithoutDefinitionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  commits?: Prisma.CommitUpdateManyWithoutProcessNestedInput
+  states?: Prisma.StateUpdateManyWithoutProcessNestedInput
+}
+
+export type ProcessUncheckedUpdateWithoutDefinitionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  commits?: Prisma.CommitUncheckedUpdateManyWithoutProcessNestedInput
+  states?: Prisma.StateUncheckedUpdateManyWithoutProcessNestedInput
+}
+
+export type ProcessUncheckedUpdateManyWithoutDefinitionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
@@ -390,11 +515,13 @@ export type ProcessUncheckedUpdateWithoutStatesInput = {
  */
 
 export type ProcessCountOutputType = {
+  definitions: number
   commits: number
   states: number
 }
 
 export type ProcessCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  definitions?: boolean | ProcessCountOutputTypeCountDefinitionsArgs
   commits?: boolean | ProcessCountOutputTypeCountCommitsArgs
   states?: boolean | ProcessCountOutputTypeCountStatesArgs
 }
@@ -407,6 +534,13 @@ export type ProcessCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exte
    * Select specific fields to fetch from the ProcessCountOutputType
    */
   select?: Prisma.ProcessCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ProcessCountOutputType without action
+ */
+export type ProcessCountOutputTypeCountDefinitionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AttributeDefinitionWhereInput
 }
 
 /**
@@ -427,6 +561,7 @@ export type ProcessCountOutputTypeCountStatesArgs<ExtArgs extends runtime.Types.
 export type ProcessSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  definitions?: boolean | Prisma.Process$definitionsArgs<ExtArgs>
   commits?: boolean | Prisma.Process$commitsArgs<ExtArgs>
   states?: boolean | Prisma.Process$statesArgs<ExtArgs>
   _count?: boolean | Prisma.ProcessCountOutputTypeDefaultArgs<ExtArgs>
@@ -441,6 +576,7 @@ export type ProcessSelectScalar = {
 
 export type ProcessOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name", ExtArgs["result"]["process"]>
 export type ProcessInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  definitions?: boolean | Prisma.Process$definitionsArgs<ExtArgs>
   commits?: boolean | Prisma.Process$commitsArgs<ExtArgs>
   states?: boolean | Prisma.Process$statesArgs<ExtArgs>
   _count?: boolean | Prisma.ProcessCountOutputTypeDefaultArgs<ExtArgs>
@@ -449,6 +585,7 @@ export type ProcessInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
 export type $ProcessPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Process"
   objects: {
+    definitions: Prisma.$AttributeDefinitionPayload<ExtArgs>[]
     commits: Prisma.$CommitPayload<ExtArgs>[]
     states: Prisma.$StatePayload<ExtArgs>[]
   }
@@ -795,6 +932,7 @@ readonly fields: ProcessFieldRefs;
  */
 export interface Prisma__ProcessClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  definitions<T extends Prisma.Process$definitionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Process$definitionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AttributeDefinitionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   commits<T extends Prisma.Process$commitsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Process$commitsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   states<T extends Prisma.Process$statesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Process$statesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -1168,6 +1306,30 @@ export type ProcessDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many Processes to delete.
    */
   limit?: number
+}
+
+/**
+ * Process.definitions
+ */
+export type Process$definitionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AttributeDefinition
+   */
+  select?: Prisma.AttributeDefinitionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AttributeDefinition
+   */
+  omit?: Prisma.AttributeDefinitionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AttributeDefinitionInclude<ExtArgs> | null
+  where?: Prisma.AttributeDefinitionWhereInput
+  orderBy?: Prisma.AttributeDefinitionOrderByWithRelationInput | Prisma.AttributeDefinitionOrderByWithRelationInput[]
+  cursor?: Prisma.AttributeDefinitionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AttributeDefinitionScalarFieldEnum | Prisma.AttributeDefinitionScalarFieldEnum[]
 }
 
 /**

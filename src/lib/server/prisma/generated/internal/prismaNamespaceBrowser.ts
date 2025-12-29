@@ -52,10 +52,9 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Process: 'Process',
+  AttributeDefinition: 'AttributeDefinition',
   Commit: 'Commit',
-  State: 'State',
-  Field: 'Field',
-  FieldValue: 'FieldValue'
+  State: 'State'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -82,8 +81,22 @@ export const ProcessScalarFieldEnum = {
 export type ProcessScalarFieldEnum = (typeof ProcessScalarFieldEnum)[keyof typeof ProcessScalarFieldEnum]
 
 
+export const AttributeDefinitionScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  label: 'label',
+  unit: 'unit',
+  desc: 'desc',
+  type: 'type',
+  uiMapping: 'uiMapping'
+} as const
+
+export type AttributeDefinitionScalarFieldEnum = (typeof AttributeDefinitionScalarFieldEnum)[keyof typeof AttributeDefinitionScalarFieldEnum]
+
+
 export const CommitScalarFieldEnum = {
   id: 'id',
+  changes: 'changes',
   parentId: 'parentId',
   processId: 'processId',
   timestamp: 'timestamp'
@@ -95,29 +108,11 @@ export type CommitScalarFieldEnum = (typeof CommitScalarFieldEnum)[keyof typeof 
 export const StateScalarFieldEnum = {
   id: 'id',
   processId: 'processId',
-  createdById: 'createdById'
+  inputId: 'inputId',
+  snapshot: 'snapshot'
 } as const
 
 export type StateScalarFieldEnum = (typeof StateScalarFieldEnum)[keyof typeof StateScalarFieldEnum]
-
-
-export const FieldScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  type: 'type'
-} as const
-
-export type FieldScalarFieldEnum = (typeof FieldScalarFieldEnum)[keyof typeof FieldScalarFieldEnum]
-
-
-export const FieldValueScalarFieldEnum = {
-  id: 'id',
-  value: 'value',
-  fieldId: 'fieldId',
-  commitId: 'commitId'
-} as const
-
-export type FieldValueScalarFieldEnum = (typeof FieldValueScalarFieldEnum)[keyof typeof FieldValueScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -133,6 +128,14 @@ export const JsonNullValueInput = {
 } as const
 
 export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: 'DbNull',
+  JsonNull: 'JsonNull'
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const ProcessOrderByRelevanceFieldEnum = {
@@ -151,30 +154,16 @@ export const NullsOrder = {
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
-export const CommitOrderByRelevanceFieldEnum = {
+export const AttributeDefinitionOrderByRelevanceFieldEnum = {
   id: 'id',
-  parentId: 'parentId',
-  processId: 'processId'
+  key: 'key',
+  label: 'label',
+  unit: 'unit',
+  desc: 'desc',
+  uiMapping: 'uiMapping'
 } as const
 
-export type CommitOrderByRelevanceFieldEnum = (typeof CommitOrderByRelevanceFieldEnum)[keyof typeof CommitOrderByRelevanceFieldEnum]
-
-
-export const StateOrderByRelevanceFieldEnum = {
-  id: 'id',
-  processId: 'processId',
-  createdById: 'createdById'
-} as const
-
-export type StateOrderByRelevanceFieldEnum = (typeof StateOrderByRelevanceFieldEnum)[keyof typeof StateOrderByRelevanceFieldEnum]
-
-
-export const FieldOrderByRelevanceFieldEnum = {
-  id: 'id',
-  name: 'name'
-} as const
-
-export type FieldOrderByRelevanceFieldEnum = (typeof FieldOrderByRelevanceFieldEnum)[keyof typeof FieldOrderByRelevanceFieldEnum]
+export type AttributeDefinitionOrderByRelevanceFieldEnum = (typeof AttributeDefinitionOrderByRelevanceFieldEnum)[keyof typeof AttributeDefinitionOrderByRelevanceFieldEnum]
 
 
 export const JsonNullValueFilter = {
@@ -194,11 +183,20 @@ export const QueryMode = {
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
-export const FieldValueOrderByRelevanceFieldEnum = {
+export const CommitOrderByRelevanceFieldEnum = {
   id: 'id',
-  fieldId: 'fieldId',
-  commitId: 'commitId'
+  parentId: 'parentId',
+  processId: 'processId'
 } as const
 
-export type FieldValueOrderByRelevanceFieldEnum = (typeof FieldValueOrderByRelevanceFieldEnum)[keyof typeof FieldValueOrderByRelevanceFieldEnum]
+export type CommitOrderByRelevanceFieldEnum = (typeof CommitOrderByRelevanceFieldEnum)[keyof typeof CommitOrderByRelevanceFieldEnum]
+
+
+export const StateOrderByRelevanceFieldEnum = {
+  id: 'id',
+  processId: 'processId',
+  inputId: 'inputId'
+} as const
+
+export type StateOrderByRelevanceFieldEnum = (typeof StateOrderByRelevanceFieldEnum)[keyof typeof StateOrderByRelevanceFieldEnum]
 

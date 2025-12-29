@@ -7,8 +7,7 @@ import { prisma } from '$lib/server'
 export const load = async ({ url }) => {
 	const { processes } = parseQuery(url, { processes: zodCoerceJSON.pipe(z.array(z.string())) })
 	const commitsArray = await prisma.commit.findMany({
-		where: { processId: { in: processes } },
-		include: { changes: { include: { field: true } } }
+		where: { processId: { in: processes } }
 	})
 	const commitsByContainer = Object.groupBy(commitsArray, ({ parentId }) => parentId || 'root')
 	const roots = commitsByContainer['root'] || []

@@ -23,6 +23,11 @@ export * from './enums';
  */
 export type Process = Prisma.ProcessModel
 /**
+ * Model AttributeDefinition
+ * 
+ */
+export type AttributeDefinition = Prisma.AttributeDefinitionModel
+/**
  * Model Commit
  * 
  */
@@ -32,13 +37,3 @@ export type Commit = Prisma.CommitModel
  * 
  */
 export type State = Prisma.StateModel
-/**
- * Model Field
- * 
- */
-export type Field = Prisma.FieldModel
-/**
- * Model FieldValue
- * 
- */
-export type FieldValue = Prisma.FieldValueModel

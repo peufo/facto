@@ -9,9 +9,11 @@
 * 🟢 You can import this file directly.
 */
 
-export const FieldType = {
-  text: 'text',
-  number: 'number'
+export const AttributeType = {
+  MEASURE: 'MEASURE',
+  PARAMETER: 'PARAMETER',
+  STATUS: 'STATUS',
+  INFO: 'INFO'
 } as const
 
-export type FieldType = (typeof FieldType)[keyof typeof FieldType]
+export type AttributeType = (typeof AttributeType)[keyof typeof AttributeType]

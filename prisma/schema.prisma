@@ -11,23 +11,47 @@ model Process {
   id   String @id @default(cuid())
   name String
 
+  definitions AttributeDefinition[]
+
   commits Commit[]
   states  State[]
+}
+
+model AttributeDefinition {
+  id  String @id @default(cuid())
+  key String
+
+  // Métadonnées
+  label     String? // "Vitesse de rotation"
+  unit      String? // "rpm"
+  desc      String? // "Vitesse de la tête de coupe"
+  type      AttributeType // NUMBER, TEXT, ENUM...
+  uiMapping String? // "gauge", "slider", "hidden"
+
+  processes Process[]
+}
+
+enum AttributeType {
+  MEASURE
+  PARAMETER
+  STATUS
+  INFO
 }
 
 model Commit {
   id String @id @default(cuid())
 
-  changes FieldValue[]
+  changes Json
 
   parentId String?
-  parent   Commit?  @relation(name: "hierarchy", fields: [parentId], references: [id], onDelete: Restrict)
-  children Commit[] @relation(name: "hierarchy")
+  parent   Commit?  @relation(name: "Hierarchy", fields: [parentId], references: [id], onDelete: Restrict)
+  children Commit[] @relation(name: "Hierarchy")
 
   processId String
   process   Process @relation(fields: [processId], references: [id])
-  inputs    State[] @relation("InputStates")
-  output    State?  @relation("OutputState")
+
+  inputs State[] @relation("StatesToCommit")
+  output State?  @relation("CommitToState")
 
   timestamp DateTime @default(now())
 
@@ -41,38 +65,11 @@ model State {
   processId String?
   process   Process? @relation(fields: [processId], references: [id])
 
-  createdById String   @unique
-  createdBy   Commit   @relation("OutputState", fields: [createdById], references: [id])
-  usedBy      Commit[] @relation("InputStates")
+  inputId String   @unique
+  input   Commit   @relation("CommitToState", fields: [inputId], references: [id])
+  outputs Commit[] @relation("StatesToCommit")
 
-  values FieldValue[]
+  snapshot Json?
 
   @@index([processId])
-}
-
-model Field {
-  id     String       @id @default(cuid())
-  name   String
-  type   FieldType
-  values FieldValue[]
-
-  @@unique([name])
-}
-
-model FieldValue {
-  id String @id @default(cuid())
-
-  value Json
-
-  fieldId String
-  field   Field  @relation(fields: [fieldId], references: [id])
-
-  commitId String
-  commit   Commit  @relation(fields: [commitId], references: [id])
-  states   State[]
-}
-
-enum FieldType {
-  text
-  number
 }

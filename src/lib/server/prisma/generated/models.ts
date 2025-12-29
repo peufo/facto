@@ -9,8 +9,7 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/Process'
+export type * from './models/AttributeDefinition'
 export type * from './models/Commit'
 export type * from './models/State'
-export type * from './models/Field'
-export type * from './models/FieldValue'
 export type * from './commonInputTypes'

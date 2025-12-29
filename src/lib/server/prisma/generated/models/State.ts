@@ -27,19 +27,20 @@ export type AggregateState = {
 export type StateMinAggregateOutputType = {
   id: string | null
   processId: string | null
-  createdById: string | null
+  inputId: string | null
 }
 
 export type StateMaxAggregateOutputType = {
   id: string | null
   processId: string | null
-  createdById: string | null
+  inputId: string | null
 }
 
 export type StateCountAggregateOutputType = {
   id: number
   processId: number
-  createdById: number
+  inputId: number
+  snapshot: number
   _all: number
 }
 
@@ -47,19 +48,20 @@ export type StateCountAggregateOutputType = {
 export type StateMinAggregateInputType = {
   id?: true
   processId?: true
-  createdById?: true
+  inputId?: true
 }
 
 export type StateMaxAggregateInputType = {
   id?: true
   processId?: true
-  createdById?: true
+  inputId?: true
 }
 
 export type StateCountAggregateInputType = {
   id?: true
   processId?: true
-  createdById?: true
+  inputId?: true
+  snapshot?: true
   _all?: true
 }
 
@@ -138,7 +140,8 @@ export type StateGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 export type StateGroupByOutputType = {
   id: string
   processId: string | null
-  createdById: string
+  inputId: string
+  snapshot: runtime.JsonValue | null
   _count: StateCountAggregateOutputType | null
   _min: StateMinAggregateOutputType | null
   _max: StateMaxAggregateOutputType | null
@@ -165,41 +168,42 @@ export type StateWhereInput = {
   NOT?: Prisma.StateWhereInput | Prisma.StateWhereInput[]
   id?: Prisma.StringFilter<"State"> | string
   processId?: Prisma.StringNullableFilter<"State"> | string | null
-  createdById?: Prisma.StringFilter<"State"> | string
+  inputId?: Prisma.StringFilter<"State"> | string
+  snapshot?: Prisma.JsonNullableFilter<"State">
   process?: Prisma.XOR<Prisma.ProcessNullableScalarRelationFilter, Prisma.ProcessWhereInput> | null
-  createdBy?: Prisma.XOR<Prisma.CommitScalarRelationFilter, Prisma.CommitWhereInput>
-  usedBy?: Prisma.CommitListRelationFilter
-  values?: Prisma.FieldValueListRelationFilter
+  input?: Prisma.XOR<Prisma.CommitScalarRelationFilter, Prisma.CommitWhereInput>
+  outputs?: Prisma.CommitListRelationFilter
 }
 
 export type StateOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   processId?: Prisma.SortOrderInput | Prisma.SortOrder
-  createdById?: Prisma.SortOrder
+  inputId?: Prisma.SortOrder
+  snapshot?: Prisma.SortOrderInput | Prisma.SortOrder
   process?: Prisma.ProcessOrderByWithRelationInput
-  createdBy?: Prisma.CommitOrderByWithRelationInput
-  usedBy?: Prisma.CommitOrderByRelationAggregateInput
-  values?: Prisma.FieldValueOrderByRelationAggregateInput
+  input?: Prisma.CommitOrderByWithRelationInput
+  outputs?: Prisma.CommitOrderByRelationAggregateInput
   _relevance?: Prisma.StateOrderByRelevanceInput
 }
 
 export type StateWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  createdById?: string
+  inputId?: string
   AND?: Prisma.StateWhereInput | Prisma.StateWhereInput[]
   OR?: Prisma.StateWhereInput[]
   NOT?: Prisma.StateWhereInput | Prisma.StateWhereInput[]
   processId?: Prisma.StringNullableFilter<"State"> | string | null
+  snapshot?: Prisma.JsonNullableFilter<"State">
   process?: Prisma.XOR<Prisma.ProcessNullableScalarRelationFilter, Prisma.ProcessWhereInput> | null
-  createdBy?: Prisma.XOR<Prisma.CommitScalarRelationFilter, Prisma.CommitWhereInput>
-  usedBy?: Prisma.CommitListRelationFilter
-  values?: Prisma.FieldValueListRelationFilter
-}, "id" | "createdById">
+  input?: Prisma.XOR<Prisma.CommitScalarRelationFilter, Prisma.CommitWhereInput>
+  outputs?: Prisma.CommitListRelationFilter
+}, "id" | "inputId">
 
 export type StateOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   processId?: Prisma.SortOrderInput | Prisma.SortOrder
-  createdById?: Prisma.SortOrder
+  inputId?: Prisma.SortOrder
+  snapshot?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.StateCountOrderByAggregateInput
   _max?: Prisma.StateMaxOrderByAggregateInput
   _min?: Prisma.StateMinOrderByAggregateInput
@@ -211,55 +215,59 @@ export type StateScalarWhereWithAggregatesInput = {
   NOT?: Prisma.StateScalarWhereWithAggregatesInput | Prisma.StateScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"State"> | string
   processId?: Prisma.StringNullableWithAggregatesFilter<"State"> | string | null
-  createdById?: Prisma.StringWithAggregatesFilter<"State"> | string
+  inputId?: Prisma.StringWithAggregatesFilter<"State"> | string
+  snapshot?: Prisma.JsonNullableWithAggregatesFilter<"State">
 }
 
 export type StateCreateInput = {
   id?: string
+  snapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   process?: Prisma.ProcessCreateNestedOneWithoutStatesInput
-  createdBy: Prisma.CommitCreateNestedOneWithoutOutputInput
-  usedBy?: Prisma.CommitCreateNestedManyWithoutInputsInput
-  values?: Prisma.FieldValueCreateNestedManyWithoutStatesInput
+  input: Prisma.CommitCreateNestedOneWithoutOutputInput
+  outputs?: Prisma.CommitCreateNestedManyWithoutInputsInput
 }
 
 export type StateUncheckedCreateInput = {
   id?: string
   processId?: string | null
-  createdById: string
-  usedBy?: Prisma.CommitUncheckedCreateNestedManyWithoutInputsInput
-  values?: Prisma.FieldValueUncheckedCreateNestedManyWithoutStatesInput
+  inputId: string
+  snapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  outputs?: Prisma.CommitUncheckedCreateNestedManyWithoutInputsInput
 }
 
 export type StateUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  snapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   process?: Prisma.ProcessUpdateOneWithoutStatesNestedInput
-  createdBy?: Prisma.CommitUpdateOneRequiredWithoutOutputNestedInput
-  usedBy?: Prisma.CommitUpdateManyWithoutInputsNestedInput
-  values?: Prisma.FieldValueUpdateManyWithoutStatesNestedInput
+  input?: Prisma.CommitUpdateOneRequiredWithoutOutputNestedInput
+  outputs?: Prisma.CommitUpdateManyWithoutInputsNestedInput
 }
 
 export type StateUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   processId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdById?: Prisma.StringFieldUpdateOperationsInput | string
-  usedBy?: Prisma.CommitUncheckedUpdateManyWithoutInputsNestedInput
-  values?: Prisma.FieldValueUncheckedUpdateManyWithoutStatesNestedInput
+  inputId?: Prisma.StringFieldUpdateOperationsInput | string
+  snapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  outputs?: Prisma.CommitUncheckedUpdateManyWithoutInputsNestedInput
 }
 
 export type StateCreateManyInput = {
   id?: string
   processId?: string | null
-  createdById: string
+  inputId: string
+  snapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type StateUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  snapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type StateUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   processId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  inputId?: Prisma.StringFieldUpdateOperationsInput | string
+  snapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type StateListRelationFilter = {
@@ -286,19 +294,20 @@ export type StateOrderByRelevanceInput = {
 export type StateCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   processId?: Prisma.SortOrder
-  createdById?: Prisma.SortOrder
+  inputId?: Prisma.SortOrder
+  snapshot?: Prisma.SortOrder
 }
 
 export type StateMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   processId?: Prisma.SortOrder
-  createdById?: Prisma.SortOrder
+  inputId?: Prisma.SortOrder
 }
 
 export type StateMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   processId?: Prisma.SortOrder
-  createdById?: Prisma.SortOrder
+  inputId?: Prisma.SortOrder
 }
 
 export type StateCreateNestedManyWithoutProcessInput = {
@@ -343,126 +352,88 @@ export type StateUncheckedUpdateManyWithoutProcessNestedInput = {
   deleteMany?: Prisma.StateScalarWhereInput | Prisma.StateScalarWhereInput[]
 }
 
-export type StateCreateNestedManyWithoutUsedByInput = {
-  create?: Prisma.XOR<Prisma.StateCreateWithoutUsedByInput, Prisma.StateUncheckedCreateWithoutUsedByInput> | Prisma.StateCreateWithoutUsedByInput[] | Prisma.StateUncheckedCreateWithoutUsedByInput[]
-  connectOrCreate?: Prisma.StateCreateOrConnectWithoutUsedByInput | Prisma.StateCreateOrConnectWithoutUsedByInput[]
+export type StateCreateNestedManyWithoutOutputsInput = {
+  create?: Prisma.XOR<Prisma.StateCreateWithoutOutputsInput, Prisma.StateUncheckedCreateWithoutOutputsInput> | Prisma.StateCreateWithoutOutputsInput[] | Prisma.StateUncheckedCreateWithoutOutputsInput[]
+  connectOrCreate?: Prisma.StateCreateOrConnectWithoutOutputsInput | Prisma.StateCreateOrConnectWithoutOutputsInput[]
   connect?: Prisma.StateWhereUniqueInput | Prisma.StateWhereUniqueInput[]
 }
 
-export type StateCreateNestedOneWithoutCreatedByInput = {
-  create?: Prisma.XOR<Prisma.StateCreateWithoutCreatedByInput, Prisma.StateUncheckedCreateWithoutCreatedByInput>
-  connectOrCreate?: Prisma.StateCreateOrConnectWithoutCreatedByInput
+export type StateCreateNestedOneWithoutInputInput = {
+  create?: Prisma.XOR<Prisma.StateCreateWithoutInputInput, Prisma.StateUncheckedCreateWithoutInputInput>
+  connectOrCreate?: Prisma.StateCreateOrConnectWithoutInputInput
   connect?: Prisma.StateWhereUniqueInput
 }
 
-export type StateUncheckedCreateNestedManyWithoutUsedByInput = {
-  create?: Prisma.XOR<Prisma.StateCreateWithoutUsedByInput, Prisma.StateUncheckedCreateWithoutUsedByInput> | Prisma.StateCreateWithoutUsedByInput[] | Prisma.StateUncheckedCreateWithoutUsedByInput[]
-  connectOrCreate?: Prisma.StateCreateOrConnectWithoutUsedByInput | Prisma.StateCreateOrConnectWithoutUsedByInput[]
+export type StateUncheckedCreateNestedManyWithoutOutputsInput = {
+  create?: Prisma.XOR<Prisma.StateCreateWithoutOutputsInput, Prisma.StateUncheckedCreateWithoutOutputsInput> | Prisma.StateCreateWithoutOutputsInput[] | Prisma.StateUncheckedCreateWithoutOutputsInput[]
+  connectOrCreate?: Prisma.StateCreateOrConnectWithoutOutputsInput | Prisma.StateCreateOrConnectWithoutOutputsInput[]
   connect?: Prisma.StateWhereUniqueInput | Prisma.StateWhereUniqueInput[]
 }
 
-export type StateUncheckedCreateNestedOneWithoutCreatedByInput = {
-  create?: Prisma.XOR<Prisma.StateCreateWithoutCreatedByInput, Prisma.StateUncheckedCreateWithoutCreatedByInput>
-  connectOrCreate?: Prisma.StateCreateOrConnectWithoutCreatedByInput
+export type StateUncheckedCreateNestedOneWithoutInputInput = {
+  create?: Prisma.XOR<Prisma.StateCreateWithoutInputInput, Prisma.StateUncheckedCreateWithoutInputInput>
+  connectOrCreate?: Prisma.StateCreateOrConnectWithoutInputInput
   connect?: Prisma.StateWhereUniqueInput
 }
 
-export type StateUpdateManyWithoutUsedByNestedInput = {
-  create?: Prisma.XOR<Prisma.StateCreateWithoutUsedByInput, Prisma.StateUncheckedCreateWithoutUsedByInput> | Prisma.StateCreateWithoutUsedByInput[] | Prisma.StateUncheckedCreateWithoutUsedByInput[]
-  connectOrCreate?: Prisma.StateCreateOrConnectWithoutUsedByInput | Prisma.StateCreateOrConnectWithoutUsedByInput[]
-  upsert?: Prisma.StateUpsertWithWhereUniqueWithoutUsedByInput | Prisma.StateUpsertWithWhereUniqueWithoutUsedByInput[]
+export type StateUpdateManyWithoutOutputsNestedInput = {
+  create?: Prisma.XOR<Prisma.StateCreateWithoutOutputsInput, Prisma.StateUncheckedCreateWithoutOutputsInput> | Prisma.StateCreateWithoutOutputsInput[] | Prisma.StateUncheckedCreateWithoutOutputsInput[]
+  connectOrCreate?: Prisma.StateCreateOrConnectWithoutOutputsInput | Prisma.StateCreateOrConnectWithoutOutputsInput[]
+  upsert?: Prisma.StateUpsertWithWhereUniqueWithoutOutputsInput | Prisma.StateUpsertWithWhereUniqueWithoutOutputsInput[]
   set?: Prisma.StateWhereUniqueInput | Prisma.StateWhereUniqueInput[]
   disconnect?: Prisma.StateWhereUniqueInput | Prisma.StateWhereUniqueInput[]
   delete?: Prisma.StateWhereUniqueInput | Prisma.StateWhereUniqueInput[]
   connect?: Prisma.StateWhereUniqueInput | Prisma.StateWhereUniqueInput[]
-  update?: Prisma.StateUpdateWithWhereUniqueWithoutUsedByInput | Prisma.StateUpdateWithWhereUniqueWithoutUsedByInput[]
-  updateMany?: Prisma.StateUpdateManyWithWhereWithoutUsedByInput | Prisma.StateUpdateManyWithWhereWithoutUsedByInput[]
+  update?: Prisma.StateUpdateWithWhereUniqueWithoutOutputsInput | Prisma.StateUpdateWithWhereUniqueWithoutOutputsInput[]
+  updateMany?: Prisma.StateUpdateManyWithWhereWithoutOutputsInput | Prisma.StateUpdateManyWithWhereWithoutOutputsInput[]
   deleteMany?: Prisma.StateScalarWhereInput | Prisma.StateScalarWhereInput[]
 }
 
-export type StateUpdateOneWithoutCreatedByNestedInput = {
-  create?: Prisma.XOR<Prisma.StateCreateWithoutCreatedByInput, Prisma.StateUncheckedCreateWithoutCreatedByInput>
-  connectOrCreate?: Prisma.StateCreateOrConnectWithoutCreatedByInput
-  upsert?: Prisma.StateUpsertWithoutCreatedByInput
+export type StateUpdateOneWithoutInputNestedInput = {
+  create?: Prisma.XOR<Prisma.StateCreateWithoutInputInput, Prisma.StateUncheckedCreateWithoutInputInput>
+  connectOrCreate?: Prisma.StateCreateOrConnectWithoutInputInput
+  upsert?: Prisma.StateUpsertWithoutInputInput
   disconnect?: Prisma.StateWhereInput | boolean
   delete?: Prisma.StateWhereInput | boolean
   connect?: Prisma.StateWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.StateUpdateToOneWithWhereWithoutCreatedByInput, Prisma.StateUpdateWithoutCreatedByInput>, Prisma.StateUncheckedUpdateWithoutCreatedByInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.StateUpdateToOneWithWhereWithoutInputInput, Prisma.StateUpdateWithoutInputInput>, Prisma.StateUncheckedUpdateWithoutInputInput>
 }
 
-export type StateUncheckedUpdateManyWithoutUsedByNestedInput = {
-  create?: Prisma.XOR<Prisma.StateCreateWithoutUsedByInput, Prisma.StateUncheckedCreateWithoutUsedByInput> | Prisma.StateCreateWithoutUsedByInput[] | Prisma.StateUncheckedCreateWithoutUsedByInput[]
-  connectOrCreate?: Prisma.StateCreateOrConnectWithoutUsedByInput | Prisma.StateCreateOrConnectWithoutUsedByInput[]
-  upsert?: Prisma.StateUpsertWithWhereUniqueWithoutUsedByInput | Prisma.StateUpsertWithWhereUniqueWithoutUsedByInput[]
+export type StateUncheckedUpdateManyWithoutOutputsNestedInput = {
+  create?: Prisma.XOR<Prisma.StateCreateWithoutOutputsInput, Prisma.StateUncheckedCreateWithoutOutputsInput> | Prisma.StateCreateWithoutOutputsInput[] | Prisma.StateUncheckedCreateWithoutOutputsInput[]
+  connectOrCreate?: Prisma.StateCreateOrConnectWithoutOutputsInput | Prisma.StateCreateOrConnectWithoutOutputsInput[]
+  upsert?: Prisma.StateUpsertWithWhereUniqueWithoutOutputsInput | Prisma.StateUpsertWithWhereUniqueWithoutOutputsInput[]
   set?: Prisma.StateWhereUniqueInput | Prisma.StateWhereUniqueInput[]
   disconnect?: Prisma.StateWhereUniqueInput | Prisma.StateWhereUniqueInput[]
   delete?: Prisma.StateWhereUniqueInput | Prisma.StateWhereUniqueInput[]
   connect?: Prisma.StateWhereUniqueInput | Prisma.StateWhereUniqueInput[]
-  update?: Prisma.StateUpdateWithWhereUniqueWithoutUsedByInput | Prisma.StateUpdateWithWhereUniqueWithoutUsedByInput[]
-  updateMany?: Prisma.StateUpdateManyWithWhereWithoutUsedByInput | Prisma.StateUpdateManyWithWhereWithoutUsedByInput[]
+  update?: Prisma.StateUpdateWithWhereUniqueWithoutOutputsInput | Prisma.StateUpdateWithWhereUniqueWithoutOutputsInput[]
+  updateMany?: Prisma.StateUpdateManyWithWhereWithoutOutputsInput | Prisma.StateUpdateManyWithWhereWithoutOutputsInput[]
   deleteMany?: Prisma.StateScalarWhereInput | Prisma.StateScalarWhereInput[]
 }
 
-export type StateUncheckedUpdateOneWithoutCreatedByNestedInput = {
-  create?: Prisma.XOR<Prisma.StateCreateWithoutCreatedByInput, Prisma.StateUncheckedCreateWithoutCreatedByInput>
-  connectOrCreate?: Prisma.StateCreateOrConnectWithoutCreatedByInput
-  upsert?: Prisma.StateUpsertWithoutCreatedByInput
+export type StateUncheckedUpdateOneWithoutInputNestedInput = {
+  create?: Prisma.XOR<Prisma.StateCreateWithoutInputInput, Prisma.StateUncheckedCreateWithoutInputInput>
+  connectOrCreate?: Prisma.StateCreateOrConnectWithoutInputInput
+  upsert?: Prisma.StateUpsertWithoutInputInput
   disconnect?: Prisma.StateWhereInput | boolean
   delete?: Prisma.StateWhereInput | boolean
   connect?: Prisma.StateWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.StateUpdateToOneWithWhereWithoutCreatedByInput, Prisma.StateUpdateWithoutCreatedByInput>, Prisma.StateUncheckedUpdateWithoutCreatedByInput>
-}
-
-export type StateCreateNestedManyWithoutValuesInput = {
-  create?: Prisma.XOR<Prisma.StateCreateWithoutValuesInput, Prisma.StateUncheckedCreateWithoutValuesInput> | Prisma.StateCreateWithoutValuesInput[] | Prisma.StateUncheckedCreateWithoutValuesInput[]
-  connectOrCreate?: Prisma.StateCreateOrConnectWithoutValuesInput | Prisma.StateCreateOrConnectWithoutValuesInput[]
-  connect?: Prisma.StateWhereUniqueInput | Prisma.StateWhereUniqueInput[]
-}
-
-export type StateUncheckedCreateNestedManyWithoutValuesInput = {
-  create?: Prisma.XOR<Prisma.StateCreateWithoutValuesInput, Prisma.StateUncheckedCreateWithoutValuesInput> | Prisma.StateCreateWithoutValuesInput[] | Prisma.StateUncheckedCreateWithoutValuesInput[]
-  connectOrCreate?: Prisma.StateCreateOrConnectWithoutValuesInput | Prisma.StateCreateOrConnectWithoutValuesInput[]
-  connect?: Prisma.StateWhereUniqueInput | Prisma.StateWhereUniqueInput[]
-}
-
-export type StateUpdateManyWithoutValuesNestedInput = {
-  create?: Prisma.XOR<Prisma.StateCreateWithoutValuesInput, Prisma.StateUncheckedCreateWithoutValuesInput> | Prisma.StateCreateWithoutValuesInput[] | Prisma.StateUncheckedCreateWithoutValuesInput[]
-  connectOrCreate?: Prisma.StateCreateOrConnectWithoutValuesInput | Prisma.StateCreateOrConnectWithoutValuesInput[]
-  upsert?: Prisma.StateUpsertWithWhereUniqueWithoutValuesInput | Prisma.StateUpsertWithWhereUniqueWithoutValuesInput[]
-  set?: Prisma.StateWhereUniqueInput | Prisma.StateWhereUniqueInput[]
-  disconnect?: Prisma.StateWhereUniqueInput | Prisma.StateWhereUniqueInput[]
-  delete?: Prisma.StateWhereUniqueInput | Prisma.StateWhereUniqueInput[]
-  connect?: Prisma.StateWhereUniqueInput | Prisma.StateWhereUniqueInput[]
-  update?: Prisma.StateUpdateWithWhereUniqueWithoutValuesInput | Prisma.StateUpdateWithWhereUniqueWithoutValuesInput[]
-  updateMany?: Prisma.StateUpdateManyWithWhereWithoutValuesInput | Prisma.StateUpdateManyWithWhereWithoutValuesInput[]
-  deleteMany?: Prisma.StateScalarWhereInput | Prisma.StateScalarWhereInput[]
-}
-
-export type StateUncheckedUpdateManyWithoutValuesNestedInput = {
-  create?: Prisma.XOR<Prisma.StateCreateWithoutValuesInput, Prisma.StateUncheckedCreateWithoutValuesInput> | Prisma.StateCreateWithoutValuesInput[] | Prisma.StateUncheckedCreateWithoutValuesInput[]
-  connectOrCreate?: Prisma.StateCreateOrConnectWithoutValuesInput | Prisma.StateCreateOrConnectWithoutValuesInput[]
-  upsert?: Prisma.StateUpsertWithWhereUniqueWithoutValuesInput | Prisma.StateUpsertWithWhereUniqueWithoutValuesInput[]
-  set?: Prisma.StateWhereUniqueInput | Prisma.StateWhereUniqueInput[]
-  disconnect?: Prisma.StateWhereUniqueInput | Prisma.StateWhereUniqueInput[]
-  delete?: Prisma.StateWhereUniqueInput | Prisma.StateWhereUniqueInput[]
-  connect?: Prisma.StateWhereUniqueInput | Prisma.StateWhereUniqueInput[]
-  update?: Prisma.StateUpdateWithWhereUniqueWithoutValuesInput | Prisma.StateUpdateWithWhereUniqueWithoutValuesInput[]
-  updateMany?: Prisma.StateUpdateManyWithWhereWithoutValuesInput | Prisma.StateUpdateManyWithWhereWithoutValuesInput[]
-  deleteMany?: Prisma.StateScalarWhereInput | Prisma.StateScalarWhereInput[]
+  update?: Prisma.XOR<Prisma.XOR<Prisma.StateUpdateToOneWithWhereWithoutInputInput, Prisma.StateUpdateWithoutInputInput>, Prisma.StateUncheckedUpdateWithoutInputInput>
 }
 
 export type StateCreateWithoutProcessInput = {
   id?: string
-  createdBy: Prisma.CommitCreateNestedOneWithoutOutputInput
-  usedBy?: Prisma.CommitCreateNestedManyWithoutInputsInput
-  values?: Prisma.FieldValueCreateNestedManyWithoutStatesInput
+  snapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  input: Prisma.CommitCreateNestedOneWithoutOutputInput
+  outputs?: Prisma.CommitCreateNestedManyWithoutInputsInput
 }
 
 export type StateUncheckedCreateWithoutProcessInput = {
   id?: string
-  createdById: string
-  usedBy?: Prisma.CommitUncheckedCreateNestedManyWithoutInputsInput
-  values?: Prisma.FieldValueUncheckedCreateNestedManyWithoutStatesInput
+  inputId: string
+  snapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  outputs?: Prisma.CommitUncheckedCreateNestedManyWithoutInputsInput
 }
 
 export type StateCreateOrConnectWithoutProcessInput = {
@@ -497,185 +468,134 @@ export type StateScalarWhereInput = {
   NOT?: Prisma.StateScalarWhereInput | Prisma.StateScalarWhereInput[]
   id?: Prisma.StringFilter<"State"> | string
   processId?: Prisma.StringNullableFilter<"State"> | string | null
-  createdById?: Prisma.StringFilter<"State"> | string
+  inputId?: Prisma.StringFilter<"State"> | string
+  snapshot?: Prisma.JsonNullableFilter<"State">
 }
 
-export type StateCreateWithoutUsedByInput = {
+export type StateCreateWithoutOutputsInput = {
   id?: string
+  snapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   process?: Prisma.ProcessCreateNestedOneWithoutStatesInput
-  createdBy: Prisma.CommitCreateNestedOneWithoutOutputInput
-  values?: Prisma.FieldValueCreateNestedManyWithoutStatesInput
+  input: Prisma.CommitCreateNestedOneWithoutOutputInput
 }
 
-export type StateUncheckedCreateWithoutUsedByInput = {
+export type StateUncheckedCreateWithoutOutputsInput = {
   id?: string
   processId?: string | null
-  createdById: string
-  values?: Prisma.FieldValueUncheckedCreateNestedManyWithoutStatesInput
+  inputId: string
+  snapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
-export type StateCreateOrConnectWithoutUsedByInput = {
+export type StateCreateOrConnectWithoutOutputsInput = {
   where: Prisma.StateWhereUniqueInput
-  create: Prisma.XOR<Prisma.StateCreateWithoutUsedByInput, Prisma.StateUncheckedCreateWithoutUsedByInput>
+  create: Prisma.XOR<Prisma.StateCreateWithoutOutputsInput, Prisma.StateUncheckedCreateWithoutOutputsInput>
 }
 
-export type StateCreateWithoutCreatedByInput = {
+export type StateCreateWithoutInputInput = {
   id?: string
+  snapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   process?: Prisma.ProcessCreateNestedOneWithoutStatesInput
-  usedBy?: Prisma.CommitCreateNestedManyWithoutInputsInput
-  values?: Prisma.FieldValueCreateNestedManyWithoutStatesInput
+  outputs?: Prisma.CommitCreateNestedManyWithoutInputsInput
 }
 
-export type StateUncheckedCreateWithoutCreatedByInput = {
+export type StateUncheckedCreateWithoutInputInput = {
   id?: string
   processId?: string | null
-  usedBy?: Prisma.CommitUncheckedCreateNestedManyWithoutInputsInput
-  values?: Prisma.FieldValueUncheckedCreateNestedManyWithoutStatesInput
+  snapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  outputs?: Prisma.CommitUncheckedCreateNestedManyWithoutInputsInput
 }
 
-export type StateCreateOrConnectWithoutCreatedByInput = {
+export type StateCreateOrConnectWithoutInputInput = {
   where: Prisma.StateWhereUniqueInput
-  create: Prisma.XOR<Prisma.StateCreateWithoutCreatedByInput, Prisma.StateUncheckedCreateWithoutCreatedByInput>
+  create: Prisma.XOR<Prisma.StateCreateWithoutInputInput, Prisma.StateUncheckedCreateWithoutInputInput>
 }
 
-export type StateUpsertWithWhereUniqueWithoutUsedByInput = {
+export type StateUpsertWithWhereUniqueWithoutOutputsInput = {
   where: Prisma.StateWhereUniqueInput
-  update: Prisma.XOR<Prisma.StateUpdateWithoutUsedByInput, Prisma.StateUncheckedUpdateWithoutUsedByInput>
-  create: Prisma.XOR<Prisma.StateCreateWithoutUsedByInput, Prisma.StateUncheckedCreateWithoutUsedByInput>
+  update: Prisma.XOR<Prisma.StateUpdateWithoutOutputsInput, Prisma.StateUncheckedUpdateWithoutOutputsInput>
+  create: Prisma.XOR<Prisma.StateCreateWithoutOutputsInput, Prisma.StateUncheckedCreateWithoutOutputsInput>
 }
 
-export type StateUpdateWithWhereUniqueWithoutUsedByInput = {
+export type StateUpdateWithWhereUniqueWithoutOutputsInput = {
   where: Prisma.StateWhereUniqueInput
-  data: Prisma.XOR<Prisma.StateUpdateWithoutUsedByInput, Prisma.StateUncheckedUpdateWithoutUsedByInput>
+  data: Prisma.XOR<Prisma.StateUpdateWithoutOutputsInput, Prisma.StateUncheckedUpdateWithoutOutputsInput>
 }
 
-export type StateUpdateManyWithWhereWithoutUsedByInput = {
+export type StateUpdateManyWithWhereWithoutOutputsInput = {
   where: Prisma.StateScalarWhereInput
-  data: Prisma.XOR<Prisma.StateUpdateManyMutationInput, Prisma.StateUncheckedUpdateManyWithoutUsedByInput>
+  data: Prisma.XOR<Prisma.StateUpdateManyMutationInput, Prisma.StateUncheckedUpdateManyWithoutOutputsInput>
 }
 
-export type StateUpsertWithoutCreatedByInput = {
-  update: Prisma.XOR<Prisma.StateUpdateWithoutCreatedByInput, Prisma.StateUncheckedUpdateWithoutCreatedByInput>
-  create: Prisma.XOR<Prisma.StateCreateWithoutCreatedByInput, Prisma.StateUncheckedCreateWithoutCreatedByInput>
+export type StateUpsertWithoutInputInput = {
+  update: Prisma.XOR<Prisma.StateUpdateWithoutInputInput, Prisma.StateUncheckedUpdateWithoutInputInput>
+  create: Prisma.XOR<Prisma.StateCreateWithoutInputInput, Prisma.StateUncheckedCreateWithoutInputInput>
   where?: Prisma.StateWhereInput
 }
 
-export type StateUpdateToOneWithWhereWithoutCreatedByInput = {
+export type StateUpdateToOneWithWhereWithoutInputInput = {
   where?: Prisma.StateWhereInput
-  data: Prisma.XOR<Prisma.StateUpdateWithoutCreatedByInput, Prisma.StateUncheckedUpdateWithoutCreatedByInput>
+  data: Prisma.XOR<Prisma.StateUpdateWithoutInputInput, Prisma.StateUncheckedUpdateWithoutInputInput>
 }
 
-export type StateUpdateWithoutCreatedByInput = {
+export type StateUpdateWithoutInputInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  snapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   process?: Prisma.ProcessUpdateOneWithoutStatesNestedInput
-  usedBy?: Prisma.CommitUpdateManyWithoutInputsNestedInput
-  values?: Prisma.FieldValueUpdateManyWithoutStatesNestedInput
+  outputs?: Prisma.CommitUpdateManyWithoutInputsNestedInput
 }
 
-export type StateUncheckedUpdateWithoutCreatedByInput = {
+export type StateUncheckedUpdateWithoutInputInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   processId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  usedBy?: Prisma.CommitUncheckedUpdateManyWithoutInputsNestedInput
-  values?: Prisma.FieldValueUncheckedUpdateManyWithoutStatesNestedInput
-}
-
-export type StateCreateWithoutValuesInput = {
-  id?: string
-  process?: Prisma.ProcessCreateNestedOneWithoutStatesInput
-  createdBy: Prisma.CommitCreateNestedOneWithoutOutputInput
-  usedBy?: Prisma.CommitCreateNestedManyWithoutInputsInput
-}
-
-export type StateUncheckedCreateWithoutValuesInput = {
-  id?: string
-  processId?: string | null
-  createdById: string
-  usedBy?: Prisma.CommitUncheckedCreateNestedManyWithoutInputsInput
-}
-
-export type StateCreateOrConnectWithoutValuesInput = {
-  where: Prisma.StateWhereUniqueInput
-  create: Prisma.XOR<Prisma.StateCreateWithoutValuesInput, Prisma.StateUncheckedCreateWithoutValuesInput>
-}
-
-export type StateUpsertWithWhereUniqueWithoutValuesInput = {
-  where: Prisma.StateWhereUniqueInput
-  update: Prisma.XOR<Prisma.StateUpdateWithoutValuesInput, Prisma.StateUncheckedUpdateWithoutValuesInput>
-  create: Prisma.XOR<Prisma.StateCreateWithoutValuesInput, Prisma.StateUncheckedCreateWithoutValuesInput>
-}
-
-export type StateUpdateWithWhereUniqueWithoutValuesInput = {
-  where: Prisma.StateWhereUniqueInput
-  data: Prisma.XOR<Prisma.StateUpdateWithoutValuesInput, Prisma.StateUncheckedUpdateWithoutValuesInput>
-}
-
-export type StateUpdateManyWithWhereWithoutValuesInput = {
-  where: Prisma.StateScalarWhereInput
-  data: Prisma.XOR<Prisma.StateUpdateManyMutationInput, Prisma.StateUncheckedUpdateManyWithoutValuesInput>
+  snapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  outputs?: Prisma.CommitUncheckedUpdateManyWithoutInputsNestedInput
 }
 
 export type StateCreateManyProcessInput = {
   id?: string
-  createdById: string
+  inputId: string
+  snapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 export type StateUpdateWithoutProcessInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  createdBy?: Prisma.CommitUpdateOneRequiredWithoutOutputNestedInput
-  usedBy?: Prisma.CommitUpdateManyWithoutInputsNestedInput
-  values?: Prisma.FieldValueUpdateManyWithoutStatesNestedInput
+  snapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  input?: Prisma.CommitUpdateOneRequiredWithoutOutputNestedInput
+  outputs?: Prisma.CommitUpdateManyWithoutInputsNestedInput
 }
 
 export type StateUncheckedUpdateWithoutProcessInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  createdById?: Prisma.StringFieldUpdateOperationsInput | string
-  usedBy?: Prisma.CommitUncheckedUpdateManyWithoutInputsNestedInput
-  values?: Prisma.FieldValueUncheckedUpdateManyWithoutStatesNestedInput
+  inputId?: Prisma.StringFieldUpdateOperationsInput | string
+  snapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  outputs?: Prisma.CommitUncheckedUpdateManyWithoutInputsNestedInput
 }
 
 export type StateUncheckedUpdateManyWithoutProcessInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  inputId?: Prisma.StringFieldUpdateOperationsInput | string
+  snapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
-export type StateUpdateWithoutUsedByInput = {
+export type StateUpdateWithoutOutputsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  snapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   process?: Prisma.ProcessUpdateOneWithoutStatesNestedInput
-  createdBy?: Prisma.CommitUpdateOneRequiredWithoutOutputNestedInput
-  values?: Prisma.FieldValueUpdateManyWithoutStatesNestedInput
+  input?: Prisma.CommitUpdateOneRequiredWithoutOutputNestedInput
 }
 
-export type StateUncheckedUpdateWithoutUsedByInput = {
+export type StateUncheckedUpdateWithoutOutputsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   processId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdById?: Prisma.StringFieldUpdateOperationsInput | string
-  values?: Prisma.FieldValueUncheckedUpdateManyWithoutStatesNestedInput
+  inputId?: Prisma.StringFieldUpdateOperationsInput | string
+  snapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
-export type StateUncheckedUpdateManyWithoutUsedByInput = {
+export type StateUncheckedUpdateManyWithoutOutputsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   processId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdById?: Prisma.StringFieldUpdateOperationsInput | string
-}
-
-export type StateUpdateWithoutValuesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  process?: Prisma.ProcessUpdateOneWithoutStatesNestedInput
-  createdBy?: Prisma.CommitUpdateOneRequiredWithoutOutputNestedInput
-  usedBy?: Prisma.CommitUpdateManyWithoutInputsNestedInput
-}
-
-export type StateUncheckedUpdateWithoutValuesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  processId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdById?: Prisma.StringFieldUpdateOperationsInput | string
-  usedBy?: Prisma.CommitUncheckedUpdateManyWithoutInputsNestedInput
-}
-
-export type StateUncheckedUpdateManyWithoutValuesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  processId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdById?: Prisma.StringFieldUpdateOperationsInput | string
+  inputId?: Prisma.StringFieldUpdateOperationsInput | string
+  snapshot?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
 }
 
 
@@ -684,13 +604,11 @@ export type StateUncheckedUpdateManyWithoutValuesInput = {
  */
 
 export type StateCountOutputType = {
-  usedBy: number
-  values: number
+  outputs: number
 }
 
 export type StateCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  usedBy?: boolean | StateCountOutputTypeCountUsedByArgs
-  values?: boolean | StateCountOutputTypeCountValuesArgs
+  outputs?: boolean | StateCountOutputTypeCountOutputsArgs
 }
 
 /**
@@ -706,26 +624,19 @@ export type StateCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extens
 /**
  * StateCountOutputType without action
  */
-export type StateCountOutputTypeCountUsedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type StateCountOutputTypeCountOutputsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.CommitWhereInput
-}
-
-/**
- * StateCountOutputType without action
- */
-export type StateCountOutputTypeCountValuesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.FieldValueWhereInput
 }
 
 
 export type StateSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   processId?: boolean
-  createdById?: boolean
+  inputId?: boolean
+  snapshot?: boolean
   process?: boolean | Prisma.State$processArgs<ExtArgs>
-  createdBy?: boolean | Prisma.CommitDefaultArgs<ExtArgs>
-  usedBy?: boolean | Prisma.State$usedByArgs<ExtArgs>
-  values?: boolean | Prisma.State$valuesArgs<ExtArgs>
+  input?: boolean | Prisma.CommitDefaultArgs<ExtArgs>
+  outputs?: boolean | Prisma.State$outputsArgs<ExtArgs>
   _count?: boolean | Prisma.StateCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["state"]>
 
@@ -734,15 +645,15 @@ export type StateSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 export type StateSelectScalar = {
   id?: boolean
   processId?: boolean
-  createdById?: boolean
+  inputId?: boolean
+  snapshot?: boolean
 }
 
-export type StateOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "processId" | "createdById", ExtArgs["result"]["state"]>
+export type StateOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "processId" | "inputId" | "snapshot", ExtArgs["result"]["state"]>
 export type StateInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   process?: boolean | Prisma.State$processArgs<ExtArgs>
-  createdBy?: boolean | Prisma.CommitDefaultArgs<ExtArgs>
-  usedBy?: boolean | Prisma.State$usedByArgs<ExtArgs>
-  values?: boolean | Prisma.State$valuesArgs<ExtArgs>
+  input?: boolean | Prisma.CommitDefaultArgs<ExtArgs>
+  outputs?: boolean | Prisma.State$outputsArgs<ExtArgs>
   _count?: boolean | Prisma.StateCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -750,14 +661,14 @@ export type $StatePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   name: "State"
   objects: {
     process: Prisma.$ProcessPayload<ExtArgs> | null
-    createdBy: Prisma.$CommitPayload<ExtArgs>
-    usedBy: Prisma.$CommitPayload<ExtArgs>[]
-    values: Prisma.$FieldValuePayload<ExtArgs>[]
+    input: Prisma.$CommitPayload<ExtArgs>
+    outputs: Prisma.$CommitPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     processId: string | null
-    createdById: string
+    inputId: string
+    snapshot: runtime.JsonValue | null
   }, ExtArgs["result"]["state"]>
   composites: {}
 }
@@ -1099,9 +1010,8 @@ readonly fields: StateFieldRefs;
 export interface Prisma__StateClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   process<T extends Prisma.State$processArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.State$processArgs<ExtArgs>>): Prisma.Prisma__ProcessClient<runtime.Types.Result.GetResult<Prisma.$ProcessPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  createdBy<T extends Prisma.CommitDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CommitDefaultArgs<ExtArgs>>): Prisma.Prisma__CommitClient<runtime.Types.Result.GetResult<Prisma.$CommitPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  usedBy<T extends Prisma.State$usedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.State$usedByArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  values<T extends Prisma.State$valuesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.State$valuesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FieldValuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  input<T extends Prisma.CommitDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CommitDefaultArgs<ExtArgs>>): Prisma.Prisma__CommitClient<runtime.Types.Result.GetResult<Prisma.$CommitPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  outputs<T extends Prisma.State$outputsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.State$outputsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1133,7 +1043,8 @@ export interface Prisma__StateClient<T, Null = never, ExtArgs extends runtime.Ty
 export interface StateFieldRefs {
   readonly id: Prisma.FieldRef<"State", 'String'>
   readonly processId: Prisma.FieldRef<"State", 'String'>
-  readonly createdById: Prisma.FieldRef<"State", 'String'>
+  readonly inputId: Prisma.FieldRef<"State", 'String'>
+  readonly snapshot: Prisma.FieldRef<"State", 'Json'>
 }
     
 
@@ -1496,9 +1407,9 @@ export type State$processArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 }
 
 /**
- * State.usedBy
+ * State.outputs
  */
-export type State$usedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type State$outputsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Commit
    */
@@ -1517,30 +1428,6 @@ export type State$usedByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.CommitScalarFieldEnum | Prisma.CommitScalarFieldEnum[]
-}
-
-/**
- * State.values
- */
-export type State$valuesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the FieldValue
-   */
-  select?: Prisma.FieldValueSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the FieldValue
-   */
-  omit?: Prisma.FieldValueOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.FieldValueInclude<ExtArgs> | null
-  where?: Prisma.FieldValueWhereInput
-  orderBy?: Prisma.FieldValueOrderByWithRelationInput | Prisma.FieldValueOrderByWithRelationInput[]
-  cursor?: Prisma.FieldValueWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.FieldValueScalarFieldEnum | Prisma.FieldValueScalarFieldEnum[]
 }
 
 /**

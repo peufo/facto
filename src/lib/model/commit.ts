@@ -7,7 +7,6 @@ export const modelCommitCreate = {
 		z.object({ id: z.string() }).transform((connect) => ({ connect })),
 		z.object({ name: z.string() }).transform((create) => ({ create }))
 	]),
-
 	parent: z.union([
 		z.object({ id: z.string() }).transform((connect) => ({ connect })),
 		z.undefined()

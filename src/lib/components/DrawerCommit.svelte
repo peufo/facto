@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { Drawer, Form } from 'fuma'
-	import { modelCommit } from '$lib/model'
 	import type { Commit } from '$lib/server/prisma'
 
 	let { commit }: { commit?: Commit } = $props()
@@ -16,7 +15,6 @@
 >
 	<Form
 		action="/process?/commit"
-		model={modelCommit}
 		data={commit}
 		on:success={() => close()}
 		fields={[

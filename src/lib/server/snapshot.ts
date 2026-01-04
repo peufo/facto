@@ -1,8 +1,7 @@
-import type { JsonObject, JsonValue } from '@prisma/client/runtime/client'
+import type { JsonObject } from '@prisma/client/runtime/client'
 import { prisma } from './prisma'
-import type { Commit } from './prisma/generated/browser'
 
-export async function getState(commitId: string): Promise<JsonObject | null> {
+export async function getSnapshotFromCommitId(commitId: string): Promise<JsonObject | null> {
 	const commit = await prisma.commit.findUniqueOrThrow({
 		where: { id: commitId },
 		include: { inputs: true, output: true }
@@ -18,9 +17,9 @@ export async function getState(commitId: string): Promise<JsonObject | null> {
 		if (input.snapshot) {
 			return input.snapshot as JsonObject // TODO: use prisma typed Json
 		}
-		const inputState = await getState(input.inputId)
+		const inputSnapshot = await getSnapshotFromCommitId(input.inputId)
 		const snapshot = {
-			...inputState,
+			...inputSnapshot,
 			...(commit.changes as JsonObject)
 		}
 		// TODO: What if output state not exist ?
@@ -37,17 +36,17 @@ export async function getState(commitId: string): Promise<JsonObject | null> {
 	// Multiple inputs avoid updates ?
 	// Snapshot as array ?
 
-	const parentState = commit.parentId ? await getState(commit.parentId) : {} // Si racine, état vide
+	const parentSnapshot = commit.parentId ? await getSnapshotFromCommitId(commit.parentId) : {} // Si racine, état vide
 
 	// On applique les changements actuels sur l'état du parent
 	const currentState = {
-		...parentState,
+		...parentSnapshot,
 		...(commit.changes as object) // Casting du Json
 	}
 
 	// Optionnel : On sauvegarde le résultat pour la prochaine fois !
 	// C'est ici que le "Lazy Snapshotting" opère.
-	await prisma.commit.update({
+	await prisma.state.update({
 		where: { id: commitId },
 		data: { snapshot: currentState }
 	})

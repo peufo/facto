@@ -13,7 +13,7 @@
 				class:menu-active={$urlParam.hasValue('commitId', commit.id.toString())}
 				href={$urlParam.with({ commitId: commit.id })}
 			>
-				{commit.name || `commit_${commit.id}`}
+				{commit.output?.snapshot.name || `commit_${commit.id}`}
 			</a>
 		</li>
 		{#if commit.children}

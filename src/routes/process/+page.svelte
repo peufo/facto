@@ -3,16 +3,15 @@
 	import { Icon, urlParam } from 'fuma'
 	import { DrawerCommit, Hierarchy } from '$lib/components'
 	import { SceneSVG, SceneCanvas } from '$lib/components/map/index.js'
-	import { computeState } from '$lib/server/state.js'
 
 	let { data } = $props()
 
 	let mode = $state<'svg' | 'canvas'>('svg')
 
 	// svelte-ignore state_referenced_locally
-	let commits = $state(computeState(data.commits))
+	let commits = $state(data.commits)
 	$effect(() => {
-		commits = computeState(data.commits)
+		commits = data.commits
 	})
 </script>
 

@@ -1,5 +1,6 @@
-import type { Commit } from '$lib/server/prisma'
+import type { Commit, State } from '$lib/server/prisma'
 
-export type CommitWithChildren = Commit & {
+export type CommitWithOutput = Commit & { output: State | null }
+export type CommitWithChildren = CommitWithOutput & {
 	children?: CommitWithChildren[]
 }

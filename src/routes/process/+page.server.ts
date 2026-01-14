@@ -7,6 +7,7 @@ import {
 	type CommitWithOutput
 } from '$lib'
 import { prisma } from '$lib/server'
+import { modelProcessCreate } from '$lib/model/process.js'
 
 export const load = async ({ url }) => {
 	const { processes } = parseQuery(url, { processes: zodCoerceJSON.pipe(z.array(z.string())) })
@@ -31,8 +32,9 @@ export const load = async ({ url }) => {
 
 export const actions = {
 	commit_create: formAction(modelCommitCreate, async ({ data }) => {
-		return prisma.commit.create({
-			data
-		})
+		return prisma.commit.create({ data })
+	}),
+	process_create: formAction(modelProcessCreate, async ({ data }) => {
+		return prisma.process.create({ data })
 	})
 }

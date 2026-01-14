@@ -1,8 +1,10 @@
 <script lang="ts">
-	import { Drawer, Form } from 'fuma'
-	import type { Commit } from '$lib/server/prisma'
+	import { Drawer, Form, InputRelation } from 'fuma'
+	import type { Commit, Process } from '$lib/server/prisma'
+	import type { CommitWithProcess } from './types'
+	import { apiClient } from '$lib/api'
 
-	let { commit }: { commit?: Commit } = $props()
+	let { commit }: { commit?: CommitWithProcess } = $props()
 </script>
 
 <Drawer
@@ -31,9 +33,16 @@
 			]
 		]}
 	>
-		<input type="hidden" name="path" value="" />
-		<input type="hidden" name="nodeId" value="" />
-		<!-- <input type="hidden" name="validFrom" value="">
-		<input type="hidden" name="validTo" value=""> -->
+		<InputRelation
+			label="Process"
+			key="process"
+			value={commit?.process}
+			slotItem={snippetProcess}
+			search={(search) => apiClient.processes({ search })}
+		/>
 	</Form>
 </Drawer>
+
+{#snippet snippetProcess(process: Process)}
+	<span>{process.name}</span>
+{/snippet}

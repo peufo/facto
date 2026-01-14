@@ -4,13 +4,15 @@ import { type ShapeOf } from './utils'
 
 export const modelCommitCreate = {
 	process: z.union([
-		z.object({ id: z.string() }).transform((connect) => ({ connect })),
-		z.object({ name: z.string() }).transform((create) => ({ create }))
+		z.object({ id: z.string() }).transform((connect) => ({ connect }))
+		// Maybe not a good idea
+		// z.object({ name: z.string() }).transform((create) => ({ create }))
 	]),
 	parent: z.union([
 		z.object({ id: z.string() }).transform((connect) => ({ connect })),
 		z.undefined()
 	]),
+	inputs: z.array(z.object({ id: z.string() })).transform((connect) => ({ connect })),
 	changes: z
 		.array(
 			z.object({

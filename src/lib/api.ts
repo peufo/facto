@@ -1,9 +1,10 @@
-import type { Process } from '$lib/server/prisma'
+import type { Commit, Process } from '$lib/server/prisma'
 import { toast } from 'svelte-sonner'
 import { parse } from 'devalue'
 
 export type API = {
 	processes: { data: Process[]; query: { search: string } }
+	commits: { data: Commit[]; query: { search: string; processId: string } }
 }
 
 type APIClient = { [K in keyof API]: (query: API[K]['query']) => Promise<API[K]['data']> }
@@ -31,5 +32,6 @@ function useGetApi<K extends keyof API>(resource: K) {
 }
 
 export const apiClient = {
-	processes: useGetApi('processes')
+	processes: useGetApi('processes'),
+	commits: useGetApi('commits')
 } satisfies APIClient

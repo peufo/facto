@@ -24,6 +24,18 @@ const apiServer = {
 				take,
 				skip
 			})
+	},
+	commits: {
+		schemaQuery: { search: z.string().default(''), processId: z.string() },
+		getData: ({ search, take, skip, processId }) =>
+			prisma.commit.findMany({
+				where: {
+					processId,
+					output: { snapshot: { path: 'name', string_contains: search } }
+				},
+				take,
+				skip
+			})
 	}
 } as const satisfies APIServer
 
@@ -40,6 +52,7 @@ export const GET: RequestHandler = async ({ locals, url }) => {
 	const { schemaQuery, getData } = apiServer[resource]
 	const query = parseQuery(url, schemaQuery)
 	try {
+		// @ts-ignore
 		const data = await getData({ ...query, take, skip, locals })
 		return json({ data: stringify(data) })
 	} catch (err: unknown) {

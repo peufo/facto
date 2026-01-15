@@ -4,7 +4,7 @@
 	import type { CommitWithProcess } from './types'
 	import { apiClient } from '$lib/api'
 
-	let { commit }: { commit?: CommitWithProcess } = $props()
+	let { commit }: { commit?: CommitWithProcess & { parent: Commit } } = $props()
 </script>
 
 <Drawer
@@ -40,9 +40,20 @@
 			slotItem={snippetProcess}
 			search={(search) => apiClient.processes({ search })}
 		/>
+		<InputRelation
+			label="Parent"
+			key="parent"
+			value={commit?.parent}
+			slotItem={snippetParent}
+			search={(search) => apiClient.commits({ search, processId: commit?.processId || '' })}
+		/>
 	</Form>
 </Drawer>
 
 {#snippet snippetProcess(process: Process)}
 	<span>{process.name}</span>
+{/snippet}
+
+{#snippet snippetParent(parent: Commit)}
+	<span>{parent.id} HOW TO EASILY ACCESS TO parent.output.snapshot.name ?</span>
 {/snippet}

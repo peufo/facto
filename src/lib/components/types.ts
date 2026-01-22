@@ -1,4 +1,4 @@
-import type { Commit, Process, State } from '$lib/server/prisma'
+import type { Commit, Process, State } from '@prisma/client'
 
 export type CommitWithProcess = Commit & { process: Process }
 

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Drawer, Form, InputRelation } from 'fuma'
-	import type { Commit, Process } from '$lib/server/prisma'
+	import type { Commit, Process } from '@prisma/client'
 	import type { CommitWithProcess } from './types'
 	import { apiClient } from '$lib/api'
 

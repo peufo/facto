@@ -1,4 +1,4 @@
-import type { Commit, Process } from '$lib/server/prisma'
+import type { Commit, Process } from '@prisma/client'
 import { toast } from 'svelte-sonner'
 import { parse } from 'devalue'
 

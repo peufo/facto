@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Drawer, Form } from 'fuma'
-	import type { Process } from '$lib/server/prisma'
+	import type { Process } from '@prisma/client'
 
 	let { process }: { process?: Process } = $props()
 </script>

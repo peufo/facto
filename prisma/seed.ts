@@ -1,6 +1,5 @@
-import { useAdapter } from './adapter'
-import { PrismaClient } from './generated/client'
-import 'dotenv/config'
+import { PrismaMariaDb } from '@prisma/adapter-mariadb'
+import { PrismaClient } from '@prisma/client'
 
 const databaseUrl = process.env.DATABASE_URL
 if (!databaseUrl) {
@@ -8,7 +7,9 @@ if (!databaseUrl) {
 	process.exit(1)
 }
 
-const prisma = new PrismaClient({ adapter: useAdapter(databaseUrl) })
+const adapter = new PrismaMariaDb(databaseUrl)
+
+export const prisma = new PrismaClient({ adapter })
 
 async function main() {
 	console.log('Noting to seed yet...')

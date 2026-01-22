@@ -13,7 +13,6 @@ model Process {
   definitions AttributeDefinition[]
 
   commits Commit[]
-  states  State[]
 }
 
 model AttributeDefinition {
@@ -40,8 +39,15 @@ enum AttributeType {
 model Commit {
   id String @id @default(cuid())
 
-  changes Json
+  changes  Json
+  snapshot Json?
 
+  // Meta
+  authorId  String?
+  duration  Int?
+  createdAt DateTime @default(now())
+
+  // Hierarchy
   parentId String?
   parent   Commit?  @relation(name: "Hierarchy", fields: [parentId], references: [id], onDelete: Restrict)
   children Commit[] @relation(name: "Hierarchy")
@@ -49,26 +55,10 @@ model Commit {
   processId String
   process   Process @relation(fields: [processId], references: [id])
 
-  inputs State[] @relation("StatesToCommit")
-  output State?  @relation("CommitToState")
-
-  timestamp DateTime @default(now())
+  // Flow
+  inputs Commit[] @relation("CommitConnection")
+  ouputs Commit[] @relation("CommitConnection")
 
   @@index([parentId])
-  @@index([processId])
-}
-
-model State {
-  id String @id @default(cuid())
-
-  processId String?
-  process   Process? @relation(fields: [processId], references: [id])
-
-  inputId String   @unique
-  input   Commit   @relation("CommitToState", fields: [inputId], references: [id])
-  outputs Commit[] @relation("StatesToCommit")
-
-  snapshot Json?
-
   @@index([processId])
 }

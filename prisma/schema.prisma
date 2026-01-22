@@ -7,33 +7,9 @@ datasource db {
 }
 
 model Process {
-  id   String @id @default(cuid())
-  name String
-
-  definitions AttributeDefinition[]
-
+  id      String   @id @default(cuid())
+  name    String
   commits Commit[]
-}
-
-model AttributeDefinition {
-  id  String @id @default(cuid())
-  key String
-
-  // Métadonnées
-  label     String? // "Vitesse de rotation"
-  unit      String? // "rpm"
-  desc      String? // "Vitesse de la tête de coupe"
-  type      AttributeType // NUMBER, TEXT, ENUM...
-  uiMapping String? // "gauge", "slider", "hidden"
-
-  processes Process[]
-}
-
-enum AttributeType {
-  MEASURE
-  PARAMETER
-  STATUS
-  INFO
 }
 
 model Commit {
@@ -42,23 +18,52 @@ model Commit {
   changes  Json
   snapshot Json?
 
+  // Consistance
+  processId String
+  process   Process @relation(fields: [processId], references: [id])
+
+  outgoing Connection[] @relation("SourceCommit")
+  incoming Connection[] @relation("TargetCommit")
+
   // Meta
   authorId  String?
   duration  Int?
   createdAt DateTime @default(now())
 
-  // Hierarchy
-  parentId String?
-  parent   Commit?  @relation(name: "Hierarchy", fields: [parentId], references: [id], onDelete: Restrict)
-  children Commit[] @relation(name: "Hierarchy")
-
-  processId String
-  process   Process @relation(fields: [processId], references: [id])
-
-  // Flow
-  inputs Commit[] @relation("CommitConnection")
-  ouputs Commit[] @relation("CommitConnection")
-
-  @@index([parentId])
   @@index([processId])
+}
+
+model Connection {
+  id           String              @id @default(cuid())
+  attributeKey String
+  attribute    AttributeDefinition @relation(fields: [attributeKey], references: [key])
+  fromId       String
+  from         Commit              @relation("SourceCommit", fields: [fromId], references: [id])
+  toId         String
+  to           Commit              @relation("TargetCommit", fields: [toId], references: [id])
+
+  @@index([fromId, attributeKey])
+  @@index([toId, attributeKey])
+}
+
+model AttributeDefinition {
+  key         String        @id
+  label       String?
+  type        AttributeType @default(CUSTOM)
+  typeOption  String?
+  connections Connection[]
+}
+
+enum AttributeType {
+  LENGTH
+  MASS
+  TIME
+  TEMPERATURE
+  PRESSURE
+  SPEED
+  CURRENCY
+  COUNT
+  DEPENDENCY
+  REFERENCE
+  CUSTOM
 }

@@ -18,16 +18,12 @@ model Commit {
   changes  Json
   snapshot Json?
 
-  // Consistance
   processId String
   process   Process @relation(fields: [processId], references: [id])
 
   outgoing Connection[] @relation("SourceCommit")
   incoming Connection[] @relation("TargetCommit")
 
-  // Meta
-  authorId  String?
-  duration  Int?
   createdAt DateTime @default(now())
 
   @@index([processId])

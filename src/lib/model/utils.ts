@@ -24,7 +24,7 @@ export const zodJsonValue: z.ZodType<JsonValue> = z.lazy(() =>
 )
 export const zodJsonRecord: z.ZodType<JsonRecord> = z.record(z.string(), zodJsonValue)
 
-const zodCoerceJson = z.string().transform((str, ctx) => {
+export const zodCoerceJson = z.string().transform((str, ctx) => {
 	try {
 		return JSON.parse(str)
 	} catch (e) {

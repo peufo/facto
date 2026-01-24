@@ -1,6 +1,6 @@
 import type { Prisma } from '@prisma/client'
 import z from 'zod'
-import { zodCoerceJsonRecord, type ShapeOf } from './utils'
+import { zodJsonRecord, type ShapeOf } from './utils'
 
 export const modelCommitCreate = {
 	process: z.union([
@@ -8,5 +8,5 @@ export const modelCommitCreate = {
 		// Maybe not a good idea
 		// z.object({ name: z.string() }).transform((create) => ({ create }))
 	]),
-	changes: zodCoerceJsonRecord
+	changes: zodJsonRecord.default({})
 } satisfies ShapeOf<Prisma.CommitCreateInput>

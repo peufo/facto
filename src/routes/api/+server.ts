@@ -29,10 +29,7 @@ const apiServer = {
 		schemaQuery: { search: z.string().default(''), processId: z.string() },
 		getData: ({ search, take, skip, processId }) =>
 			prisma.commit.findMany({
-				where: {
-					processId,
-					output: { snapshot: { path: 'name', string_contains: search } }
-				},
+				where: { processId },
 				take,
 				skip
 			})

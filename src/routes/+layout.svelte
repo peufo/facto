@@ -1,12 +1,15 @@
 <script lang="ts">
 	import { Toaster } from 'svelte-sonner'
+	import DrawerProcess from './DrawerProcess.svelte'
+	import DrawerCommit from './DrawerCommit.svelte'
 	import '../app.css'
-	import DrawerProcess from '$lib/components/DrawerProcess.svelte'
-	let { children } = $props()
+
+	let { children, data } = $props()
 </script>
 
 {@render children()}
 
-<DrawerProcess />
+<DrawerProcess {data} />
+<DrawerCommit {data} />
 
 <Toaster />

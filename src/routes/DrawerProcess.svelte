@@ -1,20 +1,21 @@
 <script lang="ts">
 	import { Drawer, Form } from 'fuma'
-	import type { Process } from '@prisma/client'
+	import type { LayoutData } from './$types'
 
-	let { process }: { process?: Process } = $props()
+	let { data }: { data: LayoutData } = $props()
+	let formData = $derived(data.formDataProcess)
 </script>
 
 <Drawer
 	maxWidth="20em"
 	key="form_process"
-	title="{process ? 'Edit' : 'New'} process"
+	title="{formData ? 'Edit' : 'New'} process"
 	let:close
 	class="m-2 rounded-lg border"
 >
 	<Form
-		action="/process?/process"
-		data={process}
+		action="/?/process"
+		data={formData}
 		on:success={() => close()}
 		fields={[
 			[
@@ -25,5 +26,5 @@
 				}
 			]
 		]}
-	></Form>
+	/>
 </Drawer>

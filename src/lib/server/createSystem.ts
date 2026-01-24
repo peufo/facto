@@ -16,7 +16,7 @@ export function createSystem(modulesList: AnyModule[]) {
 				create: { key, ...attr },
 				update: attr
 			})
-			console.log(`  Attribute ${key}`)
+			console.log(`OK: ${key}`)
 		}
 	}
 

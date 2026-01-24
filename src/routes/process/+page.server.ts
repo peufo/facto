@@ -1,12 +1,11 @@
 import z from 'zod'
 import type { Commit } from '@prisma/client'
-import { formAction, parseQuery } from 'fuma/server'
-import { modelCommitCreate, zodCoerceJsonValue } from '$lib'
+import { parseQuery } from 'fuma/server'
+import { zodCoerceJson } from '$lib'
 import { prisma } from '$lib/server/db'
-import { modelProcessCreate } from '$lib/model/process.js'
 
 export const load = async ({ url }) => {
-	const { processes } = parseQuery(url, { processes: zodCoerceJsonValue.pipe(z.array(z.string())) })
+	const { pids } = parseQuery(url, { pids: zodCoerceJson.pipe(z.array(z.string())) })
 	const commitsArray = await prisma.commit.findMany({
 		where: { processId: { in: processes } },
 		include: {
@@ -28,13 +27,4 @@ export const load = async ({ url }) => {
 	return {
 		commits: roots.map((root) => getCommitWithChildren(root))
 	}
-}
-
-export const actions = {
-	commit_create: formAction(modelCommitCreate, async ({ data }) => {
-		return prisma.commit.create({ data })
-	}),
-	process_create: formAction(modelProcessCreate, async ({ data }) => {
-		return prisma.process.create({ data })
-	})
 }

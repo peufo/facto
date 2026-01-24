@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { mdiPlus } from '@mdi/js'
 	import { Icon, urlParam } from 'fuma'
-	import { DrawerCommit, Hierarchy } from '$lib/components'
+	import { Hierarchy } from '$lib/components'
 	import { SceneSVG, SceneCanvas } from '$lib/components/map/index.js'
 
 	let { data } = $props()
@@ -41,5 +41,3 @@
 		<Hierarchy {commits} />
 	</li>
 </ul>
-
-<DrawerCommit />

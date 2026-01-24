@@ -1,4 +1,4 @@
-import { system } from '../src/lib/server/init'
+import { system } from '../src/lib/server/system'
 import { prisma } from '../src/lib/server/db'
 
 async function main() {

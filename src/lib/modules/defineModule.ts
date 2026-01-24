@@ -1,6 +1,6 @@
 import { zodJsonValue, type JsonRecord, type JsonValue } from '$lib/model'
 import type { AttributeType } from '@prisma/client'
-import { z, type ZodType } from 'zod'
+import { z, ZodError, type ZodType } from 'zod'
 
 const parserValue = {
 	LENGTH: z.number(),
@@ -11,7 +11,7 @@ const parserValue = {
 	SPEED: z.number(),
 	CURRENCY: z.number(),
 	COUNT: z.number(),
-	DEPENDENCY: z.string(),
+	DEPENDENCY: z.union([z.string(), z.object({ id: z.string() }).transform(({ id }) => id)]),
 	REFERENCE: z.string(),
 	CUSTOM: zodJsonValue
 } satisfies Record<AttributeType, ZodType>
@@ -57,11 +57,11 @@ export function defineModule<ID extends string, Attrs extends AttributesConfig>(
 	type ThisModuleData = ModuleData<ID, Attrs>
 
 	function getKey<K extends keyof Attrs>(name: K): string {
-		return `${config.id}.${String(name)}`
+		return `${config.id}:${String(name)}`
 	}
 
 	function getAttribute(key: string): AttributeConfigUnion | undefined {
-		const [moduleId, name] = key.split('.')
+		const [moduleId, name] = key.split(':')
 		if (moduleId !== config.id) return undefined
 		return config.attributes[name]
 	}
@@ -80,7 +80,12 @@ export function defineModule<ID extends string, Attrs extends AttributesConfig>(
 		for (const key in changes) {
 			const attribute = getAttribute(key)
 			if (!attribute) continue
-			result[key] = validAttributeValue(attribute, changes[key])
+			try {
+				result[key] = validAttributeValue(attribute, changes[key])
+			} catch (err: unknown) {
+				console.error(`Commit: Validation failed for key "${key}"`)
+				if (err instanceof ZodError) console.error(err.message)
+			}
 		}
 		return result as ThisModuleData
 	}

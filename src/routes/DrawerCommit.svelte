@@ -28,7 +28,7 @@
 		<!-- value={formData?.changes['core.input']} -->
 		<InputRelation
 			label="Parent"
-			key="changes.core.input"
+			key="changes.core:input"
 			slotItem={snippetCommit}
 			search={(search) =>
 				apiClient.commits({

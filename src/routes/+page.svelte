@@ -1,8 +1,13 @@
 <script lang="ts">
 	import { PlusIcon } from 'lucide-svelte'
 	import { urlParam } from 'fuma'
+	import { onMount } from 'svelte'
 
 	let { data } = $props()
+
+	onMount(() => {
+		console.log(data.bob)
+	})
 </script>
 
 <div>

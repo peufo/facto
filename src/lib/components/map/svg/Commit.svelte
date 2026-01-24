@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { CommitWithChildren } from '$lib'
+	import type { Commit } from '@prisma/client'
 	import { dragTrigger } from '../drag'
 	import { view } from '../view.svelte'
 

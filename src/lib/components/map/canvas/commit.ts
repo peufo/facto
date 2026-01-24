@@ -1,12 +1,8 @@
-import type { CommitWithChildren } from '$lib'
+import type { Commit } from '@prisma/client'
 import type { View } from '../view.svelte'
 import { COLORS } from './colors'
 
-export function renderCommit(
-	ctx: CanvasRenderingContext2D,
-	view: View,
-	commit: CommitWithChildren
-) {
+export function renderCommit(ctx: CanvasRenderingContext2D, view: View, commit: Commit) {
 	const x = view.origin.x + commit.x * view.meterToPixel
 	const y = view.origin.y + commit.y * view.meterToPixel
 	const width = commit.width * view.meterToPixel

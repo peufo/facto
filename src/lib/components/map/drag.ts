@@ -1,7 +1,7 @@
 import type { Coord, Rect } from './types'
 import type { View } from './view.svelte'
 import type { Attachment } from 'svelte/attachments'
-import type { CommitWithChildren } from '$lib'
+import type { Commit } from '@prisma/client'
 
 type Handler<T = PointerEvent | Touch> = {
 	start?: (event: T) => unknown
@@ -82,7 +82,7 @@ export function dragTrigger({
 	commit,
 	view
 }: {
-	commit: CommitWithChildren
+	commit: Commit
 	view: View
 }): Attachment<HTMLElement> {
 	return (element: HTMLElement) => {

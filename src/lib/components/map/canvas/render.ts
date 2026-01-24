@@ -1,13 +1,9 @@
 import type { View } from '../view.svelte'
-import type { CommitWithChildren } from '$lib'
+import type { Commit } from '@prisma/client'
 import { renderCommit as renderCommit } from './commit'
 import { COLORS } from './colors'
 
-export function renderScene(
-	ctx: CanvasRenderingContext2D,
-	view: View,
-	commits: CommitWithChildren[]
-) {
+export function renderScene(ctx: CanvasRenderingContext2D, view: View, commits: Commit[]) {
 	renderBackground(ctx, view)
 	for (const commit of commits) {
 		renderCommit(ctx, view, commit)

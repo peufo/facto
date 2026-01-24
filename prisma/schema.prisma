@@ -30,23 +30,23 @@ model Commit {
 }
 
 model Connection {
-  id           String              @id @default(cuid())
+  id           String    @id @default(cuid())
   attributeKey String
-  attribute    AttributeDefinition @relation(fields: [attributeKey], references: [key])
+  attribute    Attribute @relation(fields: [attributeKey], references: [key])
   fromId       String
-  from         Commit              @relation("SourceCommit", fields: [fromId], references: [id])
+  from         Commit    @relation("SourceCommit", fields: [fromId], references: [id])
   toId         String
-  to           Commit              @relation("TargetCommit", fields: [toId], references: [id])
+  to           Commit    @relation("TargetCommit", fields: [toId], references: [id])
 
   @@index([fromId, attributeKey])
   @@index([toId, attributeKey])
 }
 
-model AttributeDefinition {
+model Attribute {
   key         String        @id
   label       String?
   type        AttributeType @default(CUSTOM)
-  typeOption  String?
+  typeOption  Json          @default("{}")
   connections Connection[]
 }
 
@@ -59,7 +59,7 @@ enum AttributeType {
   SPEED
   CURRENCY
   COUNT
+  CUSTOM
   DEPENDENCY
   REFERENCE
-  CUSTOM
 }

@@ -1,7 +1,7 @@
 import { stringify } from 'devalue'
 import { parseQuery } from 'fuma/server'
 import z from 'zod'
-import { prisma } from '$lib/server'
+import { prisma } from '$lib/server/db'
 import type { API } from '$lib/api'
 import { error, json, type RequestHandler } from '@sveltejs/kit'
 import type { ShapeOf } from '$lib/model'

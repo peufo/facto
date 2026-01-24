@@ -1,5 +1,5 @@
 import { zodJsonValue, type JsonRecord, type JsonValue } from '$lib/model'
-import { AttributeType, Prisma } from '@prisma/client'
+import type { AttributeType } from '@prisma/client'
 import { z, type ZodType } from 'zod'
 
 const parserValue = {
@@ -24,102 +24,71 @@ const parserUnit = {
 	PRESSURE: z.enum(['Pa', 'hPa', 'bar', 'psi']).default('bar'),
 	SPEED: z.enum(['m/s', 'km/h']).default('m/s'),
 	CURRENCY: z.enum(['CHF', 'USD', 'EUR', 'GBP', 'JPY']).default('CHF'),
-	COUNT: z.number().default(1),
+	COUNT: z.string().default('unit'),
 	DEPENDENCY: z.null().default(null),
 	REFERENCE: z.null().default(null),
 	CUSTOM: z.string()
 } satisfies Record<AttributeType, ZodType>
 
-type ParserValue = typeof parserValue
-type ParserUnit = typeof parserUnit
+type AttributeOutput<T extends AttributeType> = z.output<(typeof parserValue)[T]>
+type NamespacedKey<ID extends string, K extends string> = `${ID}.${K}`
+type ModuleData<ID extends string, Attrs extends Record<string, any>> = {
+	[K in keyof Attrs as NamespacedKey<ID, K & string>]?: AttributeOutput<Attrs[K]['type']>
+}
 
-type AttributeConfigValue<T extends AttributeType> = z.output<ParserValue[T]>
 type AttributeConfig<T extends AttributeType> = {
 	label: string
 	type: T
-	unit?: z.input<ParserUnit[T]>
-	validation?: (value: AttributeConfigValue<T>) => void
+	unit?: z.input<(typeof parserUnit)[T]>
+	validation?: (value: AttributeOutput<T>) => void
 }
 
-export type AttributeConfigUnion = { [T in AttributeType]: AttributeConfig<T> }[AttributeType]
-export type AttributesConfig<Names extends string> = Record<Names, AttributeConfigUnion>
+type AttributeConfigUnion = { [T in AttributeType]: AttributeConfig<T> }[AttributeType]
+export type AttributesConfig = Record<string, AttributeConfigUnion>
 
-type ModuleConfig<Names extends string> = {
-	id: string
-	attributes: AttributesConfig<Names>
+export type ModuleConfig<ID extends string, Attrs extends AttributesConfig> = {
+	id: ID
+	attributes: Attrs
 }
 
-function defineModule<Names extends string>({ id, attributes }: ModuleConfig<Names>) {
-	function getKey(name: Names): string {
-		return `${id}.${name}`
+export function defineModule<ID extends string, Attrs extends AttributesConfig>(
+	config: ModuleConfig<ID, Attrs>
+) {
+	type ThisModuleData = ModuleData<ID, Attrs>
+
+	function getKey<K extends keyof Attrs>(name: K): string {
+		return `${config.id}.${String(name)}`
 	}
 
 	function getAttribute(key: string): AttributeConfigUnion | undefined {
 		const [moduleId, name] = key.split('.')
-		if (moduleId !== id) return undefined
-		return attributes[name as Names]
-	}
-
-	function getSeedData(): Prisma.AttributeCreateInput[] {
-		return Object.entries<AttributeConfigUnion>(attributes).map(([name, def]) => ({
-			key: getKey(name as Names),
-			type: def.type,
-			typeOption: { unit: def.type }
-		}))
+		if (moduleId !== config.id) return undefined
+		return config.attributes[name]
 	}
 
 	function validAttributeValue<T extends AttributeType>(
 		attribute: AttributeConfig<T>,
 		value: JsonValue
-	): AttributeConfigValue<T> {
-		const parsedValue = parserValue[attribute.type].parse(value) as AttributeConfigValue<T>
+	): AttributeOutput<T> {
+		const parsedValue = parserValue[attribute.type].parse(value) as AttributeOutput<T>
 		attribute.validation?.(parsedValue)
 		return parsedValue
 	}
 
-	function parseChanges(changes: JsonRecord): JsonRecord {
+	function parseChanges(changes: JsonRecord): ThisModuleData {
 		const result: JsonRecord = {}
 		for (const key in changes) {
 			const attribute = getAttribute(key)
 			if (!attribute) continue
 			result[key] = validAttributeValue(attribute, changes[key])
 		}
-		return result
+		return result as ThisModuleData
 	}
 
 	return {
+		id: config.id,
+		config,
 		getKey,
-		getSeedData,
 		parseChanges
 	}
 }
-
-const locationModule = defineModule({
-	id: 'location',
-	attributes: {
-		position_x: {
-			label: 'Position X',
-			type: AttributeType.LENGTH
-		},
-		position_y: {
-			label: 'Position Y',
-			type: AttributeType.LENGTH
-		},
-		dimension_x: {
-			label: 'Largeur (Dim X)',
-			type: AttributeType.LENGTH
-		},
-		dimension_y: {
-			label: 'Profondeur (Dim Y)',
-			type: AttributeType.LENGTH
-		},
-		rotation: {
-			label: 'Rotation Z',
-			type: AttributeType.CUSTOM
-		},
-		parent: {
-			label: 'Parent (Conteneur)',
-			type: AttributeType.REFERENCE
-		}
-	}
-})

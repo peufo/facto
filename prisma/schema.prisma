@@ -46,7 +46,7 @@ model Attribute {
   key         String        @id
   label       String?
   type        AttributeType @default(CUSTOM)
-  typeOption  Json          @default("{}")
+  unit        String?
   connections Connection[]
 }
 

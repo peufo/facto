@@ -2,7 +2,7 @@ import z from 'zod'
 import type { Commit } from '@prisma/client'
 import { formAction, parseQuery } from 'fuma/server'
 import { modelCommitCreate, zodCoerceJsonValue } from '$lib'
-import { prisma } from '$lib/server'
+import { prisma } from '$lib/server/db'
 import { modelProcessCreate } from '$lib/model/process.js'
 
 export const load = async ({ url }) => {

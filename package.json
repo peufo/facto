@@ -13,13 +13,14 @@
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
 		"test:unit": "vitest",
-		"test": "npm run test:unit -- --run",
+		"test": "pnpm run test:unit -- --run",
 		"generate": "prisma generate",
 		"migrate": "prisma migrate dev",
 		"prisma": "prisma",
 		"studio": "prisma studio",
 		"seed": "prisma db seed",
-		"postinstall": "prisma migrate deploy && prisma generate"
+		"postinstall": "prisma migrate deploy && prisma generate",
+		"reset-hard": "rm -rf ./prisma/migrations && prisma migrate reset && prisma migrate dev && prisma generate && pkill -f tsserver"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.5",

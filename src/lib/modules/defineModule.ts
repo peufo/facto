@@ -1,5 +1,5 @@
 import { zodJsonValue, type JsonRecord, type JsonValue } from '$lib/model'
-import type { AttributeType } from '@prisma/client'
+import type { AttributeType, Prisma } from '@prisma/client'
 import { z, ZodError, type ZodType } from 'zod'
 
 const parserValue = {
@@ -11,8 +11,8 @@ const parserValue = {
 	SPEED: z.number(),
 	CURRENCY: z.number(),
 	COUNT: z.number(),
-	DEPENDENCY: z.union([z.string(), z.object({ id: z.string() }).transform(({ id }) => id)]),
-	REFERENCE: z.string(),
+	DEPENDENCY: z.object({ id: z.string(), namespace: z.string().nullish() }),
+	REFERENCE: z.union([z.string(), z.object({ id: z.string() }).transform(({ id }) => id)]),
 	CUSTOM: zodJsonValue
 } satisfies Record<AttributeType, ZodType>
 
@@ -23,77 +23,74 @@ const parserUnit = {
 	TEMPERATURE: z.enum(['C', 'K']).default('C'),
 	PRESSURE: z.enum(['Pa', 'hPa', 'bar', 'psi']).default('bar'),
 	SPEED: z.enum(['m/s', 'km/h']).default('m/s'),
-	CURRENCY: z.enum(['CHF', 'USD', 'EUR', 'GBP', 'JPY']).default('CHF'),
+	CURRENCY: z.enum(['CHF', 'USD', 'EUR']).default('CHF'),
 	COUNT: z.string().default('unit'),
 	DEPENDENCY: z.null().default(null),
 	REFERENCE: z.null().default(null),
 	CUSTOM: z.string()
 } satisfies Record<AttributeType, ZodType>
 
-type AttributeOutput<T extends AttributeType> = z.output<(typeof parserValue)[T]>
-type NamespacedKey<ID extends string, K extends string> = `${ID}.${K}`
-type ModuleData<ID extends string, Attrs extends Record<string, any>> = {
-	[K in keyof Attrs as NamespacedKey<ID, K & string>]?: AttributeOutput<Attrs[K]['type']>
+const options = {
+	LENGTH: z.object({}).default({}),
+	MASS: z.object({}).default({}),
+	TIME: z.object({}).default({}),
+	TEMPERATURE: z.object({}).default({}),
+	PRESSURE: z.object({}).default({}),
+	SPEED: z.object({}).default({}),
+	CURRENCY: z.object({}).default({}),
+	COUNT: z.object({}).default({}),
+	DEPENDENCY: z.object({}).default({}),
+	REFERENCE: z.object({}).default({}),
+	CUSTOM: z.object({}).default({})
+} satisfies Record<AttributeType, ZodType<JsonRecord>>
+
+export type AttributeValue<T extends AttributeType> = z.output<(typeof parserValue)[T]>
+type ModuleData<Attrs extends AttributesConfig> = {
+	[K in keyof Attrs]?: AttributeValue<Attrs[K]['type']>
 }
 
 type AttributeConfig<T extends AttributeType> = {
 	label: string
 	type: T
 	unit?: z.input<(typeof parserUnit)[T]>
-	validation?: (value: AttributeOutput<T>) => void
+	options?: z.input<(typeof options)[T]>
 }
 
-type AttributeConfigUnion = { [T in AttributeType]: AttributeConfig<T> }[AttributeType]
+export type AttributeConfigUnion = { [T in AttributeType]: AttributeConfig<T> }[AttributeType]
 export type AttributesConfig = Record<string, AttributeConfigUnion>
-
-export type ModuleConfig<ID extends string, Attrs extends AttributesConfig> = {
-	id: ID
+export type AttributeOutput = ReturnType<typeof defineAttribute>
+export type ModuleConfig<Attrs extends AttributesConfig> = {
+	id: string
 	attributes: Attrs
 }
 
-export function defineModule<ID extends string, Attrs extends AttributesConfig>(
-	config: ModuleConfig<ID, Attrs>
-) {
-	type ThisModuleData = ModuleData<ID, Attrs>
-
-	function getKey<K extends keyof Attrs>(name: K): string {
-		return `${config.id}:${String(name)}`
-	}
-
-	function getAttribute(key: string): AttributeConfigUnion | undefined {
-		const [moduleId, name] = key.split(':')
-		if (moduleId !== config.id) return undefined
-		return config.attributes[name]
-	}
-
-	function validAttributeValue<T extends AttributeType>(
-		attribute: AttributeConfig<T>,
+export function defineAttribute<Attr extends AttributeConfigUnion>(config: Attr) {
+	function validation<Attr extends AttributeConfigUnion>(
 		value: JsonValue
-	): AttributeOutput<T> {
-		const parsedValue = parserValue[attribute.type].parse(value) as AttributeOutput<T>
-		attribute.validation?.(parsedValue)
-		return parsedValue
+	): AttributeValue<Attr['type']> {
+		return parserValue[config.type].parse(value) as AttributeValue<Attr['type']>
+	}
+	return {
+		...config,
+		validation
+	}
+}
+
+export function defineModule<Attrs extends AttributesConfig>(config: ModuleConfig<Attrs>) {
+	type ThisModuleData = ModuleData<Attrs>
+	type Keys = keyof Attrs
+
+	const attributes = new Map<string, AttributeOutput>()
+	for (const [key, attr] of Object.entries(config.attributes)) {
+		attributes.set(getKey(key), defineAttribute(attr))
 	}
 
-	function parseChanges(changes: JsonRecord): ThisModuleData {
-		const result: JsonRecord = {}
-		for (const key in changes) {
-			const attribute = getAttribute(key)
-			if (!attribute) continue
-			try {
-				result[key] = validAttributeValue(attribute, changes[key])
-			} catch (err: unknown) {
-				console.error(`Commit: Validation failed for key "${key}"`)
-				if (err instanceof ZodError) console.error(err.message)
-			}
-		}
-		return result as ThisModuleData
+	function getKey<K extends Keys>(name: K): string {
+		return `${config.id}:${String(name)}`
 	}
 
 	return {
 		id: config.id,
-		config,
-		getKey,
-		parseChanges
+		attributes
 	}
 }

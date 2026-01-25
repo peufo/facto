@@ -2,7 +2,7 @@
 	import { tip, urlParam } from 'fuma'
 	import { PlusIcon } from 'lucide-svelte'
 	import { fromStore } from 'svelte/store'
-	import type { ProcessWithCommits } from './types'
+	import type { ProcessWithCommits } from '../types'
 
 	let { process }: { process: ProcessWithCommits } = $props()
 

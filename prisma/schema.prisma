@@ -6,6 +6,11 @@ datasource db {
   provider = "mysql"
 }
 
+generator json {
+  provider  = "prisma-json-types-generator"
+  namespace = "PrismaJson"
+}
+
 model Process {
   id      String   @id @default(cuid())
   name    String
@@ -15,7 +20,9 @@ model Process {
 model Commit {
   id String @id @default(cuid())
 
+  /// [JsonRecord]
   changes  Json
+  /// [JsonRecord]
   snapshot Json?
 
   processId String
@@ -47,6 +54,7 @@ model Attribute {
   label       String?
   type        AttributeType @default(CUSTOM)
   unit        String?
+  options     Json          @default("{}")
   connections Connection[]
 }
 

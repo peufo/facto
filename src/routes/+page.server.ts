@@ -22,9 +22,6 @@ export const actions = {
 		return prisma.process.create({ data })
 	}),
 	commit_create: formAction(modelCommitCreate, async ({ data }) => {
-		console.log('before', data.changes)
-		data.changes = system.processCommit(data.changes)
-		console.log('cleaned', data.changes)
-		return prisma.commit.create({ data })
+		return system.createCommit(data)
 	})
 }

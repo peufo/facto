@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Drawer, Form, InputRelation } from 'fuma'
+	import { Drawer, Form, InputNumber, InputRelation, InputText } from 'fuma'
 	import type { Commit, Process } from '@prisma/client'
 	import { apiClient } from '$lib/api'
 	import type { LayoutData } from './$types'
@@ -27,7 +27,7 @@
 
 		<!-- value={formData?.changes['core.input']} -->
 		<InputRelation
-			label="Parent"
+			label="Input"
 			key="changes.core:input"
 			slotItem={snippetCommit}
 			search={(search) =>
@@ -36,6 +36,11 @@
 					processId: formData?.processId || formData?.process?.id || ''
 				})}
 		/>
+
+		<InputText label="Namespace" key="changes.core:input.namespace" />
+
+		<InputNumber label="Position X" key="changes.location:position_x" />
+		<InputNumber label="Position Y" key="changes.location:position_y" />
 
 		<div class="h-20"></div>
 	</Form>

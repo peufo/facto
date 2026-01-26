@@ -68,11 +68,12 @@ export function createSystem(modulesList: AnyModule[]) {
 		return prisma.commit.create({ data })
 	}
 
-	async function saveSnapshot(commit: Commit): Promise<Commit> {
+	async function saveSnapshot(id: string): Promise<Commit> {
+		const commit = await prisma.commit.findUniqueOrThrow({ where: { id } })
 		if (commit.snapshot) return commit
 		const { snapshot } = await computeSnapshot(commit)
 		return prisma.commit.update({
-			where: { id: commit.id },
+			where: { id },
 			data: { snapshot }
 		})
 	}
@@ -91,8 +92,13 @@ export function createSystem(modulesList: AnyModule[]) {
 				const { snapshot: fromSnapshot } = await computeSnapshot(fromCommit)
 
 				if (namespace) {
-					const snapshotKey = `${namespace}/${changeKey}`
-					snapshot[snapshotKey] = fromSnapshot
+					// TODO: si une clé de fromSnapshot à un namespace, ajouter ce namespace au nouveau pour cette valeur
+					for (const k in fromSnapshot) {
+						const { namespaces, attributeKey } = useKey(k)
+						const snapshotKey = `${[namespace, ...namespaces].join('/')}/${attributeKey}`
+						snapshot[snapshotKey] = fromSnapshot[k]
+					}
+
 					continue
 				}
 
@@ -131,7 +137,7 @@ function useKey(keyRaw: string) {
 	const attributeKey = namespaces.pop()
 	if (!attributeKey) throw new Error(`Parse key error. Can't extract attributeKey from "${keyRaw}"`)
 	const [moduleId, attributeName] = attributeKey.split(':')
-	if (!moduleId || attributeName)
+	if (!moduleId || !attributeName)
 		throw new Error(`Parse key error. Can't extract moduleId and attributeName from "${keyRaw}"`)
 	return {
 		namespaces,

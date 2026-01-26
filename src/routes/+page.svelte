@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Process from '$lib/components/Process.svelte'
+	import Process from './Process.svelte'
 	import Processes from './Processes.svelte'
 
 	let { data } = $props()
